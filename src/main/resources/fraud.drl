@@ -1,0 +1,24 @@
+import com.plugtree.spotplug.impl.GenericEvent
+
+declare GenericEvent
+    @role(event)
+end
+
+/*
+rule "too many events in a short period of time"
+
+when
+	Number($count : intValue) from accumulate(GenericEvent() over window:time(1m), count(5)) from entry-point GenericEventEntryPoint 
+then
+	System.out.println("More than five events in one minute");
+end
+*/
+
+#Only for testing
+rule "amount too high"
+
+when
+	GenericEvent(amount > 10000) from entry-point GenericEventEntryPoint
+then
+	System.out.println("Amount higher than 10000");
+end

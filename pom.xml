@@ -1,0 +1,135 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.plugtree</groupId>
+  <artifactId>spotplug</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <repositories>
+  	<repository>
+  			<id>jboss-public-repository-group</id> 
+  			<name>JBoss Public Maven Repository Group</name> 
+  			<url>https://repository.jboss.org/nexus/content/groups/public/</url> 
+  			<layout>default</layout> 
+  			<releases>
+  			<enabled>true</enabled> 
+  			<updatePolicy>never</updatePolicy> 
+  		</releases>
+ 		<snapshots>
+  			<enabled>true</enabled> 
+  			<updatePolicy>never</updatePolicy> 
+  		</snapshots>
+  	</repository>
+ 	<repository>
+  		<id>repository.jboss.org</id> 
+  		<url>http://repository.jboss.org/maven2</url> 
+ 		<snapshots>
+  			<enabled>false</enabled> 
+  		</snapshots>
+ 		<releases>
+  			<enabled>true</enabled> 
+  		</releases>
+  	</repository>
+ </repositories>
+ <dependencies>
+ 	<dependency>
+  		<groupId>junit</groupId> 
+  		<artifactId>junit</artifactId> 
+  		<version>${junit.version}</version> 
+  		<scope>test</scope> 
+  	</dependency>
+  	
+  	<!-- Drools Dependencies  -->
+ 	<dependency>
+  		<groupId>org.drools</groupId> 
+  		<artifactId>drools-core</artifactId> 
+  		<version>${drools.version}</version> 
+  	</dependency>
+  	
+ 	<dependency>
+  		<groupId>org.drools</groupId> 
+  		<artifactId>drools-api</artifactId> 
+  		<version>${drools.version}</version> 
+  		<type>jar</type> 
+  	</dependency>
+  	
+  	<dependency>
+  		<groupId>org.drools</groupId> 
+  		<artifactId>drools-compiler</artifactId> 
+  		<version>${drools.version}</version> 
+  		<type>jar</type> 
+  	</dependency>
+  	
+  	 <dependency>
+  		<groupId>org.drools</groupId> 
+  		<artifactId>drools-spring</artifactId> 
+  		<version>${drools.version}</version> 
+  		<type>jar</type> 
+  	</dependency>
+  	
+  	<!-- Spring Dependencies  -->
+  	<dependency>
+    	<groupId>org.springframework</groupId>
+    	<artifactId>spring-context</artifactId>
+    	<version>${spring.version}</version>
+    	<exclusions>
+			<exclusion>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging</artifactId>
+			</exclusion>
+		</exclusions>
+      <scope>runtime</scope>
+  	</dependency>
+  	
+  	<dependency>
+    	<groupId>org.springframework</groupId>
+    	<artifactId>spring-core</artifactId>
+    	<version>${spring.version}</version>
+    	<scope>runtime</scope>
+    </dependency>
+    
+  	<dependency>
+    	<groupId>org.springframework</groupId>
+    	<artifactId>spring-beans</artifactId>
+    	<version>${spring.version}</version>
+    	<scope>runtime</scope>
+    </dependency>
+  	  	
+  	 <!-- SLF4J Dependencies  -->
+  	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>jcl-over-slf4j</artifactId>
+		<version>${slf4j.version}</version>
+		<scope>runtime</scope>
+		</dependency>
+
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-api</artifactId>
+		<version>${slf4j.version}</version>
+		<scope>runtime</scope>
+	</dependency>
+
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-log4j12</artifactId>
+		<version>${slf4j.version}</version>
+		<scope>runtime</scope>
+	</dependency>
+
+	<dependency>
+		<groupId>log4j</groupId>
+		<artifactId>log4j</artifactId>
+		<version>${log4j.version}</version>
+	<scope>runtime</scope>
+	</dependency>
+ 	
+  </dependencies>
+ 
+  <properties>
+	<spring.version>3.0.0.RELEASE</spring.version>
+	<drools.version>5.1.1</drools.version>
+	<slf4j.version>1.5.8</slf4j.version>
+	<log4j.version>1.2.14</log4j.version>
+	<junit.version>3.8.1</junit.version>
+  </properties>
+  
+</project>
