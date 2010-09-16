@@ -17,6 +17,7 @@ package com.plugtree.spotplug.impl;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.Date;
 import java.util.StringTokenizer;
 
 import com.plugtree.spotplug.Engine;
@@ -75,12 +76,27 @@ public class FileEventInput implements EventInput {
 	
 	public Event createEvent(String line){
 		
+		
 		StringTokenizer stringTokenizer = new StringTokenizer(line, ",");
-		 
+				
+		//Name
 		String name = stringTokenizer.nextToken();
+		//Amount
 		int amount = Integer.parseInt(stringTokenizer.nextToken());
 		
-		GenericEvent event = new GenericEvent(name, amount);
+		//Event Start Time Stamp
+		Date startTimeStamp = new Date(); 
+				
+		//Duration
+		long duration = Long.parseLong(stringTokenizer.nextToken());
+		
+		//Event Current Sequential ID - If there is an event sequence
+		long sequentialID = Long.parseLong(stringTokenizer.nextToken());
+		
+		//Event Current Sequential ID - 0 ? There is No Next Event : There is Next Event
+		long nextSequentialID = Long.parseLong(stringTokenizer.nextToken());
+				
+		GenericEvent event = new GenericEvent(name, amount,startTimeStamp,duration,sequentialID,nextSequentialID);
 
 		return event;
 	}

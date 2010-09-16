@@ -1,7 +1,10 @@
-import com.plugtree.spotplug.impl.GenericEvent
+import com.plugtree.spotplug.impl.GenericEvent;
+import java.lang.Number;
 
 declare GenericEvent
     @role(event)
+    @timestamp(callDateTime)
+    @duration(callDuration)    
 end
 
 /*
@@ -13,6 +16,49 @@ then
 	System.out.println("More than five events in one minute");
 end
 */
+
+# 2nd Fraud Pattern
+rule "Transaction at unusual hours"
+
+when
+	$e : GenericEvent(callDateTime.hours >= 10, callDateTime.hours <=19, amount > 4000) from entry-point GenericEventEntryPoint
+	
+then
+	$e.setProbabilidadFraude(30);	
+	System.out.println("Nombre: " + $e.getName() + " - ProbabilidadFraude: "+ $e.getProbabilidadFraude() + "%");
+end
+
+# 4th Fraud Pattern
+rule "Incorrect Message Order"
+
+when
+	$e : GenericEvent($n : name , $sid : sequentialID, $ecdt : callDateTime) from entry-point GenericEventEntryPoint
+	GenericEvent(name == $n, this != $e, sequentialID <= $sid, callDateTime >= $ecdt) from entry-point GenericEventEntryPoint
+then
+	System.out.println("FRAUD!- Incorrect Message Order, User = " + $n);
+end
+
+# 6th Fraud Pattern
+rule "Exact coincidence of 2 events at Start Time Stamp , same User"
+
+when
+	$e : GenericEvent($n : name, $ecdt : callDateTime) from entry-point GenericEventEntryPoint
+	GenericEvent(name == $n, this != $e, callDateTime == $ecdt) from entry-point GenericEventEntryPoint
+then
+	System.out.println("FRAUD!- 2 Events at the same time, User = " + $n);
+end
+
+# 8th Fraud Pattern
+rule "Wide Distance Between Events"
+
+when
+	 $n : Number(intValue < 3) from accumulate( $e : GenericEvent() over window:time( 2h ) from entry-point GenericEventEntryPoint ,count($e))
+	
+then
+	System.out.println("FRAUD!- Wide Distance Between Events " + $n.intValue());
+end
+
+
 
 #Only for testing
 rule "amount too high"

@@ -8,7 +8,7 @@ import junit.framework.TestCase;
 public class TestFileEventInput extends TestCase {
 	
 	protected FileEventInput fileEventInput;
-	
+
 	public TestFileEventInput(String name){
 		super(name);
 	}
