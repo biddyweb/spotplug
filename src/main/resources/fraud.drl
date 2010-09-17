@@ -2,6 +2,10 @@ import com.plugtree.spotplug.impl.GenericEvent;
 import com.plugtree.spotplug.impl.User;
 
 import java.lang.Number;
+import java.lang.String;
+import java.util.concurrent.ConcurrentHashMap;
+
+global ConcurrentHashMap hashMap;
 
 declare GenericEvent
     @role(event)
@@ -81,6 +85,7 @@ when
 	Number($count : intValue, intValue > 3) from accumulate($event : GenericEvent(this.userId == $user.id) over window:time(1m) from entry-point GenericEventEntryPoint, count($event)) 
 then
 	System.out.println("MAGIC: " + $count + " events in one minute");
+	
 end
 
 # 8th Fraud Pattern
@@ -90,7 +95,7 @@ when
 	 $n : Number(intValue < 3) from accumulate( $e : GenericEvent() over window:time( 2h ) from entry-point GenericEventEntryPoint ,count($e))
 	
 then
-	System.out.println("FRAUD!- Wide Distance Between Events " + $n.intValue());
+	System.out.println("FRAUD!- Wide Distance Between Events " + $n.intValue());		
 end
 
 # 9th Fraud Pattern
