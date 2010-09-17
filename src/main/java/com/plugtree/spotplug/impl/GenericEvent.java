@@ -21,7 +21,7 @@ import com.plugtree.spotplug.Event;
 
 public class GenericEvent implements Event {
 
-	private String name;
+	private String userId;
 	private int amount;
 	private Date callDateTime;
 	private long callDuration;
@@ -29,9 +29,9 @@ public class GenericEvent implements Event {
 	private long sequentialID;
 	private long nextSequentialID;
 
-	public GenericEvent(String name, int amount,Date callDateTime,long callDuration,long sequentialID,long nextSequentialID){
+	public GenericEvent(String userId, int amount,Date callDateTime,long callDuration,long sequentialID,long nextSequentialID){
 	
-		this.name = name;
+		this.userId = userId;
 		this.amount = amount;
 		this.callDateTime = callDateTime;
 		this.callDuration = callDuration;
@@ -44,8 +44,8 @@ public class GenericEvent implements Event {
 		return amount;
 	}
 
-	public String getName() {
-		return name;
+	public String getUserId() {
+		return userId;
 	}
 
 	public void setCallDateTime(Date callDateTime) {

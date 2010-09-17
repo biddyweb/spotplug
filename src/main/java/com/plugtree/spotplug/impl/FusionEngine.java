@@ -14,6 +14,8 @@ distributed under the License is distributed on an "AS IS" BASIS,
  */
 package com.plugtree.spotplug.impl;
 
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.drools.runtime.rule.WorkingMemoryEntryPoint;
 
@@ -26,6 +28,8 @@ public class FusionEngine implements Engine {
 	private RuleReader reader;
 	private StatefulKnowledgeSession session;
 	private WorkingMemoryEntryPoint entryPoint;
+	
+	private ConcurrentHashMap<String, User> hashMap = new ConcurrentHashMap<String, User>();
 	
 	public FusionEngine() {
 	}
@@ -43,10 +47,24 @@ public class FusionEngine implements Engine {
 //		}).start();
 	}
 		
-	public synchronized void processEvent(Event event) {	
+	public synchronized void processEvent(GenericEvent event) {	
 		
+		createUser(event);
 		entryPoint.insert(event);
 		getSession().fireAllRules();
+	}
+	
+	private void createUser(GenericEvent event) {
+		
+		String userId = event.getUserId();
+		
+		if (!hashMap.containsKey(userId)) {
+			
+			User user = new User(userId);
+			hashMap.put(userId, user);
+			
+			session.insert(user);
+		}
 	}
 	
 	public void stop(){

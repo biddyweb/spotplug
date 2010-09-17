@@ -1,4 +1,6 @@
 import com.plugtree.spotplug.impl.GenericEvent;
+import com.plugtree.spotplug.impl.User;
+
 import java.lang.Number;
 
 declare GenericEvent
@@ -23,7 +25,7 @@ when
 	
 then
 	$e.setProbabilidadFraude(30);	
-	System.out.println("Unusual hours" + "Nombre: " + $e.getName() + " - ProbabilidadFraude: "+ $e.getProbabilidadFraude() + "%");
+	System.out.println("Unusual hours" + "Nombre: " + $e.getUserId() + " - ProbabilidadFraude: "+ $e.getProbabilidadFraude() + "%");
 end
 
 # 3th Fraud Pattern
@@ -41,10 +43,10 @@ end
 rule "Incorrect Message Order"
 
 when
-	$e : GenericEvent($n : name , $sid : sequentialID, $ecdt : callDateTime) from entry-point GenericEventEntryPoint
-	GenericEvent(name == $n, this != $e, sequentialID <= $sid, callDateTime >= $ecdt) from entry-point GenericEventEntryPoint
+	$e : GenericEvent($userId : userId , $sid : sequentialID, $ecdt : callDateTime) from entry-point GenericEventEntryPoint
+	GenericEvent(userId == $userId, this != $e, sequentialID <= $sid, callDateTime >= $ecdt) from entry-point GenericEventEntryPoint
 then
-	System.out.println("FRAUD!- Incorrect Message Order, User = " + $n);
+	System.out.println("FRAUD!- Incorrect Message Order, User = " + $userId);
 end
 
 # 5th Fraud Pattern
@@ -52,35 +54,32 @@ rule "Identical transactions"
 dialect "mvel" 
 
 when
-	#Bug, se llama multiples veces...
+	$user : User()
+	
 	#No estoy teniendo en cuenta la ventana de tiempo.
-	$firstEvent : GenericEvent() from entry-point GenericEventEntryPoint
-	GenericEvent(this != $firstEvent, this.name == $firstEvent.name, this.amount == $firstEvent.amount) from entry-point GenericEventEntryPoint
+	Number(intValue > 1) from accumulate($event : GenericEvent(this.userId == $user.id) over window:time(1m) from entry-point GenericEventEntryPoint, count($event)) 
 then
 	System.out.println("Identical Transactions!");
-	#Eliminar la transaccion.
 end
 
 # 6th Fraud Pattern
 rule "Exact coincidence of 2 events at Start Time Stamp , same User"
 
 when
-	$e : GenericEvent($n : name, $ecdt : callDateTime) from entry-point GenericEventEntryPoint
-	GenericEvent(name == $n, this != $e, callDateTime == $ecdt) from entry-point GenericEventEntryPoint
+	$e : GenericEvent($userId : userId, $ecdt : callDateTime) from entry-point GenericEventEntryPoint
+	GenericEvent(userId == $userId, this != $e, callDateTime == $ecdt) from entry-point GenericEventEntryPoint
 then
-	System.out.println("FRAUD!- 2 Events at the same time, User = " + $n);
+	System.out.println("FRAUD!- 2 Events at the same time, User = " + $userId);
 end
 
 # 7th Fraud Pattern
 rule "Too many events in a short period of time"
 
 when
-	#Bug1: Imprime una vez por evento, dado que cada evento llama a esta regla una vez.
-	$firstEvent : GenericEvent() from entry-point GenericEventEntryPoint
-	Number($count : intValue, intValue > 3) from accumulate($event : GenericEvent(this.name == $firstEvent.name) over window:time(1m) from entry-point GenericEventEntryPoint, count($event)) 
+	$user : User()
+
+	Number($count : intValue, intValue > 3) from accumulate($event : GenericEvent(this.userId == $user.id) over window:time(1m) from entry-point GenericEventEntryPoint, count($event)) 
 then
-	#Bug2: Si son 4 eventos -> P = 20, cuando se le agrega un evento mas, entonces P = 40!
-	#Bug3: Le deberia poner probabilidad de fraude a cada evento? No, deberia ponerselo a la cuenta.
 	System.out.println("MAGIC: " + $count + " events in one minute");
 end
 
@@ -102,5 +101,5 @@ when
 	$event : GenericEvent(amount > 10000) from entry-point GenericEventEntryPoint
 then
 	$event.setProbabilidadFraude(30);
-	System.out.println("Excesive amount: " + $event.name + "Fraud probability: " + $event.probabilidadFraude);
+	System.out.println("Excesive amount: " + $event.userId + "Fraud probability: " + $event.probabilidadFraude);
 end

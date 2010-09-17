@@ -2,11 +2,11 @@ package com.plugtree.spotplug.impl;
 
 public class User {
 
-	private int id;
+	private String id;
 	
 	private int fraudProbabily;
 	
-	public User(int id){
+	public User(String id){
 		this.id = id;
 		this.fraudProbabily = 0;
 	}
@@ -15,7 +15,7 @@ public class User {
 		this.fraudProbabily += fraudProbabily;
 	}
 	
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 	

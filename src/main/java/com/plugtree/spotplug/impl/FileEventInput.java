@@ -53,7 +53,7 @@ public class FileEventInput implements EventInput {
 
 			while ((line = fileReader.readLine()) != null){
 
-				Event event = createEvent(line);
+				GenericEvent event = createEvent(line);
 				engine.processEvent(event);
 			}
 
@@ -74,7 +74,7 @@ public class FileEventInput implements EventInput {
 		} 
 	}
 	
-	public Event createEvent(String line){
+	public GenericEvent createEvent(String line){
 		
 		
 		StringTokenizer stringTokenizer = new StringTokenizer(line, ",");

@@ -14,10 +14,12 @@ distributed under the License is distributed on an "AS IS" BASIS,
  */
 package com.plugtree.spotplug;
 
+import com.plugtree.spotplug.impl.GenericEvent;
+
 
 public interface Engine {
 	
-	public void processEvent(Event event);
+	public void processEvent(GenericEvent event);
 	
 	public void setRuleReader(RuleReader ruleReader);
 	
