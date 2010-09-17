@@ -28,8 +28,8 @@ when
 	$e : GenericEvent(callDateTime.hours >= 10, callDateTime.hours <=19, amount > 4000) from entry-point GenericEventEntryPoint
 	
 then
-	$e.setProbabilidadFraude(30);	
-	System.out.println("Unusual hours" + "Nombre: " + $e.getUserId() + " - ProbabilidadFraude: "+ $e.getProbabilidadFraude() + "%");
+	#$e.setProbabilidadFraude(30);
+	System.out.println("Unusual hours" + "Nombre: " + $e.getUserId() + " - ProbabilidadFraude: ");#+ $e.getProbabilidadFraude() + "%");
 end
 
 # 3th Fraud Pattern
@@ -60,7 +60,6 @@ dialect "mvel"
 when
 	$user : User()
 	
-	#No estoy teniendo en cuenta la ventana de tiempo.
 	Number(intValue > 1) from accumulate($event : GenericEvent(this.userId == $user.id) over window:time(1m) from entry-point GenericEventEntryPoint, count($event)) 
 then
 	System.out.println("Identical Transactions!");
@@ -78,14 +77,15 @@ end
 
 # 7th Fraud Pattern
 rule "Too many events in a short period of time"
+dialect "mvel" 
 
 when
 	$user : User()
 
 	Number($count : intValue, intValue > 3) from accumulate($event : GenericEvent(this.userId == $user.id) over window:time(1m) from entry-point GenericEventEntryPoint, count($event)) 
 then
-	System.out.println("MAGIC: " + $count + " events in one minute");
-	
+	$user.increaseFraudProbability(20);
+	System.out.println("Too Many events Short Period - " + $user.id + " - " + $user.getFraudProbability());
 end
 
 # 8th Fraud Pattern
@@ -103,8 +103,8 @@ rule "Excesive amount"
 dialect "mvel" 
 
 when
-	$event : GenericEvent(amount > 10000) from entry-point GenericEventEntryPoint
+	GenericEvent($userId : userId, amount > 10000) from entry-point GenericEventEntryPoint
 then
-	$event.setProbabilidadFraude(30);
-	System.out.println("Excesive amount: " + $event.userId + "Fraud probability: " + $event.probabilidadFraude);
+	hashMap.get($userId).increaseFraudProbability(30);
+	System.out.println("Excesive amount - User: " + $userId + " - " + hashMap.get($userId).getFraudProbability());
 end

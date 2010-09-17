@@ -4,22 +4,22 @@ public class User {
 
 	private String id;
 	
-	private int fraudProbabily;
+	private int fraudProbability;
 	
 	public User(String id){
 		this.id = id;
-		this.fraudProbabily = 0;
+		this.fraudProbability = 0;
 	}
 
-	public void increaseFraudProbabily(int fraudProbabily) {
-		this.fraudProbabily += fraudProbabily;
+	public void increaseFraudProbability(int fraudProbability) {
+		this.fraudProbability += fraudProbability;
 	}
 	
 	public String getId() {
 		return id;
 	}
 	
-	public int getFraudProbabily() {
-		return fraudProbabily;
+	public int getFraudProbability() {
+		return fraudProbability;
 	}
 }

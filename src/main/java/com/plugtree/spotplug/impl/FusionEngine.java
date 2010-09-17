@@ -63,7 +63,7 @@ public class FusionEngine implements Engine {
 			User user = new User(userId);
 			hashMap.put(userId, user);
 			
-			session.setGlobal("hashMap",hashMap);
+			session.setGlobal("hashMap", hashMap);
 			
 			session.insert(user);
 		}

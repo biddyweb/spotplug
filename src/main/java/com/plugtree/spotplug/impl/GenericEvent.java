@@ -25,7 +25,6 @@ public class GenericEvent implements Event {
 	private int amount;
 	private Date callDateTime;
 	private long callDuration;
-	private int probabilidadFraude;
 	private long sequentialID;
 	private long nextSequentialID;
 
@@ -35,7 +34,6 @@ public class GenericEvent implements Event {
 		this.amount = amount;
 		this.callDateTime = callDateTime;
 		this.callDuration = callDuration;
-		this.probabilidadFraude = 0;
 		this.sequentialID = sequentialID;
 		this.nextSequentialID = nextSequentialID;
 	}
@@ -63,16 +61,6 @@ public class GenericEvent implements Event {
 	public long getCallDuration() {
 		return callDuration;
 	}
-
-	
-	public void setProbabilidadFraude(int probabilidadFraude) {
-		this.probabilidadFraude = this.probabilidadFraude + probabilidadFraude;
-	}
-
-	public int getProbabilidadFraude() {
-		return probabilidadFraude;
-	}
-
 	
 	public void setSequentialID(long sequentialID) {
 		this.sequentialID = sequentialID;
