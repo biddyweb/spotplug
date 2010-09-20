@@ -16,7 +16,11 @@
   </drools:kbase>
   
   <drools:ksession id="ksession1" type="stateful" kbase="kbase1">
-  <!-- Global Variables Must be set  -->
+  	<drools:script>  
+     <drools:set-global identifier="sysOutActuator" >  
+     	<bean class="com.plugtree.spotplug.impl.SysoutActuator" />  
+     </drools:set-global>  
+  	</drools:script>  
   </drools:ksession>   	  	
    
 

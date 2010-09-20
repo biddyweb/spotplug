@@ -1,11 +1,13 @@
 import com.plugtree.spotplug.impl.GenericEvent;
 import com.plugtree.spotplug.impl.User;
+import com.plugtree.spotplug.impl.SysoutActuator;
 
 import java.lang.Number;
 import java.lang.String;
 import java.util.concurrent.ConcurrentHashMap;
 
 global ConcurrentHashMap hashMap;
+global SysoutActuator sysOutActuator;
 
 declare GenericEvent
     @role(event)
