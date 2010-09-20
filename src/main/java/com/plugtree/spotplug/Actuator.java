@@ -14,8 +14,11 @@ distributed under the License is distributed on an "AS IS" BASIS,
  */
 package com.plugtree.spotplug;
 
+import org.drools.runtime.rule.RuleContext;
+
+import com.plugtree.spotplug.impl.User;
+
 public interface Actuator {
-	public void setMsg(String msg);
-	public String getMsg();
-	public void writeOutPut();
+	
+	public void writeOutput(RuleContext ruleContext, User user);
 }

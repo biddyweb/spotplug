@@ -1,13 +1,14 @@
 import com.plugtree.spotplug.impl.GenericEvent;
 import com.plugtree.spotplug.impl.User;
-import com.plugtree.spotplug.impl.SysoutActuator;
+import com.plugtree.spotplug.Actuator;
 
 import java.lang.Number;
 import java.lang.String;
 import java.util.concurrent.ConcurrentHashMap;
+import org.drools.runtime.rule.RuleContext;
 
 global ConcurrentHashMap hashMap;
-global SysoutActuator sysOutActuator;
+global Actuator actuator;
 
 declare GenericEvent
     @role(event)
@@ -28,31 +29,33 @@ rule "Transaction at unusual hours"
 dialect "mvel"
 when
 	$e : GenericEvent($userId : userId  , callDateTime.hours >= 10, callDateTime.hours <=19, amount > 4000) from entry-point GenericEventEntryPoint
-	
 then
 	hashMap.get($userId).increaseFraudProbability(30);
-	System.out.println("Unusual hours" + "Nombre: " + $e.getUserId() + " - ProbabilidadFraude: " + hashMap.get($userId).getFraudProbability()  + "%");
+	actuator.writeOutput(kcontext, hashMap.get($userId));
 end
-
+/*
 # 3th Fraud Pattern
 rule "Same transaction, same time, everyday"
 dialect "mvel" 
 
 when
 	GenericEvent($time : callDateTime) from entry-point GenericEventEntryPoint
-	GenericEvent(callDateTime.hours == $time.hours, callDateTime.minutes == $time.minutes, callDateTime.days != $time.days) 
+	GenericEvent($userId : userId, callDateTime.hours == $time.hours, callDateTime.minutes == $time.minutes, callDateTime.days != $time.days) from entry-point GenericEventEntryPoint 
 then
-	System.out.println("Same transaction different day");
+	hashMap.get($userId).increaseFraudProbability(60);
+	#actuator.writeOutput(kcontext, hashMap.get($userId));
 end
-
+*/
 # 4th Fraud Pattern
 rule "Incorrect Message Order"
+dialect "mvel"
 
 when
 	$e : GenericEvent($userId : userId , $sid : sequentialID, $ecdt : callDateTime) from entry-point GenericEventEntryPoint
 	GenericEvent(userId == $userId, this != $e, sequentialID <= $sid, callDateTime >= $ecdt) from entry-point GenericEventEntryPoint
 then
-	System.out.println("FRAUD!- Incorrect Message Order, User = " + $userId);
+	#Rechazar transaccion.
+	actuator.writeOutput(kcontext, hashMap.get($userId));
 end
 
 # 5th Fraud Pattern
@@ -61,20 +64,21 @@ dialect "mvel"
 
 when
 	$user : User()
-	
 	Number(intValue > 1) from accumulate($event : GenericEvent(this.userId == $user.id) over window:time(1m) from entry-point GenericEventEntryPoint, count($event)) 
 then
-	System.out.println("Identical Transactions!");
+	#Rechazar transaccion.
+	actuator.writeOutput(kcontext, $user);
 end
 
 # 6th Fraud Pattern
 rule "Exact coincidence of 2 events at Start Time Stamp , same User"
+dialect "mvel" 
 
 when
 	$e : GenericEvent($userId : userId, $ecdt : callDateTime) from entry-point GenericEventEntryPoint
 	GenericEvent(userId == $userId, this != $e, callDateTime == $ecdt) from entry-point GenericEventEntryPoint
 then
-	System.out.println("FRAUD!- 2 Events at the same time, User = " + $userId);
+	actuator.writeOutput(kcontext, hashMap.get($userId));
 end
 
 # 7th Fraud Pattern
@@ -83,11 +87,10 @@ dialect "mvel"
 
 when
 	$user : User()
-
 	Number($count : intValue, intValue > 3) from accumulate($event : GenericEvent(this.userId == $user.id) over window:time(1m) from entry-point GenericEventEntryPoint, count($event)) 
 then
 	$user.increaseFraudProbability(20);
-	System.out.println("Too Many events Short Period - " + $user.id + " - " + $user.getFraudProbability());
+	actuator.writeOutput(kcontext, $user);
 end
 
 # 8th Fraud Pattern
@@ -109,5 +112,5 @@ when
 	GenericEvent($userId : userId, amount > 10000) from entry-point GenericEventEntryPoint
 then
 	hashMap.get($userId).increaseFraudProbability(30);
-	System.out.println("Excesive amount - User: " + $userId + " - " + hashMap.get($userId).getFraudProbability());
+	actuator.writeOutput(kcontext, hashMap.get($userId));
 end

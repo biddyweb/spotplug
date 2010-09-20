@@ -14,36 +14,14 @@ distributed under the License is distributed on an "AS IS" BASIS,
  */
 package com.plugtree.spotplug.impl;
 
-import java.util.LinkedList;
-import java.util.concurrent.ConcurrentHashMap;
+import org.drools.runtime.rule.RuleContext;
 
 import com.plugtree.spotplug.Actuator;
-import com.plugtree.spotplug.EventInput;
-import com.plugtree.spotplug.impl.EventLog;
 
 public class SysoutActuator implements Actuator {
-	private String msg;
-	private LinkedList<EventLog> eventLogs = new LinkedList<EventLog>();
 	
-	public void setMsg(String msg) {
-		this.msg = msg;
-	}
-
-	public String getMsg() {
-		return msg;
-	}
-	
-	public void writeOutPut() {
-		System.out.println(getMsg());
-	}
-	
-	public void logEvent(EventLog eventLog){
-		this.eventLogs.add(eventLog);		
-	}
-	
-	
-	
-	
-	
-	
+	@Override
+	public void writeOutput(RuleContext ruleContext, User user) {
+		System.out.println(ruleContext.getRule().getName() + " - " + user.getId() + " - " + user.getFraudProbability());
+	}	
 }

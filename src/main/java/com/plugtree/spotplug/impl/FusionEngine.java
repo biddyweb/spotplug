@@ -20,7 +20,6 @@ import org.drools.runtime.StatefulKnowledgeSession;
 import org.drools.runtime.rule.WorkingMemoryEntryPoint;
 
 import com.plugtree.spotplug.Engine;
-import com.plugtree.spotplug.Event;
 import com.plugtree.spotplug.RuleReader;
 
 public class FusionEngine implements Engine {

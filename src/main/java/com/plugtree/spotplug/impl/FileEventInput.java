@@ -21,7 +21,6 @@ import java.util.Date;
 import java.util.StringTokenizer;
 
 import com.plugtree.spotplug.Engine;
-import com.plugtree.spotplug.Event;
 import com.plugtree.spotplug.EventInput;
 
 public class FileEventInput implements EventInput {
