@@ -15,14 +15,20 @@
   	</drools:resources>
   </drools:kbase>
   
-  <drools:ksession id="ksession1" type="stateful" kbase="kbase1"/>
+  <drools:ksession id="ksession1" type="stateful" kbase="kbase1">
+  <!-- Global Variables Must be set  -->
+  </drools:ksession>   	  	
+   
+
 
   <bean id="EventInput" name="eventInput" class="com.plugtree.spotplug.impl.FileEventInput" depends-on="RuleReader, Engine">
   	 <property name="engine" ref="Engine"/>
   </bean>
   
-  <bean id="Actuator" name="actuator" class="com.plugtree.spotplug.impl.SysoutActuator"> </bean>
-   
+  <bean id="EventLog" name="EventLog" class="com.plugtree.spotplug.impl.EventLog"> </bean>
+      
+  <bean id="Actuator" name="Actuator" class="com.plugtree.spotplug.impl.SysoutActuator"> </bean>
+  	
   <bean id="RuleReader" name="ruleReader" class="com.plugtree.spotplug.impl.FileRuleReader"> </bean>
    	
   <bean id="Engine" name="engine" class="com.plugtree.spotplug.impl.FusionEngine">

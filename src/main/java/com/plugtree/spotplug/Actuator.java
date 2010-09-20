@@ -15,5 +15,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 package com.plugtree.spotplug;
 
 public interface Actuator {
-
+	public void setMsg(String msg);
+	public String getMsg();
+	public void writeOutPut();
 }
