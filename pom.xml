@@ -99,7 +99,7 @@
 		<artifactId>jcl-over-slf4j</artifactId>
 		<version>${slf4j.version}</version>
 		<scope>runtime</scope>
-		</dependency>
+	</dependency>
 
 	<dependency>
 		<groupId>org.slf4j</groupId>

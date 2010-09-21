@@ -5,6 +5,7 @@ import com.plugtree.spotplug.Actuator;
 import java.lang.Number;
 import java.lang.String;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.Set
 import org.drools.runtime.rule.RuleContext;
 
 global ConcurrentHashMap hashMap;
@@ -64,10 +65,11 @@ dialect "mvel"
 
 when
 	$user : User()
-	Number(intValue > 1) from accumulate($event : GenericEvent(this.userId == $user.id) over window:time(1m) from entry-point GenericEventEntryPoint, count($event)) 
+	
+	Set(size > 1) from accumulate($event : GenericEvent(userId == $user.id) over window:time(1m) from entry-point GenericEventEntryPoint, collectSet($event))								
 then
 	#Rechazar transaccion.
-	actuator.writeOutput(kcontext, $user);
+	actuator.writeOutput(kcontext, hashMap.get($user.id));
 end
 
 # 6th Fraud Pattern
