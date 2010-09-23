@@ -6,6 +6,7 @@ import java.lang.Number;
 import java.lang.String;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Set
+import java.util.ArrayList;
 import org.drools.runtime.rule.RuleContext;
 
 global ConcurrentHashMap hashMap;
@@ -29,7 +30,7 @@ end
 rule "Transaction at unusual hours"
 dialect "mvel"
 when
-	$e : GenericEvent($userId : userId  , callDateTime.hours >= 10, callDateTime.hours <=19, amount > 4000) from entry-point GenericEventEntryPoint
+	$e : GenericEvent($userId : userId  , callDateTime.hours >= 2, callDateTime.hours <=6, amount > 4000) from entry-point GenericEventEntryPoint
 then
 	hashMap.get($userId).increaseFraudProbability(30);
 	actuator.writeOutput(kcontext, hashMap.get($userId));
@@ -62,10 +63,8 @@ end
 # 5th Fraud Pattern
 rule "Identical transactions"
 dialect "mvel" 
-
 when
 	$user : User()
-	
 	Set(size > 1) from accumulate($event : GenericEvent(userId == $user.id) over window:time(1m) from entry-point GenericEventEntryPoint, collectSet($event))								
 then
 	#Rechazar transaccion.
@@ -75,12 +74,13 @@ end
 # 6th Fraud Pattern
 rule "Exact coincidence of 2 events at Start Time Stamp , same User"
 dialect "mvel" 
-
 when
-	$e : GenericEvent($userId : userId, $ecdt : callDateTime) from entry-point GenericEventEntryPoint
+	$user : User()
+	$e : GenericEvent(userId == $user.id ,$userId : userId, $ecdt : callDateTime) from entry-point GenericEventEntryPoint
 	GenericEvent(userId == $userId, this != $e, callDateTime == $ecdt) from entry-point GenericEventEntryPoint
 then
 	actuator.writeOutput(kcontext, hashMap.get($userId));
+	$user.increaseFraudProbability(10);	
 end
 
 # 7th Fraud Pattern
@@ -92,24 +92,44 @@ when
 	Number($count : intValue, intValue > 3) from accumulate($event : GenericEvent(this.userId == $user.id) over window:time(1m) from entry-point GenericEventEntryPoint, count($event)) 
 then
 	$user.increaseFraudProbability(20);
-	actuator.writeOutput(kcontext, $user);
+	actuator.writeOutput(kcontext, $user);	 
+end
+
+#Support Rule for 8th Fraud Pattern
+rule "At Least 3 Events From an User"
+dialect "mvel"
+salience -200000
+no-loop
+when
+	 $user : User()  
+	 Number(intValue == 3) from accumulate( $e : GenericEvent( userId == $user.id) from entry-point GenericEventEntryPoint,count($e))
+	 $users : ArrayList()	 
+then
+	System.out.println("Fraud Pattern (Rule 8) can be fired " + $user.id );
+	modify($users){
+		add($user);			
+	}
+	System.out.println("Number of Users:" + $users.size());
 end
 
 # 8th Fraud Pattern
 rule "Wide Distance Between Events"
 dialect "mvel"
+salience -200001
 when
-	 $user : User()	 
-	 $n : Number(intValue < 3) from accumulate( $e : GenericEvent( userId == $user.id  ) over window:time( 2h ) from entry-point GenericEventEntryPoint ,count($e))
-	
+	 exists ArrayList()
+	 $users : ArrayList()
+	 $user : User() from $users 
+	 Number(intValue < 3) from accumulate( $e : GenericEvent( userId == $user.id) over window:time( 2h ) from entry-point GenericEventEntryPoint,count($e))
 then
-	System.out.println("FRAUD!- Wide Distance Between Events " + $n.intValue() + " UserId : " + $user.id);		
+	actuator.writeOutput(kcontext, $user);
+	$user.increaseFraudProbability(10);
+	System.out.println(" Users :" + $users.size);
 end
 
 # 9th Fraud Pattern
 rule "Excesive amount"
 dialect "mvel" 
-
 when
 	GenericEvent($userId : userId, amount > 10000) from entry-point GenericEventEntryPoint
 then
