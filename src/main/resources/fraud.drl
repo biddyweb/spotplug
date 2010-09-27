@@ -35,19 +35,19 @@ then
 	hashMap.get($userId).increaseFraudProbability(30);
 	actuator.writeOutput(kcontext, hashMap.get($userId));
 end
-/*
+
 # 3th Fraud Pattern
 rule "Same transaction, same time, everyday"
 dialect "mvel" 
 
 when
 	GenericEvent($time : callDateTime) from entry-point GenericEventEntryPoint
-	GenericEvent($userId : userId, callDateTime.hours == $time.hours, callDateTime.minutes == $time.minutes, callDateTime.days != $time.days) from entry-point GenericEventEntryPoint 
+	GenericEvent($userId : userId, callDateTime.hours == $time.hours, callDateTime.minutes == $time.minutes, callDateTime.day != $time.day) from entry-point GenericEventEntryPoint 
 then
 	hashMap.get($userId).increaseFraudProbability(60);
-	#actuator.writeOutput(kcontext, hashMap.get($userId));
+	actuator.writeOutput(kcontext, hashMap.get($userId));
 end
-*/
+
 # 4th Fraud Pattern
 rule "Incorrect Message Order"
 dialect "mvel"
