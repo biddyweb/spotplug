@@ -23,7 +23,7 @@ public class HornetQTest {
 	}
 	
 	@Test
-	public void imprimir() {
+	public void sendMessage() {
 		ClientProducer producer = (ClientProducer)context.getBean("producer");
 		ClientSession session = (ClientSession)context.getBean("clientSession");
 
