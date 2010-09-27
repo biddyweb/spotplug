@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+                      http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context-3.0.xsd  
+                      http://www.springframework.org/schema/util     http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+ 
+	<bean id="producer" factory-bean="clientSession" factory-method="createProducer"
+		destroy-method="close">
+		<constructor-arg value="executeTimerMessages" />
+	</bean>
+	
+	<bean id="clientSession" factory-bean="clientSessionFactory"
+		factory-method="createSession" init-method="start" />
+	<bean id="clientSessionFactory" class="org.hornetq.api.core.client.HornetQClient"
+		factory-method="createClientSessionFactory" depends-on="hornetQServer">
+		<constructor-arg>
+			<bean class="org.hornetq.api.core.TransportConfiguration">
+				<constructor-arg>
+					<value>org.hornetq.integration.transports.netty.NettyConnectorFactory</value>
+				</constructor-arg>
+				<constructor-arg>
+					<map>
+						<entry>
+							<key>
+								<util:constant
+									static-field="org.hornetq.integration.transports.netty.TransportConstants.PORT_PROP_NAME" />
+							</key>
+							<value>5446</value>
+						</entry>
+					</map>
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+	</bean>
+ 
+	<!-- start HornetQ server -->
+	  <bean id="hornetQServer" class="org.hornetq.core.server.HornetQServers" factory-method="newHornetQServer"
+    init-method="start" destroy-method="stop">
+    <constructor-arg>
+      <bean class="org.hornetq.core.config.impl.ConfigurationImpl">
+        <property name="persistenceEnabled" value="false" />
+        <property name="securityEnabled" value="false" />
+        <property name="clustered" value="false" />
+        <property name="queueConfigurations">
+          <list>
+            <bean class="org.hornetq.core.server.cluster.QueueConfiguration">
+              <constructor-arg name="address" value="executeTimerMessages" />
+              <constructor-arg name="name" value="executeTimerMessages" />
+              <constructor-arg name="filterString">
+                <null />
+              </constructor-arg>
+              <constructor-arg name="durable" value="true" />
+            </bean>
+          </list>
+        </property>
+        <property name="acceptorConfigurations">
+          <set>
+            <bean class="org.hornetq.api.core.TransportConfiguration">
+              <constructor-arg>
+                <value>org.hornetq.integration.transports.netty.NettyAcceptorFactory</value>
+              </constructor-arg>
+              <constructor-arg>
+                <map>
+                  <entry>
+                    <key>
+                      <util:constant static-field="org.hornetq.integration.transports.netty.TransportConstants.PORT_PROP_NAME" />
+                    </key>
+                    <value>5446</value>
+                  </entry>
+                </map>
+              </constructor-arg>
+            </bean>
+          </set>
+        </property>
+      </bean>
+    </constructor-arg>
+  </bean>
+</beans>
