@@ -24,7 +24,7 @@ public class StaticConfiguration implements Configuration {
 	private Engine engine;
 	private EventInputManager eventInputManager;
 	private EventInput fileEventInput;
-	private EventInput jmsEventInput;
+	//private EventInput jmsEventInput;
 	
 	public StaticConfiguration(){
 	}
@@ -52,11 +52,11 @@ public class StaticConfiguration implements Configuration {
 		engine.configure();
 	}
 
-	public void setEventInput(EventInput eventInput) {
+	public void setFileEventInput(EventInput eventInput) {
 		this.fileEventInput = eventInput;
 	}
 
-	public EventInput getEventInput() {
+	public EventInput getFileEventInput() {
 		return fileEventInput;
 	}
 }

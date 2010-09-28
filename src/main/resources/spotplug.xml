@@ -26,7 +26,7 @@
   	</drools:script>  
   </drools:ksession>   	  	
    
-  <!-- HornetQ Client  -->
+  <!-- HornetQ Client  
   <bean id="consumer" factory-bean="clientSession" factory-method="createConsumer"
 		destroy-method="close">
 		<constructor-arg value="executeTimerMessages" />
@@ -55,17 +55,16 @@
 		</constructor-arg>
 	</bean>
 	
-	<!-- dummy hornetQServer for override in tests -->
-  <bean id="hornetQServer" class="java.lang.Object" />
+  <bean id="hornetQServer" class="java.lang.Object" />-->
  
   <bean id="FileEventInput" name="fileEventInput" class="com.plugtree.spotplug.impl.FileEventInput" depends-on="RuleReader, Engine">
   	 <property name="engine" ref="Engine"/>
   </bean>
   
-  <bean id="JmsEventInput" name="jmseventInput" class="com.plugtree.spotplug.impl.JmsEventInput" depends-on="consumer, Engine">
+ <!-- <bean id="JmsEventInput" name="jmseventInput" class="com.plugtree.spotplug.impl.JmsEventInput" depends-on="consumer, Engine">
   	 <property name="engine" ref="Engine"/>
   	 <property name="consumer" ref="consumer"/>
-  </bean>
+  </bean> -->
   
   <bean id="EventLog" name="EventLog" class="com.plugtree.spotplug.impl.EventLog"> </bean>
       
