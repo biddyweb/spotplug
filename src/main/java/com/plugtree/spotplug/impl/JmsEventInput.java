@@ -13,27 +13,28 @@ public class JmsEventInput implements EventInput {
 
 	private Engine engine;
 	private	ClientConsumerImpl consumer;
-	final String propName = "myprop";
+	final String propName = "data";
 	
 	@Override
 	public void setEngine(Engine engine) {
-		// TODO Auto-generated method stub
 		this.engine = engine;
 	}
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
+
 		try{
 			while(consumer != null){
+				
 				ClientMessage messageReceived = consumer.receive(1000);
-				if(consumer != null){
+				
+				if(messageReceived != null){
 					System.out.println("Received Message:" + messageReceived.getStringProperty(propName));
 					GenericEvent event = createEvent(messageReceived.getStringProperty(propName));
 					engine.processEvent(event);
 				}
 			}
-		}catch(Exception ex){
+		} catch(Exception ex) {
 			System.out.println(ex.getMessage());
 		}
 	}
@@ -47,7 +48,6 @@ public class JmsEventInput implements EventInput {
 	}
 
 	public GenericEvent createEvent(String line){
-		
 		
 		StringTokenizer stringTokenizer = new StringTokenizer(line, ",");
 				
