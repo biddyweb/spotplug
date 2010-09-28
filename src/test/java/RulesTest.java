@@ -25,9 +25,9 @@ public class RulesTest{
 	@Test
 	public void sameTransactionSameTimeDifferentDay() {
 	
-		GenericEvent event1 = new GenericEvent("Hera", 6000, new Date(2010,9,23,10,30,00), 20000, 0, 1);
-		GenericEvent event2 = new GenericEvent("Hera", 7000, new Date(2010,9,22,11,30,00), 20000, 1, 1);
-		GenericEvent event3 = new GenericEvent("Hera", 7000, new Date(2010,9,22,10,30,00), 20000, 2, 3);
+		GenericEvent event1 = new GenericEvent("Hera", 6000, new Date(2010,9,23,10,30,00), 20000, 0, 1,105);
+		GenericEvent event2 = new GenericEvent("Hera", 7000, new Date(2010,9,22,11,30,00), 20000, 1, 1,105);
+		GenericEvent event3 = new GenericEvent("Hera", 7000, new Date(2010,9,22,10,30,00), 20000, 2, 3,105);
 		
 		engine.processEvent(event1);
 		//No se activa
@@ -40,9 +40,9 @@ public class RulesTest{
 	@Test
 	public void excesiveAmountPattern() {
 		
-		GenericEvent event1 = new GenericEvent("Zeus", 6000, new Date(), 20000, 0, 1);
-		GenericEvent event2 = new GenericEvent("Zeus", 5000, new Date(), 20000, 1, 2);
-		GenericEvent event3 = new GenericEvent("Zeus", 10001, new Date(), 20000, 3, 3);
+		GenericEvent event1 = new GenericEvent("Zeus", 6000, new Date(), 20000, 0, 1,105);
+		GenericEvent event2 = new GenericEvent("Zeus", 5000, new Date(), 20000, 1, 2,105);
+		GenericEvent event3 = new GenericEvent("Zeus", 10001, new Date(), 20000, 3, 3,105);
 		
 		engine.processEvent(event1);
 		//No se activa
@@ -54,10 +54,10 @@ public class RulesTest{
 	
 	@Test
 	public void manyEventsShortPeriod() {
-		GenericEvent event1 = new GenericEvent("Thor", 6000, new Date(), 20000, 0, 1);
-		GenericEvent event2 = new GenericEvent("Thor", 5000, new Date(), 20000, 1, 2);
-		GenericEvent event3 = new GenericEvent("Thor", 10001, new Date(), 20000, 2, 3);
-		GenericEvent event4 = new GenericEvent("Thor", 10001, new Date(), 20000, 3, 4);
+		GenericEvent event1 = new GenericEvent("Thor", 6000, new Date(), 20000, 0, 1,105);
+		GenericEvent event2 = new GenericEvent("Thor", 5000, new Date(), 20000, 1, 2,105);
+		GenericEvent event3 = new GenericEvent("Thor", 10001, new Date(), 20000, 2, 3,105);
+		GenericEvent event4 = new GenericEvent("Thor", 10001, new Date(), 20000, 3, 4,105);
 		
 		engine.processEvent(event1);
 		//No se activa
@@ -72,10 +72,10 @@ public class RulesTest{
 	@Test
 	public void identicalTransactions() {
 
-		GenericEvent event1 = new GenericEvent("Hera", 6000, new Date(), 20000, 0, 1);
-		GenericEvent event2 = new GenericEvent("Hulk", 6000, new Date(), 20000, 1, 2);
-		GenericEvent event3 = new GenericEvent("Hera", 7000, new Date(), 20000, 2, 3);
-		GenericEvent event4 = new GenericEvent("Hera", 6000, new Date(), 20000, 3, 4);
+		GenericEvent event1 = new GenericEvent("Hera", 6000, new Date(), 20000, 0, 1,105);
+		GenericEvent event2 = new GenericEvent("Hulk", 6000, new Date(), 20000, 1, 2,105);
+		GenericEvent event3 = new GenericEvent("Hera", 7000, new Date(), 20000, 2, 3,105);
+		GenericEvent event4 = new GenericEvent("Hera", 6000, new Date(), 20000, 3, 4,105);
 		
 		engine.processEvent(event1);
 		//No se activa
@@ -92,10 +92,10 @@ public class RulesTest{
 	
 	@Test
 	public void unusualHoursTransactions(){
-		GenericEvent event1 = new GenericEvent("Hera", 6000, new Date(2010,9,23,2,30,00), 20000, 0, 1);
-		GenericEvent event2 = new GenericEvent("Hulk", 6000, new Date(), 20000, 1, 2);
-		GenericEvent event3 = new GenericEvent("Hera", 7000, new Date(2010,9,23,4,30,00), 20000, 2, 3);
-		GenericEvent event4 = new GenericEvent("Hera", 6000, new Date(), 20000, 3, 4);
+		GenericEvent event1 = new GenericEvent("Hera", 6000, new Date(2010,9,23,2,30,00), 20000, 0, 1,105);
+		GenericEvent event2 = new GenericEvent("Hulk", 6000, new Date(), 20000, 1, 2,105);
+		GenericEvent event3 = new GenericEvent("Hera", 7000, new Date(2010,9,23,4,30,00), 20000, 2, 3,105);
+		GenericEvent event4 = new GenericEvent("Hera", 6000, new Date(), 20000, 3, 4,105);
 		
 		engine.processEvent(event1);
 		//Se activa
@@ -112,10 +112,10 @@ public class RulesTest{
 	
 	@Test
 	public void wideDistanceBetweenMessages(){
-		GenericEvent event1 = new GenericEvent("Hera", 6000, new Date(2010,9,23,10,30,00), 20000, 0, 1);
-		GenericEvent event2 = new GenericEvent("Hulk", 6000, new Date(), 20000, 1, 2);
-		GenericEvent event3 = new GenericEvent("Hera", 7000, new Date(2010,9,23,14,30,00), 20000, 2, 3);
-		GenericEvent event4 = new GenericEvent("Hera", 6000, new Date(2010,9,23,14,31,00), 20000, 3, 4);
+		GenericEvent event1 = new GenericEvent("Hera", 6000, new Date(2010,9,23,10,30,00), 20000, 0, 1,105);
+		GenericEvent event2 = new GenericEvent("Hulk", 6000, new Date(), 20000, 1, 2,105);
+		GenericEvent event3 = new GenericEvent("Hera", 7000, new Date(2010,9,23,14,30,00), 20000, 2, 3,105);
+		GenericEvent event4 = new GenericEvent("Hera", 6000, new Date(2010,9,23,14,31,00), 20000, 3, 4,105);
 		
 		engine.processEvent(event1);
 		

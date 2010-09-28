@@ -74,7 +74,7 @@ public class FileEventInput implements EventInput {
 	}
 	
 	public GenericEvent createEvent(String line){
-		
+		//line format : UserID,Amount,Duration,TransactionID,SequentialID,OperationCode
 		
 		StringTokenizer stringTokenizer = new StringTokenizer(line, ",");
 				
@@ -89,13 +89,17 @@ public class FileEventInput implements EventInput {
 		//Duration
 		long duration = Long.parseLong(stringTokenizer.nextToken());
 		
-		//Event Current Sequential ID - If there is an event sequence
+		//Current Event Sequential ID - If there is an event sequence
 		long sequentialID = Long.parseLong(stringTokenizer.nextToken());
 		
-		//Event Current Sequential ID - 0 ? There is No Next Event : There is Next Event
-		long nextSequentialID = Long.parseLong(stringTokenizer.nextToken());
-				
-		GenericEvent event = new GenericEvent(name, amount,startTimeStamp,duration,sequentialID,nextSequentialID);
+		//TransactionID of the Current Event
+		long transactionID = Long.parseLong(stringTokenizer.nextToken());
+		
+		//Operation Code of the Current Event
+		long opCode = Long.parseLong(stringTokenizer.nextToken());
+		
+		
+		GenericEvent event = new GenericEvent(name, amount,startTimeStamp,duration,sequentialID,transactionID,opCode);
 
 		return event;
 	}

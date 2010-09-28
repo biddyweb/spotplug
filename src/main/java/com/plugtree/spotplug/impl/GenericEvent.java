@@ -26,16 +26,18 @@ public class GenericEvent implements Event {
 	private Date callDateTime;
 	private long callDuration;
 	private long sequentialID;
-	private long nextSequentialID;
+	private long transactionID;
+	private long opCode;
 
-	public GenericEvent(String userId, int amount,Date callDateTime,long callDuration,long sequentialID,long nextSequentialID){
+	public GenericEvent(String userId, int amount,Date callDateTime,long callDuration,long sequentialID,long transactionID,long opCode){
 	
 		this.userId = userId;
 		this.amount = amount;
 		this.callDateTime = callDateTime;
 		this.callDuration = callDuration;
 		this.sequentialID = sequentialID;
-		this.nextSequentialID = nextSequentialID;
+		this.transactionID = transactionID;
+		this.opCode = opCode;
 	}
 
 	public int getAmount() {
@@ -71,11 +73,19 @@ public class GenericEvent implements Event {
 	}
 
 	
-	public void setNextSequentialID(long nextSequentialID) {
-		this.nextSequentialID = nextSequentialID;
+	public void setTransactionID(long nextSequentialID) {
+		this.transactionID = nextSequentialID;
 	}
 
-	public long getNextSequentialID() {
-		return nextSequentialID;
+	public long getTransactionID() {
+		return transactionID;
+	}
+
+	public void setOpCode(long opCode) {
+		this.opCode = opCode;
+	}
+
+	public long getOpCode() {
+		return opCode;
 	}
 }

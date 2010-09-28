@@ -53,8 +53,8 @@ rule "Incorrect Message Order"
 dialect "mvel"
 
 when
-	$e : GenericEvent($userId : userId , $sid : sequentialID, $ecdt : callDateTime) from entry-point GenericEventEntryPoint
-	GenericEvent(userId == $userId, this != $e, sequentialID <= $sid, callDateTime >= $ecdt) from entry-point GenericEventEntryPoint
+	$e : GenericEvent($userId : userId , $tid : transactionID , $sid : sequentialID, $ecdt : callDateTime) from entry-point GenericEventEntryPoint
+	GenericEvent(userId == $userId, this != $e,transactionID == $tid, sequentialID <= $sid, callDateTime >= $ecdt) from entry-point GenericEventEntryPoint
 then
 	#Rechazar transaccion.
 	actuator.writeOutput(kcontext, hashMap.get($userId));
