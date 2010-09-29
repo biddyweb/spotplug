@@ -8,7 +8,7 @@
  
 	<bean id="producer" factory-bean="clientSession" factory-method="createProducer"
 		destroy-method="close">
-		<constructor-arg value="executeTimerMessages" />
+		<constructor-arg value="eventQueue" />
 	</bean>
 	
 	<bean id="clientSession" factory-bean="clientSessionFactory"
@@ -27,7 +27,7 @@
 								<util:constant
 									static-field="org.hornetq.integration.transports.netty.TransportConstants.PORT_PROP_NAME" />
 							</key>
-							<value>5446</value>
+							<value>5445</value>
 						</entry>
 					</map>
 				</constructor-arg>
@@ -46,8 +46,8 @@
         <property name="queueConfigurations">
           <list>
             <bean class="org.hornetq.core.server.cluster.QueueConfiguration">
-              <constructor-arg name="address" value="executeTimerMessages" />
-              <constructor-arg name="name" value="executeTimerMessages" />
+              <constructor-arg name="address" value="eventQueue" />
+              <constructor-arg name="name" value="eventQueue" />
               <constructor-arg name="filterString">
                 <null />
               </constructor-arg>
@@ -67,7 +67,7 @@
                     <key>
                       <util:constant static-field="org.hornetq.integration.transports.netty.TransportConstants.PORT_PROP_NAME" />
                     </key>
-                    <value>5446</value>
+                    <value>5445</value>
                   </entry>
                 </map>
               </constructor-arg>

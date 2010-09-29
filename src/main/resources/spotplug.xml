@@ -25,46 +25,47 @@
      </drools:set-global>  
   	</drools:script>  
   </drools:ksession>   	  	
-   
-  <!-- HornetQ Client  
-  <bean id="consumer" factory-bean="clientSession" factory-method="createConsumer"
-		destroy-method="close">
-		<constructor-arg value="executeTimerMessages" />
-	</bean>
-	
-	<bean id="clientSession" factory-bean="clientSessionFactory"
-		factory-method="createSession" init-method="start" />
-	<bean id="clientSessionFactory" class="org.hornetq.api.core.client.HornetQClient"
-		factory-method="createClientSessionFactory"  depends-on="hornetQServer">
-		<constructor-arg>
-			<bean class="org.hornetq.api.core.TransportConfiguration">
-				<constructor-arg>
-					<value>org.hornetq.integration.transports.netty.NettyConnectorFactory</value>
-				</constructor-arg>
-				<constructor-arg>
-					<map>
-						<entry>
-							<key>
-								<util:constant static-field="org.hornetq.integration.transports.netty.TransportConstants.PORT_PROP_NAME" />
-							</key>
-							<value>5446</value>
-						</entry>
-					</map>
-				</constructor-arg>
-			</bean>
-		</constructor-arg>
-	</bean>
-	
-  <bean id="hornetQServer" class="java.lang.Object" />-->
+    
+  <!-- client connection with the HornetQ server -->
+  <bean id="clientSession" factory-bean="clientSessionFactory"
+    factory-method="createSession" init-method="start" />
+  <bean id="clientSessionFactory" class="org.hornetq.api.core.client.HornetQClient"
+    factory-method="createClientSessionFactory" depends-on="hornetQServer">
+    <constructor-arg>
+      <bean class="org.hornetq.api.core.TransportConfiguration">
+        <constructor-arg>
+          <value>org.hornetq.integration.transports.netty.NettyConnectorFactory</value>
+        </constructor-arg>
+        <constructor-arg>
+          <map>
+            <entry>
+              <key>
+                <util:constant
+                  static-field="org.hornetq.integration.transports.netty.TransportConstants.PORT_PROP_NAME" />
+              </key>
+              <value>5445</value>
+            </entry>
+          </map>
+        </constructor-arg>
+      </bean>
+    </constructor-arg>
+  </bean>
+		
+  <bean id="hornetQServer" class="java.lang.Object" />
  
   <bean id="FileEventInput" name="fileEventInput" class="com.plugtree.spotplug.impl.FileEventInput" depends-on="RuleReader, Engine">
   	 <property name="engine" ref="Engine"/>
   </bean>
   
- <!-- <bean id="JmsEventInput" name="jmseventInput" class="com.plugtree.spotplug.impl.JmsEventInput" depends-on="consumer, Engine">
-  	 <property name="engine" ref="Engine"/>
-  	 <property name="consumer" ref="consumer"/>
-  </bean> -->
+  <bean id="JmsEventInput" class="com.plugtree.spotplug.impl.JmsEventInput">
+    <property name="consumer">
+      <bean factory-bean="clientSession" factory-method="createConsumer"
+        destroy-method="close">
+        <constructor-arg value="eventQueue" />
+      </bean>
+      </property>
+      <property name="engine" ref="Engine"/>
+   </bean>
   
   <bean id="EventLog" name="EventLog" class="com.plugtree.spotplug.impl.EventLog"> </bean>
       
