@@ -3,7 +3,6 @@ import java.util.LinkedList;
 
 import junit.framework.Assert;
 
-import org.drools.command.assertion.AssertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -23,7 +22,7 @@ public class RulesTest{
 	@BeforeClass
 	public static void setUp() {
 		
-		ApplicationContext context = new ClassPathXmlApplicationContext(new String[] {"/spotplug.xml"});
+		ApplicationContext context = new ClassPathXmlApplicationContext(new String[] {"/core.xml", "/test.xml"});
 		
 		engine = (FusionEngine)context.getBean("Engine");
 		eventLogList = ((LogActuator)context.getBean("Actuator")).getEventLogList();

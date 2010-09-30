@@ -48,8 +48,6 @@
       </bean>
     </constructor-arg>
   </bean>
-		
-  <bean id="hornetQServer" class="java.lang.Object" />
  
   <bean id="FileEventInput" name="fileEventInput" class="com.plugtree.spotplug.impl.FileEventInput" depends-on="RuleReader, Engine">
   	 <property name="engine" ref="Engine"/>
@@ -66,9 +64,7 @@
    </bean>
   
   <bean id="EventLog" name="EventLog" class="com.plugtree.spotplug.impl.EventLog"> </bean>
-      
-  <bean id="Actuator" name="Actuator" class="com.plugtree.spotplug.impl.LogActuator"> </bean>
-  	
+        	
   <bean id="RuleReader" name="ruleReader" class="com.plugtree.spotplug.impl.FileRuleReader"> </bean>
    	
   <bean id="Engine" name="engine" class="com.plugtree.spotplug.impl.FusionEngine">
