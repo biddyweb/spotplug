@@ -1,17 +1,15 @@
-import javax.jms.Queue;
-
 import org.hornetq.api.core.HornetQException;
 import org.hornetq.api.core.SimpleString;
 import org.hornetq.api.core.client.ClientMessage;
 import org.hornetq.api.core.client.ClientProducer;
 import org.hornetq.api.core.client.ClientSession;
 import org.hornetq.api.core.client.ClientSession.QueueQuery;
-import org.hornetq.api.core.client.HornetQClient;
-import org.hornetq.api.jms.HornetQJMSClient;
+
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -35,7 +33,7 @@ public class HornetQTest {
 		ClientSession session = (ClientSession)context.getBean("clientSession");
 
 		ClientMessage message = session.createMessage(false);
-		message.putStringProperty("data", "leandro,20000,2000,2,0,105");	
+		message.putStringProperty("data","hornetq,20000,2000,2,0,105");	
 		
 		
 		try {
