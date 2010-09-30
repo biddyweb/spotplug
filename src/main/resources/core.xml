@@ -9,9 +9,9 @@
            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd  
            http://drools.org/schema/drools-spring http://drools.org/schema/drools-spring.xsd
            http://www.springframework.org/schema/util
-           http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+           http://www.springframework.org/schema/util/spring-util-3.0.xsd">        
            
-  <!-- Drools KSession  -->
+  <!-- Drools Session  -->
   <drools:kbase id="kbase1">
   	<drools:resources>
   		<drools:resource type="DRL" source="classpath:fraud.drl"/>
@@ -24,44 +24,10 @@
   	</drools:script>  
   </drools:ksession>   	  	
     
-  <!-- client connection with the HornetQ server -->
-  <bean id="clientSession" factory-bean="clientSessionFactory"
-    factory-method="createSession" init-method="start" />
-  <bean id="clientSessionFactory" class="org.hornetq.api.core.client.HornetQClient"
-    factory-method="createClientSessionFactory" depends-on="hornetQServer">
-    <constructor-arg>
-      <bean class="org.hornetq.api.core.TransportConfiguration">
-        <constructor-arg>
-          <value>org.hornetq.integration.transports.netty.NettyConnectorFactory</value>
-        </constructor-arg>
-        <constructor-arg>
-          <map>
-            <entry>
-              <key>
-                <util:constant
-                  static-field="org.hornetq.integration.transports.netty.TransportConstants.PORT_PROP_NAME" />
-              </key>
-              <value>5445</value>
-            </entry>
-          </map>
-        </constructor-arg>
-      </bean>
-    </constructor-arg>
-  </bean>
- 
+  <!-- Common Beans  -->
   <bean id="FileEventInput" name="fileEventInput" class="com.plugtree.spotplug.impl.FileEventInput" depends-on="RuleReader, Engine">
   	 <property name="engine" ref="Engine"/>
   </bean>
-  
-  <bean id="JmsEventInput" class="com.plugtree.spotplug.impl.JmsEventInput">
-    <property name="consumer">
-      <bean factory-bean="clientSession" factory-method="createConsumer"
-        destroy-method="close">
-        <constructor-arg value="eventQueue" />
-      </bean>
-      </property>
-      <property name="engine" ref="Engine"/>
-   </bean>
   
   <bean id="EventLog" name="EventLog" class="com.plugtree.spotplug.impl.EventLog"> </bean>
         	

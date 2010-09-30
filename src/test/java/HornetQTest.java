@@ -14,7 +14,7 @@ public class HornetQTest {
 	
 	@BeforeClass
 	public static void inicializeServer() {
-		context = new ClassPathXmlApplicationContext(new String[] {"/test.xml"});
+		context = new ClassPathXmlApplicationContext(new String[] {"/test.xml", "/hornetQ.xml"});
 	}
 	
 	@AfterClass() 

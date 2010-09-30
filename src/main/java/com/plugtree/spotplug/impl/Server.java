@@ -24,7 +24,7 @@ public class Server {
 
 	public static void main(String[] args) {
 		
-		ApplicationContext context = new ClassPathXmlApplicationContext(new String[] {"/core.xml", "/no-test-configuration.xml"});
+		ApplicationContext context = new ClassPathXmlApplicationContext(new String[] {"/core.xml", "/connection.xml"});
 		
 		Configuration configuration = (Configuration) context.getBean("Configuration");
 		EventInputManager eventInputManager = configuration.getEventInputManager();
