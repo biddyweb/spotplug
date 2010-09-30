@@ -24,7 +24,7 @@ public class RulesTest{
 	@BeforeClass
 	public static void setUp() {
 		
-		ApplicationContext context = new ClassPathXmlApplicationContext(new String[] {"/core.xml", "/test.xml"});
+		ApplicationContext context = new ClassPathXmlApplicationContext(new String[] {"/test.xml"});
 		
 		engine = (FusionEngine)context.getBean("Engine");
 		eventLogList = ((LogActuator)context.getBean("Actuator")).getEventLogList();

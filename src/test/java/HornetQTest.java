@@ -35,14 +35,13 @@ public class HornetQTest {
 		ClientMessage message = session.createMessage(false);
 		message.putStringProperty("data","hornetq,20000,2000,2,0,105");	
 		
-		
 		try {
 			producer.send(message);
-			SimpleString simpleStr = new SimpleString("eventQueue");
-			QueueQuery query = session.queueQuery(simpleStr);
-			Assert.assertTrue("Message Sent SuccessFully",query.getMessageCount() == 1);
+			SimpleString queueName = new SimpleString("eventQueue");
+			QueueQuery query = session.queueQuery(queueName);
+			Assert.assertTrue("Sent Failed", query.getMessageCount() == 1);
 		} catch (HornetQException e) {
 			e.printStackTrace();
-		}		
+		}
 	}
 }
