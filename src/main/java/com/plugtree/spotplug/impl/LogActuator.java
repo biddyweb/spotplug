@@ -21,4 +21,8 @@ public class LogActuator implements Actuator {
 		
 		eventLogList.add(eventLog);
 	}
+
+	public LinkedList<EventLog> getEventLogList() {
+		return eventLogList;
+	}
 }
