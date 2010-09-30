@@ -24,14 +24,15 @@ public class JmsEventInput implements EventInput {
 	public void run() {
 
 		try{
-			while(consumer != null){
+			if( consumer != null){
 				
 				ClientMessage messageReceived = consumer.receive(1000);
 				
-				if(messageReceived != null){
+				while(messageReceived != null){
 					System.out.println("Received Message:" + messageReceived.getStringProperty(propName));
 					GenericEvent event = createEvent(messageReceived.getStringProperty(propName));
 					engine.processEvent(event);
+					messageReceived = consumer.receive(1000);
 				}
 			}
 		} catch(Exception ex) {

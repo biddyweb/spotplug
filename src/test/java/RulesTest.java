@@ -1,8 +1,12 @@
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import junit.framework.Assert;
 
+import org.drools.runtime.rule.FactHandle;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -34,6 +38,17 @@ public class RulesTest{
 	public void initialize() {
 		
 		eventLogList.clear();		
+	}
+	
+	@After 
+	public void clearSessionFacts(){
+	Collection<FactHandle> factHandles = this.engine.getSession().getFactHandles(null);
+	
+	for(FactHandle factHandle : factHandles){
+		this.engine.getSession().retract(factHandle);		
+	}
+		
+	 
 	}
 	
 	@Test

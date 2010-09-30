@@ -10,7 +10,7 @@
            http://drools.org/schema/drools-spring http://drools.org/schema/drools-spring.xsd
            http://www.springframework.org/schema/util
            http://www.springframework.org/schema/util/spring-util-3.0.xsd">        
-           
+    
   <!-- Drools Session  -->
   <drools:kbase id="kbase1">
   	<drools:resources>
@@ -23,6 +23,9 @@
      <drools:set-global identifier="actuator" ref="Actuator" /> 
   	</drools:script>  
   </drools:ksession>   	  	
+  
+  
+  <import resource="connection.xml"/>
     
   <!-- Common Beans  -->
   <bean id="FileEventInput" name="fileEventInput" class="com.plugtree.spotplug.impl.FileEventInput" depends-on="RuleReader, Engine">
@@ -45,7 +48,8 @@
   <bean id="Configuration" name="configuration" class="com.plugtree.spotplug.impl.StaticConfiguration">
   	 <property name="engine" ref="Engine"/>
      <property name="fileEventInput" ref="FileEventInput"/>
-     <property name="eventInputManager" ref="EventInputManager"/>
+     <property name="jmsEventInput" ref="JmsEventInput"/>     
+     <property name="eventInputManager" ref="EventInputManager"/>     
   </bean>
 
 </beans>
