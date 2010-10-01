@@ -41,11 +41,14 @@ rule "Same transaction, same time, everyday"
 dialect "mvel" 
 
 when
-	GenericEvent($time : callDateTime) from entry-point GenericEventEntryPoint
-	GenericEvent($userId : userId, callDateTime.hours == $time.hours, callDateTime.minutes == $time.minutes, callDateTime.day != $time.day) from entry-point GenericEventEntryPoint 
+	$event : GenericEvent() from entry-point GenericEventEntryPoint
+	
+	GenericEvent(callDateTime.day > $event.callDateTime.day,
+				 callDateTime.hours == $event.callDateTime.hours,
+				 callDateTime.minutes == $event.callDateTime.minutes) from entry-point GenericEventEntryPoint 
 then
-	hashMap.get($userId).increaseFraudProbability(60);
-	actuator.writeOutput(kcontext, hashMap.get($userId));
+	hashMap.get($event.userId).increaseFraudProbability(60);
+	actuator.writeOutput(kcontext, hashMap.get($event.userId));
 end
 
 # 4th Fraud Pattern
@@ -66,9 +69,7 @@ dialect "mvel"
 when
 	$firstEvent : GenericEvent() over window:time(10s) from entry-point GenericEventEntryPoint
 	
-	GenericEvent(this != $firstEvent,
-				 callDateTime !=  $firstEvent.callDateTime,
-				 callDateTime.seconds > $firstEvent.callDateTime.seconds,
+	GenericEvent(callDateTime.seconds > $firstEvent.callDateTime.seconds,
 				 amount == $firstEvent.amount,
 				 userId == $firstEvent.userId) from entry-point GenericEventEntryPoint
 then

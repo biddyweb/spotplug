@@ -56,11 +56,11 @@ public class RulesTest{
 
 		engine.processEvent(event2);
 		Assert.assertTrue(eventLogList.isEmpty());
-		
+
 		engine.processEvent(event3);
-		Assert.assertTrue(eventLogList.size() == 1);
-		Assert.assertTrue(eventLogList.getLast().getUserId() == "Hera");
-		Assert.assertTrue(eventLogList.getLast().getFraudPattern() == "Same transaction, same time, everyday");
+		Assert.assertEquals(eventLogList.size(), 1);
+		Assert.assertEquals(eventLogList.getLast().getUserId(), "Hera");
+		Assert.assertEquals(eventLogList.getLast().getFraudPattern(), "Same transaction, same time, everyday");
 	}
 	
 	@Test
