@@ -108,10 +108,10 @@ public class RulesTest{
 	@Test
 	public void identicalTransactions() {
 
-		GenericEvent event1 = new GenericEvent("Mike", 6000, new Date(2010,9,23,10,30,00), 20000, 0, 1,105);
+		GenericEvent event1 = new GenericEvent("Mike", 6000, new Date(2010,9,23,10,30,0), 20000, 0, 1,105);
 		GenericEvent event2 = new GenericEvent("John", 6000, new Date(), 20000, 1, 2,105);
 		GenericEvent event3 = new GenericEvent("Mike", 7000, new Date(), 20000, 2, 3,105);
-		GenericEvent event4 = new GenericEvent("Mike", 6000, new Date(2010,9,23,10,30,00), 20000, 3, 4,105);
+		GenericEvent event4 = new GenericEvent("Mike", 6000, new Date(2010,9,23,10,30,9), 20000, 3, 4,105);
 		
 		engine.processEvent(event1);
 		Assert.assertTrue(eventLogList.isEmpty());
@@ -123,7 +123,6 @@ public class RulesTest{
 		Assert.assertTrue(eventLogList.isEmpty());
 		
 		engine.processEvent(event4);
-
 		Assert.assertEquals(eventLogList.size(), 1);
 		Assert.assertEquals(eventLogList.getLast().getUserId(), "Mike");
 		Assert.assertEquals(eventLogList.getLast().getFraudPattern(), "Identical transactions");

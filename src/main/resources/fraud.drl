@@ -64,11 +64,16 @@ end
 rule "Identical transactions"
 dialect "mvel" 
 when
-	$firstEvent : GenericEvent($userId : userId, $amount : amount) from entry-point GenericEventEntryPoint
-	GenericEvent(this after[10s] $firstEvent, this != $firstEvent, amount == $amount, userId == $userId) from entry-point GenericEventEntryPoint
+	$firstEvent : GenericEvent() over window:time(10s) from entry-point GenericEventEntryPoint
+	
+	GenericEvent(this != $firstEvent,
+				 callDateTime !=  $firstEvent.callDateTime,
+				 callDateTime.seconds > $firstEvent.callDateTime.seconds,
+				 amount == $firstEvent.amount,
+				 userId == $firstEvent.userId) from entry-point GenericEventEntryPoint
 then
 	#Rechazar transaccion.
-	actuator.writeOutput(kcontext, hashMap.get($userId));
+	actuator.writeOutput(kcontext, hashMap.get($firstEvent.userId));
 end
 
 # 6th Fraud Pattern
