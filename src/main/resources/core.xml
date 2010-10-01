@@ -11,11 +11,17 @@
            http://www.springframework.org/schema/util
            http://www.springframework.org/schema/util/spring-util-3.0.xsd">        
     
-  <!-- Drools Session  -->
+  <!-- Drools -->
   <drools:kbase id="kbase1">
+  	
   	<drools:resources>
   		<drools:resource type="DRL" source="classpath:fraud.drl"/>
   	</drools:resources>
+  	
+  	<drools:configuration>
+  		<drools:event-processing-mode mode="STREAM" />
+ 	</drools:configuration>
+ 	
   </drools:kbase>
   
   <drools:ksession id="ksession1" type="stateful" kbase="kbase1">
@@ -23,10 +29,7 @@
      <drools:set-global identifier="actuator" ref="Actuator" /> 
   	</drools:script>  
   </drools:ksession>   	  	
-  
-  
-  <import resource="connection.xml"/>
-    
+     
   <!-- Common Beans  -->
   <bean id="FileEventInput" name="fileEventInput" class="com.plugtree.spotplug.impl.FileEventInput" depends-on="RuleReader, Engine">
   	 <property name="engine" ref="Engine"/>

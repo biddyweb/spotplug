@@ -23,7 +23,11 @@ rule "Strange volume in transaction"
 dialect "mvel" 
 
 when
+	$user : User()
+	Number($totalAmount : intValue) from accumulate($event : GenericEvent(userId == $user.id) over window:time(1d) from entry-point GenericEventEntryPoint, sum($event.amount))
+	
 then
+	System.out.println("Activada!" + $totalAmount);
 end
 
 # 2nd Fraud Pattern
@@ -97,7 +101,7 @@ dialect "mvel"
 
 when
 	$user : User()
-	Number($count : intValue, intValue > 3) from accumulate($event : GenericEvent(this.userId == $user.id) over window:time(1m) from entry-point GenericEventEntryPoint, count($event)) 
+	Number($count : intValue, intValue > 3) from accumulate($event : GenericEvent(userId == $user.id) over window:time(1m) from entry-point GenericEventEntryPoint, count($event)) 
 then
 	$user.increaseFraudProbability(20);
 	actuator.writeOutput(kcontext, $user);	 

@@ -13,9 +13,15 @@
 
 
 	<drools:kbase id="kbase1">
+		
 		<drools:resources>
 			<drools:resource type="DRL" source="classpath:fraud.drl" />
 		</drools:resources>
+	
+		<drools:configuration>
+  			<drools:event-processing-mode mode="STREAM" />
+ 		</drools:configuration>
+		
 	</drools:kbase>
 
 	<drools:ksession id="ksession1" type="stateful" kbase="kbase1">
@@ -23,7 +29,7 @@
 			<drools:set-global identifier="actuator" ref="Actuator" />
 		</drools:script>
 	</drools:ksession> 
-	  
+	
  	<bean id="Actuator" name="Actuator" class="com.plugtree.spotplug.impl.LogActuator"> </bean>
 
 	<bean id="RuleReader" name="ruleReader"
