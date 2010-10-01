@@ -34,7 +34,8 @@ end
 rule "Transaction at unusual hours"
 dialect "mvel"
 when
-	$e : GenericEvent($userId : userId  , callDateTime.hours >= 2, callDateTime.hours <=6, amount > 4000) from entry-point GenericEventEntryPoint
+	$user: User()
+	$e : GenericEvent($userId : userId, userId == $user.id, callDateTime.hours >= 2, callDateTime.hours <=6, amount > 4000) from entry-point GenericEventEntryPoint
 then
 	hashMap.get($userId).increaseFraudProbability(30);
 	actuator.writeOutput(kcontext, hashMap.get($userId));
@@ -51,7 +52,8 @@ when
 				 callDateTime.hours == $event.callDateTime.hours,
 				 callDateTime.minutes == $event.callDateTime.minutes,
 				 userId == $event.userId,
-				 amount == $event.amount) from entry-point GenericEventEntryPoint 
+				 amount == $event.amount,
+				 this != $event) from entry-point GenericEventEntryPoint 
 then
 	hashMap.get($event.userId).increaseFraudProbability(60);
 	actuator.writeOutput(kcontext, hashMap.get($event.userId));
@@ -88,10 +90,10 @@ rule "Exact coincidence of 2 events at Start Time Stamp , same User"
 dialect "mvel" 
 when
 	$user : User()
-	$e : GenericEvent(userId == $user.id ,$userId : userId, $ecdt : callDateTime) from entry-point GenericEventEntryPoint
-	GenericEvent(userId == $userId, this != $e, callDateTime == $ecdt) from entry-point GenericEventEntryPoint
+	$e : GenericEvent(userId == $user.id , $ecdt : callDateTime) from entry-point GenericEventEntryPoint
+	GenericEvent(userId == $user.id, this != $e, callDateTime == $ecdt) from entry-point GenericEventEntryPoint
 then
-	actuator.writeOutput(kcontext, hashMap.get($userId));
+	actuator.writeOutput(kcontext, hashMap.get($user.id));
 	$user.increaseFraudProbability(10);	
 end
 
@@ -107,6 +109,7 @@ then
 	actuator.writeOutput(kcontext, $user);	 
 end
 
+/*
 #Support Rule for 8th Fraud Pattern
 rule "At Least 3 Events From an User"
 dialect "mvel"
@@ -137,7 +140,7 @@ then
 	actuator.writeOutput(kcontext, $user);
 	$user.increaseFraudProbability(10);
 	System.out.println(" Users :" + $users.size);
-end
+end*/
 
 # 9th Fraud Pattern
 rule "Excesive amount"
