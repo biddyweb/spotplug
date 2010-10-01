@@ -45,7 +45,9 @@ when
 	
 	GenericEvent(callDateTime.day > $event.callDateTime.day,
 				 callDateTime.hours == $event.callDateTime.hours,
-				 callDateTime.minutes == $event.callDateTime.minutes) from entry-point GenericEventEntryPoint 
+				 callDateTime.minutes == $event.callDateTime.minutes,
+				 userId == $event.userId,
+				 amount == $event.amount) from entry-point GenericEventEntryPoint 
 then
 	hashMap.get($event.userId).increaseFraudProbability(60);
 	actuator.writeOutput(kcontext, hashMap.get($event.userId));
@@ -70,8 +72,8 @@ when
 	$firstEvent : GenericEvent() over window:time(10s) from entry-point GenericEventEntryPoint
 	
 	GenericEvent(callDateTime.seconds > $firstEvent.callDateTime.seconds,
-				 amount == $firstEvent.amount,
-				 userId == $firstEvent.userId) from entry-point GenericEventEntryPoint
+				 userId == $firstEvent.userId,
+				 amount == $firstEvent.amount) from entry-point GenericEventEntryPoint
 then
 	#Rechazar transaccion.
 	actuator.writeOutput(kcontext, hashMap.get($firstEvent.userId));
