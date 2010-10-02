@@ -17,7 +17,7 @@ declare GenericEvent
     @timestamp(callDateTime)
     @duration(callDuration)    
 end
-
+/*
 # 1st Fraud Pattern
 rule "Strange volume in transaction"
 dialect "mvel" 
@@ -29,7 +29,7 @@ when
 then
 	System.out.println("Activada!" + $totalAmount);
 end
-
+*/
 # 2nd Fraud Pattern
 rule "Transaction at unusual hours"
 dialect "mvel"
@@ -52,13 +52,12 @@ when
 				 callDateTime.hours == $event.callDateTime.hours,
 				 callDateTime.minutes == $event.callDateTime.minutes,
 				 userId == $event.userId,
-				 amount == $event.amount,
-				 this != $event) from entry-point GenericEventEntryPoint 
+				 amount == $event.amount) from entry-point GenericEventEntryPoint 
 then
 	hashMap.get($event.userId).increaseFraudProbability(60);
 	actuator.writeOutput(kcontext, hashMap.get($event.userId));
 end
-
+/*
 # 4th Fraud Pattern
 rule "Incorrect Message Order"
 dialect "mvel"
@@ -70,7 +69,7 @@ then
 	#Rechazar transaccion.
 	actuator.writeOutput(kcontext, hashMap.get($userId));
 end
-
+*/
 # 5th Fraud Pattern
 rule "Identical transactions"
 dialect "mvel" 

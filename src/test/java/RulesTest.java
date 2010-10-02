@@ -127,10 +127,10 @@ public class RulesTest{
 	@Test
 	public void manyEventsShortPeriod() {
 		
-		GenericEvent event1 = new GenericEvent("Thor", 5000, new Date(), 20000, 0, 1, 105);
-		GenericEvent event2 = new GenericEvent("Thor", 6000, new Date(), 20000, 1, 1, 105);
-		GenericEvent event3 = new GenericEvent("Thor", 7000, new Date(), 20000, 2, 1, 105);
-		GenericEvent event4 = new GenericEvent("Thor", 8000, new Date(), 20000, 3, 1, 105);
+		GenericEvent event1 = new GenericEvent("Thor", 5000, new Date(2010,9,23,10,30,00), 20000, 0, 1, 105);
+		GenericEvent event2 = new GenericEvent("Thor", 6000, new Date(2010,9,23,10,30,05), 20000, 1, 1, 105);
+		GenericEvent event3 = new GenericEvent("Thor", 7000, new Date(2010,9,23,10,30,10), 20000, 2, 1, 105);
+		GenericEvent event4 = new GenericEvent("Thor", 8000, new Date(2010,9,23,10,30,20), 20000, 3, 1, 105);
 		
 		engine.processEvent(event1);
 		Assert.assertTrue(eventLogList.isEmpty());
@@ -139,6 +139,7 @@ public class RulesTest{
 		Assert.assertTrue(eventLogList.isEmpty());
 		
 		engine.processEvent(event3);
+
 		Assert.assertTrue(eventLogList.isEmpty());
 		
 		engine.processEvent(event4);
@@ -180,6 +181,7 @@ public class RulesTest{
 		engine.processEvent(event1);
 		Assert.assertEquals(eventLogList.size(),1);
 		Assert.assertEquals(eventLogList.getLast().getUserId(), "Hera");
+		
 		Assert.assertEquals(eventLogList.getLast().getFraudPattern(), "Transaction at unusual hours");
 		
 		engine.processEvent(event2);
