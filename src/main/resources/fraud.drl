@@ -9,6 +9,7 @@ import java.util.Set
 import java.util.ArrayList;
 import org.drools.runtime.rule.RuleContext;
 
+
 global ConcurrentHashMap hashMap;
 global Actuator actuator;
 
@@ -30,6 +31,7 @@ then
 	System.out.println("Activada!" + $totalAmount);
 end
 */
+
 # 2nd Fraud Pattern
 rule "Transaction at unusual hours"
 dialect "mvel"
@@ -51,25 +53,37 @@ when
 	GenericEvent(callDateTime.day > $event.callDateTime.day,
 				 callDateTime.hours == $event.callDateTime.hours,
 				 callDateTime.minutes == $event.callDateTime.minutes,
+				 callDateTime.seconds == $event.callDateTime.seconds,
 				 userId == $event.userId,
 				 amount == $event.amount) from entry-point GenericEventEntryPoint 
 then
 	hashMap.get($event.userId).increaseFraudProbability(60);
 	actuator.writeOutput(kcontext, hashMap.get($event.userId));
 end
-/*
+
 # 4th Fraud Pattern
 rule "Incorrect Message Order"
 dialect "mvel"
 
 when
-	$e : GenericEvent($userId : userId , $tid : transactionID , $sid : sequentialID, $ecdt : callDateTime) from entry-point GenericEventEntryPoint
-	GenericEvent(userId == $userId, this != $e,transactionID == $tid, sequentialID <= $sid, callDateTime >= $ecdt) from entry-point GenericEventEntryPoint
+	$user : User()
+	$e : GenericEvent($userId : userId ,userId == $user.id, $tid : transactionID , $sid : sequentialID, $ecdt : callDateTime) from entry-point GenericEventEntryPoint
+	GenericEvent(userId == $userId,
+				 this != $e,transactionID == $tid,
+				 sequentialID < $sid,
+				 callDateTime.year  == $ecdt.year,			     
+				 callDateTime.month  == $ecdt.month,
+			     callDateTime.day  == $ecdt.day,
+			     callDateTime.hours  == $ecdt.hours,
+			     callDateTime.minutes  == $ecdt.minutes,
+			     callDateTime.seconds > $ecdt.seconds
+			     ) from entry-point GenericEventEntryPoint
 then
 	#Rechazar transaccion.
 	actuator.writeOutput(kcontext, hashMap.get($userId));
 end
-*/
+
+/*
 # 5th Fraud Pattern
 rule "Identical transactions"
 dialect "mvel" 
@@ -83,19 +97,25 @@ then
 	#Rechazar transaccion.
 	actuator.writeOutput(kcontext, hashMap.get($firstEvent.userId));
 end
-
+*/
 # 6th Fraud Pattern
 rule "Exact coincidence of 2 events at Start Time Stamp , same User"
 dialect "mvel" 
 when
 	$user : User()
-	$e : GenericEvent(userId == $user.id , $ecdt : callDateTime) from entry-point GenericEventEntryPoint
-	GenericEvent(userId == $user.id, this != $e, callDateTime == $ecdt) from entry-point GenericEventEntryPoint
+	exists ( $e : GenericEvent(userId == $user.id , $ecdt : callDateTime) from entry-point GenericEventEntryPoint and
+	  		GenericEvent(userId == $user.id, this != $e, 
+				    callDateTime.day == $ecdt.day,
+				    callDateTime.month == $ecdt.month,
+				    callDateTime.year == $ecdt.year,
+				    callDateTime.hours == $ecdt.hours,
+				    callDateTime.minutes == $ecdt.minutes,
+				    callDateTime.seconds == $ecdt.seconds) from entry-point GenericEventEntryPoint)
 then
 	actuator.writeOutput(kcontext, hashMap.get($user.id));
 	$user.increaseFraudProbability(10);	
 end
-
+/*
 # 7th Fraud Pattern
 rule "Too many events in a short period of time"
 dialect "mvel" 
@@ -107,7 +127,7 @@ then
 	$user.increaseFraudProbability(20);
 	actuator.writeOutput(kcontext, $user);	 
 end
-
+*/
 /*
 #Support Rule for 8th Fraud Pattern
 rule "At Least 3 Events From an User"
@@ -140,7 +160,7 @@ then
 	$user.increaseFraudProbability(10);
 	System.out.println(" Users :" + $users.size);
 end*/
-
+/*
 # 9th Fraud Pattern
 rule "Excesive amount"
 dialect "mvel" 
@@ -150,3 +170,4 @@ then
 	hashMap.get($userId).increaseFraudProbability(30);
 	actuator.writeOutput(kcontext, hashMap.get($userId));
 end
+*/
