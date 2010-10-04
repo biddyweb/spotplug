@@ -97,16 +97,14 @@ public class RulesTest{
 	
 	@Test
 	public void incorrectMessageOrder() {
-	
 		GenericEvent event1 = new GenericEvent("Hera", 6000, new Date(2010,9,22,11,30,01), 20000, 0, 1, 105);
-		GenericEvent event3 = new GenericEvent("Hera", 6000, new Date(2010,9,22,11,30,03), 20000, 1, 1, 105);
 		GenericEvent event2 = new GenericEvent("Hera", 7000, new Date(2010,9,22,11,30,02), 20000, 2, 1, 105);
+		GenericEvent event3 = new GenericEvent("Hera", 5000, new Date(2010,9,22,11,30,03), 20000, 1, 1, 105);
 		
 		engine.processEvent(event1);
 		Assert.assertTrue(eventLogList.isEmpty());
 
 		engine.processEvent(event2);
-		eventLogList.size();
 		Assert.assertTrue(eventLogList.isEmpty());
 		
 		engine.processEvent(event3);
@@ -133,27 +131,6 @@ public class RulesTest{
 		Assert.assertEquals(eventLogList.getLast().getUserId(), "Zeus");
 		Assert.assertEquals(eventLogList.getLast().getFraudPattern(), "Excesive amount");		
 	}
-	
-	@Test
-	public void EventsWithSameStartTimeStampSameUser() {
-	
-		GenericEvent event1 = new GenericEvent("Ringo", 7000, new Date(2010,9,22,11,30,03), 20000, 2, 1, 105);
-		GenericEvent event2 = new GenericEvent("Ringo", 7000, new Date(2010,9,22,11,30,10), 20000, 3, 1, 105);
-		GenericEvent event3 = new GenericEvent("Ringo", 6000, new Date(2010,9,22,11,30,03), 20000, 1, 2, 105);
-		
-		engine.processEvent(event1);
-		Assert.assertTrue(eventLogList.isEmpty());
-
-		engine.processEvent(event2);
-		Assert.assertTrue(eventLogList.isEmpty());
-
-		
-		engine.processEvent(event3);
-		Assert.assertEquals(eventLogList.size(), 1);
-		Assert.assertEquals(eventLogList.getLast().getUserId(), "Ringo");
-		Assert.assertEquals(eventLogList.getLast().getFraudPattern(), "Exact coincidence of 2 events at Start Time Stamp , same User");
-	}
-
 	
 	@Test
 	public void manyEventsShortPeriod() {
