@@ -1,14 +1,10 @@
-import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.concurrent.ConcurrentHashMap;
 
 import junit.framework.Assert;
 
-import org.drools.runtime.StatefulKnowledgeSession;
-import org.drools.runtime.rule.FactHandle;
 import org.junit.After;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -17,40 +13,27 @@ import com.plugtree.spotplug.impl.EventLog;
 import com.plugtree.spotplug.impl.FusionEngine;
 import com.plugtree.spotplug.impl.GenericEvent;
 import com.plugtree.spotplug.impl.LogActuator;
-import com.plugtree.spotplug.impl.User;
 
 public class RulesTest{
 
 	private static FusionEngine engine;
 	private static LinkedList<EventLog> eventLogList;
-	private static StatefulKnowledgeSession session;
 	
-	@BeforeClass
-	public static void setUp() {
+	@Before
+	public void setUp() {
 		
 		ApplicationContext context = new ClassPathXmlApplicationContext(new String[] {"/test.xml"});
 		
 		engine = (FusionEngine)context.getBean("Engine");
 		eventLogList = ((LogActuator)context.getBean("Actuator")).getEventLogList();
-		session = engine.getSession();
-		
 		engine.configure();
 	}
 	
-	@After 
-	public void clear() {
-		
-		eventLogList.clear();
-		
-		Collection<FactHandle> factHandles = session.getFactHandles(null);
-
-		for(FactHandle factHandle : factHandles) {
-			session.retract(factHandle);		
-		}
-		
-		ConcurrentHashMap<String, User> concurrentHashMap = (ConcurrentHashMap<String, User>)session.getGlobal("hashMap");
-		concurrentHashMap.clear();
+	@After
+	public void after() {
+		engine.getSession().dispose();
 	}
+	
 	@Test
 	public void strangeVolumnTransaction() {
 		
@@ -73,6 +56,7 @@ public class RulesTest{
 		Assert.assertEquals(eventLogList.getLast().getUserId(), "Hera");
 		Assert.assertEquals(eventLogList.getLast().getFraudPattern(), "Strange volume in transaction");
 	}
+	
 	@Test
 	public void exactSameTimeSameUser() {
 		
@@ -134,14 +118,14 @@ public class RulesTest{
 	@Test
 	public void excesiveAmountPattern() {
 		
-		GenericEvent event1 = new GenericEvent("Zeus", 6000, new Date(), 20000, 0, 1, 105);
-		GenericEvent event2 = new GenericEvent("Zeus", 5000, new Date(), 20000, 0, 2, 105);
-		GenericEvent event3 = new GenericEvent("Zeus", 10001, new Date(), 20000, 0, 3, 105);
+		GenericEvent event1 = new GenericEvent("Zeus", 6000, new Date(2010,9,22,12,30,01), 20000, 0, 1, 105);
+		GenericEvent event2 = new GenericEvent("Zeus", 5000, new Date(2010,9,23,13,30,01), 20000, 0, 2, 105);
+		GenericEvent event3 = new GenericEvent("Zeus", 10001, new Date(2010,9,24,14,30,01), 20000, 0, 3, 105);
 		
 		engine.processEvent(event1);
 		Assert.assertTrue(eventLogList.isEmpty());
 		
-		engine.processEvent(event2);
+		engine.processEvent(event2);	
 		Assert.assertTrue(eventLogList.isEmpty());
 		
 		engine.processEvent(event3);
