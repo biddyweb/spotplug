@@ -1,13 +1,14 @@
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.concurrent.ConcurrentHashMap;
 
 import junit.framework.Assert;
 
+import org.drools.runtime.StatefulKnowledgeSession;
 import org.drools.runtime.rule.FactHandle;
 import org.junit.After;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -16,11 +17,13 @@ import com.plugtree.spotplug.impl.EventLog;
 import com.plugtree.spotplug.impl.FusionEngine;
 import com.plugtree.spotplug.impl.GenericEvent;
 import com.plugtree.spotplug.impl.LogActuator;
+import com.plugtree.spotplug.impl.User;
 
 public class RulesTest{
 
 	private static FusionEngine engine;
 	private static LinkedList<EventLog> eventLogList;
+	private static StatefulKnowledgeSession session;
 	
 	@BeforeClass
 	public static void setUp() {
@@ -29,6 +32,7 @@ public class RulesTest{
 		
 		engine = (FusionEngine)context.getBean("Engine");
 		eventLogList = ((LogActuator)context.getBean("Actuator")).getEventLogList();
+		session = engine.getSession();
 		
 		engine.configure();
 	}
@@ -38,11 +42,14 @@ public class RulesTest{
 		
 		eventLogList.clear();
 		
-		Collection<FactHandle> factHandles = engine.getSession().getFactHandles(null);
+		Collection<FactHandle> factHandles = session.getFactHandles(null);
 
 		for(FactHandle factHandle : factHandles) {
-			engine.getSession().retract(factHandle);		
+			session.retract(factHandle);		
 		}
+		
+		ConcurrentHashMap<String, User> concurrentHashMap = (ConcurrentHashMap<String, User>)session.getGlobal("hashMap");
+		concurrentHashMap.clear();
 	}
 	@Test
 	public void strangeVolumnTransaction() {
