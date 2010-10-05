@@ -20,12 +20,16 @@ import java.io.FileReader;
 import java.util.Date;
 import java.util.StringTokenizer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.plugtree.spotplug.Engine;
 import com.plugtree.spotplug.EventInput;
 
 public class FileEventInput implements EventInput {
 
 	private Engine engine;
+	final static Logger logger = LoggerFactory.getLogger(FileEventInput.class);
 	
 	//TODO: Se debe pasar desde la configuracion
 	private final String path = "src/main/resources/events.txt";
@@ -58,7 +62,7 @@ public class FileEventInput implements EventInput {
 
 		} catch (Exception exception) {
 
-			exception.printStackTrace();
+			logger.error("File not found");
 
 		} finally {
 			try {
