@@ -83,7 +83,6 @@ then
 	actuator.writeOutput(kcontext, hashMap.get($userId));
 end
 
-/*
 # 5th Fraud Pattern
 rule "Identical transactions"
 dialect "mvel" 
@@ -97,7 +96,7 @@ then
 	#Rechazar transaccion.
 	actuator.writeOutput(kcontext, hashMap.get($firstEvent.userId));
 end
-*/
+
 # 6th Fraud Pattern
 rule "Exact coincidence of 2 events at Start Time Stamp , same User"
 dialect "mvel" 
