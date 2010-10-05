@@ -38,7 +38,7 @@ public class FusionEngine implements Engine {
 				
 		entryPoint = getSession().getWorkingMemoryEntryPoint("GenericEventEntryPoint");
 		
-		session.insert(new ArrayList<User>()); 
+		session.insert(new UsersList()); 
 		
 //		TODO:
 //		new Thread(new Runnable() {

@@ -23,6 +23,7 @@ public class GenericEvent implements Event {
 
 	private String userId;
 	private int amount;
+	private Date innerDate;
 	private Date callDateTime;
 	private long callDuration;
 	private long sequentialID;
@@ -87,5 +88,13 @@ public class GenericEvent implements Event {
 
 	public long getOpCode() {
 		return opCode;
+	}
+
+	public void setInnerDate(Date innerDate) {
+		this.innerDate = innerDate;
+	}
+
+	public Date getInnerDate() {
+		return innerDate;
 	}
 }

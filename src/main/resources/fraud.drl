@@ -137,7 +137,7 @@ no-loop
 when
 	 $user : User()  
 	 Number(intValue == 3) from accumulate( $e : GenericEvent( userId == $user.id) from entry-point GenericEventEntryPoint,count($e))
-	 $users : ArrayList()	 
+	 $users : UsersList()	 
 then
 	System.out.println("Fraud Pattern (Rule 8) can be fired " + $user.id );
 	modify($users){
@@ -151,15 +151,16 @@ rule "Wide Distance Between Events"
 dialect "mvel"
 salience -200001
 when
-	 exists ArrayList()
-	 $users : ArrayList()
+	 exists UsersList()
+	 $users : UsersList()
 	 $user : User() from $users 
 	 Number(intValue < 3) from accumulate( $e : GenericEvent( userId == $user.id) over window:time( 2h ) from entry-point GenericEventEntryPoint,count($e))
 then
 	actuator.writeOutput(kcontext, $user);
 	$user.increaseFraudProbability(10);
 	System.out.println(" Users :" + $users.size);
-end*/
+end
+*/
 
 # 9th Fraud Pattern
 rule "Excesive amount"

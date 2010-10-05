@@ -235,6 +235,7 @@ public class RulesTest{
 		GenericEvent event4 = new GenericEvent("Hera", 5000, new Date(2010,9,23,14,31,00), 20000, 1, 4, 105);
 		
 		engine.processEvent(event1);
+		Assert.assertEquals(eventLogList.size(),1);
 		
 		engine.processEvent(event2);
 		

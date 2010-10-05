@@ -98,6 +98,8 @@ public class FileEventInput implements EventInput {
 		//Operation Code of the Current Event
 		long opCode = Long.parseLong(stringTokenizer.nextToken());
 		
+		//Date and Time that comes with the Current Event
+		//Date innerDate = new Date(stringTokenizer.nextToken());
 		
 		GenericEvent event = new GenericEvent(name, amount,startTimeStamp,duration,sequentialID,transactionID,opCode);
 
