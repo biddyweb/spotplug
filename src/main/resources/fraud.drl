@@ -3,12 +3,8 @@ import com.plugtree.spotplug.impl.User;
 import com.plugtree.spotplug.Actuator;
 
 import java.lang.Number;
-import java.lang.String;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.Set
-import java.util.ArrayList;
 import org.drools.runtime.rule.RuleContext;
-
 
 global ConcurrentHashMap hashMap;
 global Actuator actuator;
@@ -35,9 +31,12 @@ end
 # 2nd Fraud Pattern
 rule "Transaction at unusual hours"
 dialect "mvel"
+
 when
-	$user: User()
-	$e : GenericEvent($userId : userId, userId == $user.id, callDateTime.hours >= 2, callDateTime.hours <=6, amount > 4000) from entry-point GenericEventEntryPoint
+	GenericEvent($userId : userId,
+				 callDateTime.hours >= 2,
+				 callDateTime.hours <= 6,
+				 amount > 4000) from entry-point GenericEventEntryPoint
 then
 	hashMap.get($userId).increaseFraudProbability(30);
 	actuator.writeOutput(kcontext, hashMap.get($userId));
