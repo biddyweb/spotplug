@@ -1,5 +1,6 @@
 import com.plugtree.spotplug.impl.GenericEvent;
 import com.plugtree.spotplug.impl.User;
+import com.plugtree.spotplug.impl.MailActuator;
 import com.plugtree.spotplug.Actuator;
 
 import java.lang.Number;
@@ -8,6 +9,7 @@ import org.drools.runtime.rule.RuleContext;
 
 global ConcurrentHashMap hashMap;
 global Actuator actuator;
+global MailActuator mailActuator;
 
 declare GenericEvent
     @role(event)
@@ -169,3 +171,15 @@ then
 	hashMap.get($userId).increaseFraudProbability(30);
 	actuator.writeOutput(kcontext, hashMap.get($userId));
 end
+
+rule "High fraud probability"
+salience 1000
+
+when
+	$user : User(fraudProbability > 90)
+	$event : GenericEvent(userId == $user.id) from entry-point GenericEventEntryPoint
+then
+	mailActuator.writeOutput(kcontext, $user);
+	retract($event);
+end
+
