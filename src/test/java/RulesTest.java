@@ -19,6 +19,16 @@ public class RulesTest{
 	private static FusionEngine engine;
 	private static LinkedList<EventLog> eventLogList;
 	
+	private void printEventLog() {
+		
+		System.out.println("Log size: " + eventLogList.size());
+		System.out.println("Fraud patterns:");
+		
+		for (EventLog event : eventLogList) {
+			System.out.println(event.getFraudPattern());
+		}
+	}
+	
 	@Before
 	public void setUp() {
 		
@@ -139,7 +149,7 @@ public class RulesTest{
 		GenericEvent event2 = new GenericEvent("Thor", 6000, new Date(2010,9,23,10,30,05), 20000, 1, 1, 105);
 		GenericEvent event3 = new GenericEvent("Thor", 7000, new Date(2010,9,23,10,30,10), 20000, 2, 1, 105);
 		GenericEvent event4 = new GenericEvent("Thor", 8000, new Date(2010,9,23,10,30,20), 20000, 3, 1, 105);
-		
+				
 		engine.processEvent(event1);
 		Assert.assertTrue(eventLogList.isEmpty());
 		
