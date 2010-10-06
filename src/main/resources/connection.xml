@@ -44,7 +44,18 @@
       </bean>
       </property>
       <property name="engine" ref="Engine"/>
-   </bean>        
+   </bean>
+   
+   <bean id="JmsActuator" class="com.plugtree.spotplug.impl.JmsActuator">
+    <property name="producer">
+      <bean factory-bean="clientSession" factory-method="createProducer"
+        destroy-method="close">
+        <constructor-arg value="fraudQueue" />
+      </bean>
+      </property>
+      <property name="session" ref="clientSession"/>      
+   </bean>
+           
 	<bean id="Actuator" name="Actuator" class="com.plugtree.spotplug.impl.SysoutActuator"> </bean> 
         
     <!-- Dummy server -->
