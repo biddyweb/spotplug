@@ -3,6 +3,8 @@ import java.util.LinkedList;
 
 import junit.framework.Assert;
 
+import org.drools.logger.KnowledgeRuntimeLogger;
+import org.drools.logger.KnowledgeRuntimeLoggerFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,6 +20,7 @@ public class RulesTest{
 
 	private static FusionEngine engine;
 	private static LinkedList<EventLog> eventLogList;
+	KnowledgeRuntimeLogger logger;
 	
 	private void printEventLog() {
 		
@@ -37,11 +40,15 @@ public class RulesTest{
 		engine = (FusionEngine)context.getBean("Engine");
 		eventLogList = ((LogActuator)context.getBean("Actuator")).getEventLogList();
 		engine.configure();
+		logger = KnowledgeRuntimeLoggerFactory.newConsoleLogger(engine.getSession());
+
 	}
 	
 	@After
 	public void after() {
+		logger.close();
 		engine.getSession().dispose();
+	
 	}
 	
 	@Test
@@ -216,18 +223,22 @@ public class RulesTest{
 	
 	@Test
 	public void wideDistanceBetweenMessages(){
-		GenericEvent event1 = new GenericEvent("Hera", 6000, new Date(2010,9,23,10,30,00), 20000, 1, 1, 105);
+		GenericEvent event1 = new GenericEvent("Hera", 6000, new Date(2010,10,12,9,30,00), 20000, 1, 1, 105);
 		GenericEvent event2 = new GenericEvent("Hulk", 6000, new Date(), 20000, 1, 2,105);
-		GenericEvent event3 = new GenericEvent("Hera", 7000, new Date(2010,9,23,14,30,00), 20000, 1, 3, 105);
-		GenericEvent event4 = new GenericEvent("Hera", 5000, new Date(2010,9,23,14,31,00), 20000, 1, 4, 105);
+		GenericEvent event3 = new GenericEvent("Hera", 7000, new Date(2010,10,12,10,31,20), 20000, 2, 1, 105);
+		GenericEvent event4 = new GenericEvent("Hera", 5000, new Date(2010,10,12,11,32,00), 20000, 3, 1, 105);
 		
 		engine.processEvent(event1);
-		Assert.assertEquals(eventLogList.size(),1);
+		Assert.assertEquals(eventLogList.size(),0);
 		
 		engine.processEvent(event2);
-		
+		Assert.assertEquals(eventLogList.size(),0);
+				
 		engine.processEvent(event3);
-		
+		Assert.assertEquals(eventLogList.size(),0);
+				
 		engine.processEvent(event4);
+		Assert.assertEquals(eventLogList.size(),1);
+		
 	}
 }
