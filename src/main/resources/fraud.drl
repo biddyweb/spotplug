@@ -1,6 +1,7 @@
 import com.plugtree.spotplug.impl.GenericEvent;
 import com.plugtree.spotplug.impl.User;
 import com.plugtree.spotplug.impl.MailActuator;
+import com.plugtree.spotplug.impl.UsersList;
 import com.plugtree.spotplug.Actuator;
 
 import java.lang.Number;
@@ -128,7 +129,7 @@ then
 	actuator.writeOutput(kcontext, $user);	 
 end
 
-/*
+
 #Support Rule for 8th Fraud Pattern
 rule "At Least 3 Events From an User"
 dialect "mvel"
@@ -152,15 +153,17 @@ dialect "mvel"
 salience -200001
 when
 	 exists UsersList()
-	 $users : UsersList()
-	 $user : User() from $users 
-	 Number(intValue < 3) from accumulate( $e : GenericEvent( userId == $user.id) over window:time( 2h ) from entry-point GenericEventEntryPoint,count($e))
+	 UsersList($users:list)
+	 $user : User() from $users
+	 $e1 : GenericEvent( userId == $user.id, $tid : transactionID)  from entry-point GenericEventEntryPoint and
+	  $e2 : GenericEvent( this after [1h] $e1 ,userId == $user.id, transactionID == $tid)  from entry-point GenericEventEntryPoint and
+	  GenericEvent( this after [1h] $e2 ,userId == $user.id, transactionID == $tid)  from entry-point GenericEventEntryPoint
 then
-	actuator.writeOutput(kcontext, $user);
+	actuator.writeOutput(kcontext, hashMap.get($user.id));
 	$user.increaseFraudProbability(10);
 	System.out.println(" Users :" + $users.size);
 end
-*/
+
 
 # 9th Fraud Pattern
 rule "Excesive amount"
