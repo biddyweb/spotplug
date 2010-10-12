@@ -52,9 +52,9 @@ when
 	$event : GenericEvent() from entry-point GenericEventEntryPoint
 	
 	GenericEvent(callDateTime.day > $event.callDateTime.day,
-				 callDateTime.hours == $event.callDateTime.hours,
-				 callDateTime.minutes == $event.callDateTime.minutes,
 				 callDateTime.seconds == $event.callDateTime.seconds,
+				 callDateTime.minutes == $event.callDateTime.minutes,
+				 callDateTime.hours == $event.callDateTime.hours,
 				 userId == $event.userId,
 				 amount == $event.amount) from entry-point GenericEventEntryPoint 
 then
@@ -88,9 +88,9 @@ end
 rule "Identical transactions"
 dialect "mvel" 
 when
-	$firstEvent : GenericEvent() over window:time(10s) from entry-point GenericEventEntryPoint
+	$firstEvent : GenericEvent() from entry-point GenericEventEntryPoint
 	
-	GenericEvent(callDateTime.seconds > $firstEvent.callDateTime.seconds,
+	GenericEvent(this after[0, 30s] $firstEvent,
 				 userId == $firstEvent.userId,
 				 amount == $firstEvent.amount) from entry-point GenericEventEntryPoint
 then

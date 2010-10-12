@@ -169,10 +169,10 @@ public class RulesTest{
 	@Test
 	public void identicalTransactions() {
 
-		GenericEvent event1 = new GenericEvent("Mike", 6000, new Date(2010,9,23,10,30,0), 20000, 1, 1, 105);
+		GenericEvent event1 = new GenericEvent("Mike", 6000, new Date(2010, 10, 8, 16, 0, 1), 20000, 1, 1, 105);
 		GenericEvent event2 = new GenericEvent("John", 6000, new Date(), 20000, 1, 7, 105);
 		GenericEvent event3 = new GenericEvent("Mike", 7000, new Date(), 20000, 2, 5, 105);
-		GenericEvent event4 = new GenericEvent("Mike", 6000, new Date(2010,9,23,10,30,9), 20000, 3, 4, 105);
+		GenericEvent event4 = new GenericEvent("Mike", 6000, new Date(2010, 10, 8, 16, 0, 30), 20000, 3, 4, 105);
 		
 		engine.processEvent(event1);
 		Assert.assertTrue(eventLogList.isEmpty());
