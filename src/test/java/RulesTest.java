@@ -1,3 +1,4 @@
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 
@@ -20,7 +21,7 @@ public class RulesTest{
 
 	private static FusionEngine engine;
 	private static LinkedList<EventLog> eventLogList;
-	KnowledgeRuntimeLogger logger;
+	//KnowledgeRuntimeLogger logger;
 	
 	private void printEventLog() {
 		
@@ -40,13 +41,13 @@ public class RulesTest{
 		engine = (FusionEngine)context.getBean("Engine");
 		eventLogList = ((LogActuator)context.getBean("Actuator")).getEventLogList();
 		engine.configure();
-		logger = KnowledgeRuntimeLoggerFactory.newConsoleLogger(engine.getSession());
+		//logger = KnowledgeRuntimeLoggerFactory.newConsoleLogger(engine.getSession());
 
 	}
 	
 	@After
 	public void after() {
-		logger.close();
+		//logger.close();
 		engine.getSession().dispose();
 	
 	}
@@ -54,10 +55,19 @@ public class RulesTest{
 	@Test
 	public void strangeVolumnTransaction() {
 		
-		GenericEvent event1 = new GenericEvent("Hera", 5000, new Date(2010,9,22,10,30,00), 20000, 0, 1, 105);
-		GenericEvent event2 = new GenericEvent("Hera", 6000, new Date(2010,9,22,11,30,00), 20000, 1, 1, 105);
-		GenericEvent event3 = new GenericEvent("Hera", 7000, new Date(2010,9,23,12,30,00), 20000, 2, 1, 105);
-		GenericEvent event4 = new GenericEvent("Hera", 7000, new Date(2010,9,23,15,30,00), 20000, 3, 1, 105);
+		Calendar calendar = Calendar.getInstance();
+		
+		calendar.set(2010, 9, 22, 10, 30, 00);
+		GenericEvent event1 = new GenericEvent("Hera", 5000, calendar.getTime(), 20000, 0, 1, 105);
+		
+		calendar.set(2010, 9, 22, 11, 30, 00);
+		GenericEvent event2 = new GenericEvent("Hera", 6000, calendar.getTime(), 20000, 1, 1, 105);
+		
+		calendar.set(2010, 9, 23, 12, 30, 00);
+		GenericEvent event3 = new GenericEvent("Hera", 7000, calendar.getTime(), 20000, 2, 1, 105);
+		
+		calendar.set(2010, 9, 23, 15, 30, 00);
+		GenericEvent event4 = new GenericEvent("Hera", 7000, calendar.getTime(), 20000, 3, 1, 105);
 		
 		engine.processEvent(event1);
 		Assert.assertTrue(eventLogList.isEmpty());
@@ -77,9 +87,14 @@ public class RulesTest{
 	@Test
 	public void exactSameTimeSameUser() {
 		
-		GenericEvent event1 = new GenericEvent("Hera", 5000, new Date(2010,9,22,10,30,00), 20000, 0, 1, 105);
-		GenericEvent event2 = new GenericEvent("Hera", 6000, new Date(2010,9,22,11,30,00), 20000, 1, 1, 105);
-		GenericEvent event3 = new GenericEvent("Hera", 7000, new Date(2010,9,22,10,30,00), 20000, 0, 1, 105);
+		Calendar calendar = Calendar.getInstance();
+		
+		calendar.set(2010, 9, 22, 10, 30, 00);
+		GenericEvent event1 = new GenericEvent("Hera", 5000, calendar.getTime(), 20000, 0, 1, 105);
+		GenericEvent event3 = new GenericEvent("Hera", 7000, calendar.getTime(), 20000, 0, 1, 105);
+		
+		calendar.set(2010, 9, 22, 11, 30, 00);
+		GenericEvent event2 = new GenericEvent("Hera", 6000, calendar.getTime(), 20000, 1, 1, 105);
 		
 		engine.processEvent(event1);
 		Assert.assertTrue(eventLogList.isEmpty());
@@ -96,9 +111,16 @@ public class RulesTest{
 	@Test
 	public void sameTransactionSameTimeDifferentDay() {
 	
-		GenericEvent event1 = new GenericEvent("Hera", 6000, new Date(2010,9,23,10,30,00), 20000, 0, 1, 105);
-		GenericEvent event2 = new GenericEvent("Zeus", 7000, new Date(2010,9,22,11,30,00), 20000, 1, 1, 105);
-		GenericEvent event3 = new GenericEvent("Hera", 6000, new Date(2010,9,22,10,30,00), 20000, 0, 1, 105);
+		Calendar calendar = Calendar.getInstance();
+		
+		calendar.set(2010, 9, 23, 10, 30, 00);
+		GenericEvent event1 = new GenericEvent("Hera", 6000, calendar.getTime(), 20000, 0, 1, 105);
+		
+		calendar.set(2010, 9, 22, 11, 30, 00);
+		GenericEvent event2 = new GenericEvent("Zeus", 7000, calendar.getTime(), 20000, 1, 1, 105);
+		
+		calendar.set(2010, 9, 22, 10, 30, 00);
+		GenericEvent event3 = new GenericEvent("Hera", 6000, calendar.getTime(), 20000, 0, 1, 105);
 		
 		engine.processEvent(event1);
 		Assert.assertTrue(eventLogList.isEmpty());
@@ -114,9 +136,17 @@ public class RulesTest{
 	
 	@Test
 	public void incorrectMessageOrder() {
-		GenericEvent event1 = new GenericEvent("Hera", 6000, new Date(2010,9,22,11,30,01), 20000, 0, 1, 105);
-		GenericEvent event2 = new GenericEvent("Hera", 7000, new Date(2010,9,22,11,30,02), 20000, 2, 1, 105);
-		GenericEvent event3 = new GenericEvent("Hera", 5000, new Date(2010,9,22,11,30,03), 20000, 1, 1, 105);
+		
+		Calendar calendar = Calendar.getInstance();
+		
+		calendar.set(2010, 9, 22, 11, 30, 01);		
+		GenericEvent event1 = new GenericEvent("Hera", 6000, calendar.getTime(), 20000, 0, 1, 105);
+		
+		calendar.set(2010, 9, 22, 11, 30, 02);
+		GenericEvent event2 = new GenericEvent("Hera", 7000, calendar.getTime(), 20000, 2, 1, 105);
+		
+		calendar.set(2010, 9, 22, 11, 30, 03);
+		GenericEvent event3 = new GenericEvent("Hera", 5000, calendar.getTime(), 20000, 1, 1, 105);
 		
 		engine.processEvent(event1);
 		Assert.assertTrue(eventLogList.isEmpty());
