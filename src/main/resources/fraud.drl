@@ -27,7 +27,9 @@ when
 	$n : Number($totalAmount : intValue) from accumulate($event : GenericEvent(userId == $user.id) over window:time(1d) from entry-point GenericEventEntryPoint, sum($event.amount))
 	
 then
-	System.out.println("Activada!" + $totalAmount);	
+	System.out.println("Activada!" + $totalAmount);
+	hashMap.get($user.id).increaseFraudProbability(30);
+	actuator.writeOutput(kcontext, hashMap.get($user.id));	
 end
 
 
@@ -117,7 +119,7 @@ then
 	$user.increaseFraudProbability(10);	
 end
 
-/*# 7th Fraud Pattern
+# 7th Fraud Pattern
 rule "Too many events in a short period of time"
 dialect "mvel" 
 
@@ -128,7 +130,7 @@ then
 	$user.increaseFraudProbability(20);
 	actuator.writeOutput(kcontext, $user);	 
 end
-*/
+
 
 #Support Rule for 8th Fraud Pattern
 rule "At Least 3 Events From an User"
