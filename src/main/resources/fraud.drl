@@ -18,7 +18,7 @@ declare GenericEvent
     @duration(callDuration)    
 end
 
-# 1st Fraud Pattern
+/*# 1st Fraud Pattern
 rule "Strange volume in transaction"
 dialect "mvel" 
 
@@ -30,7 +30,7 @@ then
 	System.out.println("Activada!" + $totalAmount);
 	hashMap.get($user.id).increaseFraudProbability(30);
 	actuator.writeOutput(kcontext, hashMap.get($user.id));	
-end
+end*/
 
 
 # 2nd Fraud Pattern
