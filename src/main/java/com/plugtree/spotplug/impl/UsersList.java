@@ -22,36 +22,31 @@ public class UsersList implements List {
 
 	@Override
 	public boolean isEmpty() {
-		if (this.getList().size()==0)
+		if (this.getList().isEmpty())
 		{
 			return true;
-		}else{
-			return false;
 		}
 		
+		return false;
 	}
 
 	@Override
 	public boolean contains(Object o) {
-		// TODO Auto-generated method stub
 		return this.getList().contains(o);
 	}
 
 	@Override
-	public Iterator iterator() {
-		// TODO Auto-generated method stub
+	public Iterator<User> iterator() {
 		return this.getList().iterator();
 	}
 
 	@Override
 	public Object[] toArray() {
-		// TODO Auto-generated method stub
 		return this.getList().toArray();
 	}
 
 	@Override
 	public Object[] toArray(Object[] a) {
-		// TODO Auto-generated method stub
 		return this.getList().toArray(a);
 	}
 
@@ -67,91 +62,76 @@ public class UsersList implements List {
 
 	@Override
 	public boolean containsAll(Collection c) {
-		// TODO Auto-generated method stub
 		return this.getList().containsAll(c);
 	}
 
 	@Override
 	public boolean addAll(Collection c) {
-		// TODO Auto-generated method stub
 		return this.getList().addAll(c);
 	}
 
 	@Override
 	public boolean addAll(int index, Collection c) {
-		// TODO Auto-generated method stub
 		return this.getList().addAll(index, c);
 	}
 
 	@Override
 	public boolean removeAll(Collection c) {
-		// TODO Auto-generated method stub
 		return this.getList().removeAll(c);
 	}
 
 	@Override
 	public boolean retainAll(Collection c) {
-		// TODO Auto-generated method stub
 		return this.getList().retainAll(c);
 	}
 
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
 		this.getList().clear();
 	}
 
 	@Override
 	public Object get(int index) {
-		// TODO Auto-generated method stub
 		return this.getList().get(index);
 	}
 
 	@Override
 	public Object set(int index, Object element) {
-		// TODO Auto-generated method stub
 		return this.getList().set(index, (User) element);
 	}
 
 	@Override
 	public void add(int index, Object element) {
-		// TODO Auto-generated method stub
 		this.getList().add(index, (User) element);
 	}
 
 	@Override
 	public Object remove(int index) {
-		// TODO Auto-generated method stub
 		return this.getList().remove(index);
 	}
 
 	@Override
 	public int indexOf(Object o) {
-		// TODO Auto-generated method stub
 		return this.getList().indexOf(o);
 	}
 
 	@Override
 	public int lastIndexOf(Object o) {
-		// TODO Auto-generated method stub
 		return this.getList().lastIndexOf(o);
 	}
 
 	@Override
-	public ListIterator listIterator() {
-		// TODO Auto-generated method stub
+	public ListIterator <User>listIterator() {
 		return this.getList().listIterator();
 	}
 
 	@Override
-	public ListIterator listIterator(int index) {
-		// TODO Auto-generated method stub
+	public ListIterator<User> listIterator(int index) {
 		return this.getList().listIterator(index);
 	}
 
 	@Override
-	public List subList(int fromIndex, int toIndex) {
-		// TODO Auto-generated method stub
+	public List<User> subList(int fromIndex, int toIndex) {
 		return this.getList().subList(fromIndex, toIndex);
 	}
 

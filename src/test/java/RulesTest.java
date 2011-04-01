@@ -1,12 +1,8 @@
 import java.util.Calendar;
-import java.util.Date;
 import java.util.LinkedList;
-
 
 import junit.framework.Assert;
 
-import org.drools.logger.KnowledgeRuntimeLogger;
-import org.drools.logger.KnowledgeRuntimeLoggerFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,9 +19,9 @@ public class RulesTest{
 	private static FusionEngine engine;
 	private static LinkedList<EventLog> eventLogList;
 	//KnowledgeRuntimeLogger logger;
-	
+
 	private void printEventLog() {
-		
+
 		System.out.println("Log size: " + eventLogList.size());
 		System.out.println("Fraud patterns:");
 		
@@ -33,7 +29,7 @@ public class RulesTest{
 			System.out.println(event.getFraudPattern());
 		}
 	}
-	
+
 	@Before
 	public void setUp() {
 		

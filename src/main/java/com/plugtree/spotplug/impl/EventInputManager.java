@@ -36,7 +36,9 @@ public class EventInputManager {
 			try{
 				thread.join();
 				
-			} catch (InterruptedException ignore) {}
+			} catch (InterruptedException ignore) {
+			    //Ignore
+			}
 		}
 
 		engine.stop();

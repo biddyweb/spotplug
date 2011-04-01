@@ -37,7 +37,8 @@ public class StaticConfiguration implements Configuration {
 		return engine;
 	}
 	
-	public EventInputManager getEventInputManager() {
+	@Override
+    public EventInputManager getEventInputManager() {
 		return eventInputManager;
 	}
 	

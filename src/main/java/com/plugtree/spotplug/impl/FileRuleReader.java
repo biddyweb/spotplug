@@ -24,7 +24,8 @@ public class FileRuleReader implements RuleReader {
 	/* (non-Javadoc)
 	 * @see com.plugtree.spotplug.SpotPlugRuleReader#loadRules(com.plugtree.spotplug.SpotPlugEngine)
 	 */
-	public URL loadRules(Engine engine) {
+	@Override
+    public URL loadRules(Engine engine) {
 		// TODO Auto-generated method stub
 		return this.getClass().getClassLoader().getResource("fraud.drl");
 		
