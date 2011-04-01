@@ -175,6 +175,13 @@
 		<artifactId>mail</artifactId>
 		<version>1.4</version>
 	</dependency>
+	
+	<!-- INFINISPAN DEPENDENCIES -->
+	 <dependency>
+         <groupId>org.infinispan</groupId>
+         <artifactId>infinispan-core</artifactId>
+         <version>${version.infinispan}</version>
+      </dependency>
   
   </dependencies>
   
@@ -185,6 +192,7 @@
 	<slf4j.version>1.6.1</slf4j.version>
 	<logback.version>0.9.24</logback.version>
 	<junit.version>4.7</junit.version>
+	<version.infinispan>4.2.0.FINAL</version.infinispan>
   </properties>
 
   <build>
