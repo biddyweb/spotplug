@@ -1,0 +1,215 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+  <groupId>com.plugtree</groupId>
+  <artifactId>spotplug</artifactId>
+  <version>1.0</version>
+  </parent>
+  <groupId>com.plugtree</groupId>
+  <artifactId>spotplug-core</artifactId>
+  <version>1.0</version>
+  <repositories>
+  	<repository>
+  			<id>jboss-public-repository-group</id> 
+  			<name>JBoss Public Maven Repository Group</name> 
+  			<url>https://repository.jboss.org/nexus/content/groups/public/</url> 
+  			<layout>default</layout> 
+  			<releases>
+  			<enabled>true</enabled> 
+  			<updatePolicy>never</updatePolicy> 
+  		</releases>
+ 		<snapshots>
+  			<enabled>true</enabled> 
+  			<updatePolicy>never</updatePolicy> 
+  		</snapshots>
+  	</repository>
+ 	<repository>
+  		<id>repository.jboss.org</id> 
+  		<url>http://repository.jboss.org/maven2</url> 
+ 		<snapshots>
+  			<enabled>false</enabled> 
+  		</snapshots>
+ 		<releases>
+  			<enabled>true</enabled> 
+  		</releases>
+  	</repository>
+ </repositories>
+ <dependencies>
+ 	<dependency>
+  		<groupId>junit</groupId> 
+  		<artifactId>junit</artifactId> 
+  		<version>${junit.version}</version> 
+  		<scope>test</scope> 
+  	</dependency>
+  	
+  	<!-- Drools Dependencies  -->
+ 	<dependency>
+  		<groupId>org.drools</groupId> 
+  		<artifactId>drools-core</artifactId> 
+  		<version>${drools.version}</version> 
+  	</dependency>
+  	
+ 	<dependency>
+  		<groupId>org.drools</groupId> 
+  		<artifactId>drools-api</artifactId> 
+  		<version>${drools.version}</version> 
+  		<type>jar</type> 
+  	</dependency>
+  	
+  	<dependency>
+  		<groupId>org.drools</groupId> 
+  		<artifactId>drools-compiler</artifactId> 
+  		<version>${drools.version}</version> 
+  		<type>jar</type> 
+  	</dependency>
+  	
+  	 <dependency>
+  		<groupId>org.drools</groupId> 
+  		<artifactId>drools-spring</artifactId> 
+  		<version>${drools.version}</version> 
+  		<type>jar</type> 
+  	</dependency>
+  	
+  	<!-- Spring Dependencies  -->
+  	<dependency>
+    	<groupId>org.springframework</groupId>
+    	<artifactId>spring-context</artifactId>
+    	<version>${spring.version}</version>
+    	<exclusions>
+			<exclusion>
+				<groupId>commons-logging</groupId>
+				<artifactId>commons-logging</artifactId>
+			</exclusion>
+		</exclusions>
+  	</dependency>
+  	
+  	<dependency>
+    	<groupId>org.springframework</groupId>
+    	<artifactId>spring-core</artifactId>
+    	<version>${spring.version}</version>
+    </dependency>
+    
+  	<dependency>
+    	<groupId>org.springframework</groupId>
+    	<artifactId>spring-beans</artifactId>
+    	<version>${spring.version}</version>
+    </dependency>
+  	  	
+  	 <!-- SLF4J Dependencies  -->
+  	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>jcl-over-slf4j</artifactId>
+		<version>${slf4j.version}</version>
+	</dependency>
+
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>slf4j-api</artifactId>
+		<version>${slf4j.version}</version>
+	</dependency>
+
+ 	<dependency>
+		<groupId>ch.qos.logback</groupId>
+		<artifactId>logback-classic</artifactId>
+		<version>${logback.version}</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>ch.qos.logback</groupId>
+		<artifactId>logback-core</artifactId>
+		<version>${logback.version}</version>
+	</dependency>
+	
+	<dependency>
+    	<groupId>org.codehaus.groovy</groupId>
+	    <artifactId>groovy-all</artifactId>
+    	<version>1.7.5</version>
+        <scope>runtime</scope>
+	</dependency>
+  	
+  	<!-- HORNETQ DEPENDENCIES -->
+
+	<dependency>
+		<groupId>org.hornetq</groupId>
+		<artifactId>hornetq-core</artifactId>
+		<version>${hornetq.version}</version>
+		<scope>compile</scope>
+	</dependency>
+
+	<dependency>
+		<groupId>org.hornetq</groupId>
+		<artifactId>hornetq-transports</artifactId>
+		<version>${hornetq.version}</version>
+		<scope>compile</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.jboss.netty</groupId>
+		<artifactId>netty</artifactId>
+		<version>3.1.5.GA</version>
+		<scope>compile</scope>
+	</dependency>
+	<dependency>
+        <groupId>org.hornetq</groupId>
+        <artifactId>hornetq-jms-client</artifactId>
+        <version>${hornetq.version}</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.hornetq</groupId>
+        <artifactId>hornetq-core-client</artifactId>
+        <version>${hornetq.version}</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.jboss.javaee</groupId>
+        <artifactId>jboss-jms-api</artifactId>
+        <version>1.1.0.GA</version>
+        <scope>compile</scope>
+    </dependency>
+    
+    <!-- JAVAMAIL DEPENDENCIES -->
+    
+    <dependency>
+		<groupId>javax.activation</groupId>
+		<artifactId>activation</artifactId>
+		<version>1.1</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>javax.mail</groupId>
+		<artifactId>mail</artifactId>
+		<version>1.4</version>
+	</dependency>
+	
+	<!-- INFINISPAN DEPENDENCIES -->
+	 <dependency>
+         <groupId>org.infinispan</groupId>
+         <artifactId>infinispan-core</artifactId>
+         <version>${version.infinispan}</version>
+      </dependency>
+  
+  </dependencies>
+  
+  <properties>
+  	<hornetq.version>2.0.0.GA</hornetq.version>
+	<spring.version>3.0.0.RELEASE</spring.version>
+	<drools.version>5.1.1</drools.version>
+	<slf4j.version>1.6.1</slf4j.version>
+	<logback.version>0.9.24</logback.version>
+	<junit.version>4.7</junit.version>
+	<version.infinispan>4.2.0.FINAL</version.infinispan>
+  </properties>
+
+  <build>
+<plugins>
+<plugin>
+<groupId>org.apache.maven.plugins</groupId>
+<artifactId>maven-compiler-plugin</artifactId>
+<configuration>
+<source>1.6</source>
+<target>1.6</target>
+</configuration>
+</plugin>
+</plugins>
+</build>
+</project>
