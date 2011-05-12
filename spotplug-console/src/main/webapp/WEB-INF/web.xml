@@ -5,6 +5,17 @@
 
 <web-app>
 
+	<!-- Servlets -->
+	<servlet>
+		<servlet-name>eventServlet</servlet-name>
+		<servlet-class>com.plugtree.spotplug.server.EventServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>eventServlet</servlet-name>
+		<url-pattern>/SpotplugConsole/EventService</url-pattern>
+	</servlet-mapping>
+
   <!-- Default page -->
   <welcome-file-list>
     <welcome-file>SpotplugConsole.html</welcome-file>

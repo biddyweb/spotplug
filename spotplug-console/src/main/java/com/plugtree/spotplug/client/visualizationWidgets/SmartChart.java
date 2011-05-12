@@ -20,14 +20,13 @@ public class SmartChart extends ScatterChart {
 		options.setEnableTooltip(false);
 		options.setOption("hAxis.title", "Nro de Ocurrencias");
 		options.setOption("vAxis.title","Segundos");
-		//{format:'#,###%'} hAxis.format
 		options.setOption("vAxis.format","## Seg.");
 		options.setTitle("Eventos Ocurridos en el Periodo (2 Min.)");
 
 		return options;
 	}
 
-	public void draw(List<List<Long>> activationList) {
+	public void draw(List<Long> activationList) {
 
 	    DataTable data = DataTable.create();
 
@@ -37,9 +36,9 @@ public class SmartChart extends ScatterChart {
 
 	    int hour = 0;
 
-        for(List<Long> activation : activationList) {
+        for(Long activation : activationList) {
             data.setValue(hour, 0, hour);
-            data.setValue(hour, 1, activation.size());
+            data.setValue(hour, 1, activation);
             hour++;
         }
 
