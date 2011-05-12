@@ -13,7 +13,7 @@ public class EventServiceImpl extends RemoteServiceServlet implements EventServi
 	public List<String> getRulesName() {
 		
 		List<String> rulesName = new LinkedList<String>();
-		rulesName.add("Strange Volumn Transaction");
+		rulesName.add("Strange Volume Transaction");
 		rulesName.add("Incorrect Message Order");
 		
 		return rulesName;
