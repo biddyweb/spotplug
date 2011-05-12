@@ -1,0 +1,10 @@
+spotplug-console/target/
+spotplug-console/.classpath
+spotplug-console/.project
+spotplug-console/.settings/
+spotplug-core/target/
+spotplug-core/.classpath
+spotplug-core/.project
+spotplug-core/.settings/
+.settings/
+.project
