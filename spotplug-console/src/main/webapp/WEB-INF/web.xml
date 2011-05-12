@@ -5,18 +5,7 @@
 
 <web-app>
 
-  <!-- Servlets -->
-  <servlet>
-    <servlet-name>greetServlet</servlet-name>
-    <servlet-class>com.plugtree.spotplug.server.EventServiceImpl</servlet-class>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>greetServlet</servlet-name>
-    <url-pattern>/SpotplugConsole/greet</url-pattern>
-  </servlet-mapping>
-
-  <!-- Default page to serve -->
+  <!-- Default page -->
   <welcome-file-list>
     <welcome-file>SpotplugConsole.html</welcome-file>
   </welcome-file-list>
