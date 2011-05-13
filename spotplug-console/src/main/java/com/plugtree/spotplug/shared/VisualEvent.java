@@ -33,7 +33,7 @@ public class VisualEvent implements IsSerializable {
     }
 
     public String getAttribute(String key){
-
+        return attributesMap.get(key);
     }
 
 }
