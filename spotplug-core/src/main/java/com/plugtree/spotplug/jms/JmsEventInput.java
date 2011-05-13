@@ -1,8 +1,9 @@
-package com.plugtree.spotplug.impl;
+package com.plugtree.spotplug.jms;
 
 import java.util.Date;
 import java.util.StringTokenizer;
 
+import com.plugtree.spotplug.impl.GenericEvent;
 import org.hornetq.api.core.client.ClientMessage;
 import org.hornetq.core.client.impl.ClientConsumerImpl;
 import org.slf4j.Logger;

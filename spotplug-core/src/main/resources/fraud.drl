@@ -1,6 +1,6 @@
 import com.plugtree.spotplug.impl.GenericEvent;
 import com.plugtree.spotplug.impl.User;
-import com.plugtree.spotplug.impl.MailActuator;
+import com.plugtree.spotplug.actuator.MailActuator;
 import com.plugtree.spotplug.impl.UsersList;
 import com.plugtree.spotplug.Actuator;
 

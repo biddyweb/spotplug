@@ -1,7 +1,9 @@
-package com.plugtree.spotplug.impl;
+package com.plugtree.spotplug.actuator;
 
 import java.util.LinkedList;
 
+import com.plugtree.spotplug.impl.EventLog;
+import com.plugtree.spotplug.impl.User;
 import org.drools.runtime.rule.RuleContext;
 
 import com.plugtree.spotplug.Actuator;

@@ -36,7 +36,7 @@
   	 <property name="engine" ref="Engine"/>
   </bean>
   
-  <bean id="MailActuator" name="MailActuator" class="com.plugtree.spotplug.impl.MailActuator"> </bean>
+  <bean id="MailActuator" name="MailActuator" class="com.plugtree.spotplug.actuator.MailActuator"> </bean>
   
   <bean id="EventLog" name="EventLog" class="com.plugtree.spotplug.impl.EventLog"> </bean>
         	

@@ -12,7 +12,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.plugtree.spotplug.impl.EventLog;
 import com.plugtree.spotplug.impl.FusionEngine;
 import com.plugtree.spotplug.impl.GenericEvent;
-import com.plugtree.spotplug.impl.LogActuator;
+import com.plugtree.spotplug.actuator.LogActuator;
 
 public class RulesTest{
 
