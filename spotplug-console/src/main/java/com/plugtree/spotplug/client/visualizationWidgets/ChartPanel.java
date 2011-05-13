@@ -13,6 +13,7 @@ import com.google.gwt.visualization.client.visualizations.ScatterChart;
 import com.plugtree.spotplug.client.EventService;
 import com.plugtree.spotplug.client.EventServiceAsync;
 import com.plugtree.spotplug.client.util.GenericAsyncCallback;
+import com.plugtree.spotplug.shared.VisualRule;
 
 public class ChartPanel extends RefreshablePanel {
 
@@ -104,13 +105,13 @@ public class ChartPanel extends RefreshablePanel {
 
 	private void setRuleNames() {
 
-		service.getRulesName(new GenericAsyncCallback<List<String>>() {
+		service.getRules(new GenericAsyncCallback<List<VisualRule>>() {
 
 			@Override
-			public void onSuccess(List<String> ruleList) {
-				for(String ruleName : ruleList){
+			public void onSuccess(List<VisualRule> ruleList) {
+				for(VisualRule rule : ruleList){
 
-					listBox.addItem(ruleName);
+					listBox.addItem(rule.getRuleName());
 				}
 
 				draw();

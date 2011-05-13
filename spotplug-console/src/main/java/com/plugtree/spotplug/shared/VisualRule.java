@@ -2,8 +2,6 @@ package com.plugtree.spotplug.shared;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
-import java.util.HashMap;
-
 
 public class VisualRule implements IsSerializable {
     private String ruleName;

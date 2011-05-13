@@ -1,9 +1,10 @@
 package com.plugtree.spotplug.shared;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+
+import com.google.gwt.user.client.rpc.IsSerializable;
 
 
 public class VisualEvent implements IsSerializable {
@@ -36,4 +37,7 @@ public class VisualEvent implements IsSerializable {
         return attributesMap.get(key);
     }
 
+    public Set<String> getKeys() {
+    	return attributesMap.keySet();
+    }
 }
