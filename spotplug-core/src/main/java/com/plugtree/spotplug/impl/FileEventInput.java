@@ -20,6 +20,7 @@ import java.io.FileReader;
 import java.util.Date;
 import java.util.StringTokenizer;
 
+import com.plugtree.spotplug.model.GenericEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

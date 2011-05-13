@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 
 
+import com.plugtree.spotplug.model.GenericEvent;
 import junit.framework.Assert;
 
 import org.drools.time.SessionPseudoClock;
@@ -15,7 +16,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.plugtree.spotplug.impl.EventLog;
 import com.plugtree.spotplug.impl.FusionEngine;
-import com.plugtree.spotplug.impl.GenericEvent;
 import com.plugtree.spotplug.actuator.LogActuator;
 
 public class RulesTestPseudoClock{
