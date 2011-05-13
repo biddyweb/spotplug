@@ -27,9 +27,13 @@ public interface EventService extends RemoteService {
 	public List<VisualRule> getRules(Date date);
 
 	/**
-	 * 
 	 * @param rule
 	 * @return the events that activated the rule.
 	 */
 	public List<VisualEvent> getRuleEvents(VisualRule rule);
+	
+	/**
+	 * @return the visual events name.
+	 */
+	public List<String> getEventNames();
 }

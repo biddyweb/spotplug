@@ -71,4 +71,15 @@ public class EventServiceImpl extends RemoteServiceServlet implements EventServi
 		
 		return events;
 	}
+
+	@Override
+	public List<String> getEventNames() {
+		
+		List<String> eventNames = new LinkedList<String>();
+		
+		eventNames.add("event1");
+		eventNames.add("event2");
+		
+		return eventNames;
+	}
 }
