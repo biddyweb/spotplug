@@ -1,4 +1,4 @@
-package com.plugtree.spotplug.impl;
+package com.plugtree.spotplug.actuator;
 
 import java.util.Properties;
 
@@ -8,6 +8,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import com.plugtree.spotplug.impl.User;
 import org.drools.runtime.rule.RuleContext;
 
 import com.plugtree.spotplug.Actuator;

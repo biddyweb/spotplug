@@ -12,8 +12,9 @@ distributed under the License is distributed on an "AS IS" BASIS,
  See the License for the specific language governing permissions and
  limitations under the License. 
  */
-package com.plugtree.spotplug.impl;
+package com.plugtree.spotplug.actuator;
 
+import com.plugtree.spotplug.impl.User;
 import org.drools.runtime.rule.RuleContext;
 
 import com.plugtree.spotplug.Actuator;

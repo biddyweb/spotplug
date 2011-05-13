@@ -16,6 +16,7 @@ package com.plugtree.spotplug.impl;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.plugtree.spotplug.model.GenericEvent;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.drools.runtime.rule.WorkingMemoryEntryPoint;
 

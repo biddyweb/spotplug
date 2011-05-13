@@ -36,7 +36,7 @@
     </constructor-arg>
   </bean>
  
-  <bean id="JmsEventInput" class="com.plugtree.spotplug.impl.JmsEventInput">
+  <bean id="JmsEventInput" class="com.plugtree.spotplug.jms.JmsEventInput">
     <property name="consumer">
       <bean factory-bean="clientSession" factory-method="createConsumer"
         destroy-method="close">
@@ -46,7 +46,7 @@
       <property name="engine" ref="Engine"/>
    </bean>
    
-   <bean id="JmsActuator" class="com.plugtree.spotplug.impl.JmsActuator">
+   <bean id="JmsActuator" class="com.plugtree.spotplug.jms.JmsActuator">
     <property name="producer">
       <bean factory-bean="clientSession" factory-method="createProducer"
         destroy-method="close">
@@ -56,7 +56,7 @@
       <property name="session" ref="clientSession"/>      
    </bean>
            
-	<bean id="Actuator" name="Actuator" class="com.plugtree.spotplug.impl.SysoutActuator"> </bean> 
+	<bean id="Actuator" name="Actuator" class="com.plugtree.spotplug.actuator.SysoutActuator"> </bean>
         
     <!-- Dummy server -->
 	<bean id="hornetQServer" class="java.lang.Object" />

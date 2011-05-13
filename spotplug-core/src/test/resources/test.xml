@@ -31,9 +31,9 @@
 		</drools:script>
 	</drools:ksession> 
 	
-	<bean id="MailActuator" name="MailActuator" class="com.plugtree.spotplug.impl.MailActuator"> </bean>
+	<bean id="MailActuator" name="MailActuator" class="com.plugtree.spotplug.actuator.MailActuator"> </bean>
 	
- 	<bean id="Actuator" name="Actuator" class="com.plugtree.spotplug.impl.LogActuator"> </bean>
+ 	<bean id="Actuator" name="Actuator" class="com.plugtree.spotplug.actuator.LogActuator"> </bean>
 
 	<bean id="RuleReader" name="ruleReader"
 		class="com.plugtree.spotplug.impl.FileRuleReader">

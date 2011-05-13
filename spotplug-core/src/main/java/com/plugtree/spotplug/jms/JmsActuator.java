@@ -1,5 +1,6 @@
-package com.plugtree.spotplug.impl;
+package com.plugtree.spotplug.jms;
 
+import com.plugtree.spotplug.impl.User;
 import org.drools.runtime.rule.RuleContext;
 import org.hornetq.api.core.client.ClientMessage;
 import org.hornetq.api.core.client.ClientSession;

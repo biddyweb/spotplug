@@ -14,7 +14,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
  */
 package com.plugtree.spotplug;
 
-import com.plugtree.spotplug.impl.GenericEvent;
+import com.plugtree.spotplug.model.GenericEvent;
 
 
 public interface Engine {
