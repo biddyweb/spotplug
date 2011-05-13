@@ -1,5 +1,6 @@
 package com.plugtree.spotplug.client.visualizationWidgets;
 
+import java.util.Date;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
@@ -83,17 +84,17 @@ public class ChartPanel extends RefreshablePanel {
 			@Override
 			public void onSelect(SelectEvent event) {
 
-//TODO: Mostrar los eventos al ser activado. 
-//				int hour = chart.getSelections().get(0).getRow();
-//				List<Long> timestamps = eventsSelected.get(hour);
-//				service.getEventsOccurred(listBox.getItemText(listBox.getSelectedIndex()), timestamps, new GenericAsyncCallback<List<VisualEvent>>() {
-//
-//					public void onSuccess(List<VisualEvent> list) {
-//						TablePopup popup = new TablePopup("Tabla de Eventos", list);
-//						popup.show();
-//					}
-//				});
-//			}
+				//TODO: Improve! Hour and rule name needed.
+				int hour = chart.getSelections().get(0).getRow();
+				
+				service.getRules(new Date(), new GenericAsyncCallback<List<VisualRule>>() {
+
+					@Override
+					public void onSuccess(List<VisualRule> ruleList) {
+						TablePopup popup = new TablePopup("Rule list", ruleList);
+						popup.show();
+					}
+				});
 			}
 		};
 	}
