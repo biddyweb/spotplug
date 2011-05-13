@@ -23,10 +23,14 @@ public class MainView extends DockLayoutPanel {
 
 		EventView eventView = new EventView();
 		eventView.setSize(width, height);
-		tabPanel.add(eventView, "Monitor de Aplicaciones");
-		tabPanel.setSize(tabWidth(), tabHeight());
+		tabPanel.add(eventView, "Rule/Event Viewer");
+		
+		EventManagerView eventManager = new EventManagerView();
+		eventManager.setSize(width, height);
+		tabPanel.add(eventManager, "Event Manager");
 
 		add(tabPanel);
+		tabPanel.setSize(tabWidth(), tabHeight());
 		setSize(tabWidth(),tabHeight());
 	}
 
