@@ -17,7 +17,7 @@ public class TablePopup extends DialogBox {
     public TablePopup(String tableName, List<VisualRule> ruleList) {
         
         setText(tableName);
-        RuleTable emergenciesTable = new RuleTable(ruleList);
+        RuleTable ruleTable = new RuleTable(ruleList);
 
         okButton.addClickHandler(new ClickHandler() {
 
@@ -27,7 +27,7 @@ public class TablePopup extends DialogBox {
             }
         });
         
-        vPanel.add(emergenciesTable);
+        vPanel.add(ruleTable);
         vPanel.add(okButton);
         add(vPanel);
         
