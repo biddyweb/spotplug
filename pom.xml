@@ -13,6 +13,7 @@
   <modules>
     <module>spotplug-core</module>    
     <module>spotplug-console</module>    
+    <module>spotplug-bus</module>
   </modules>
 
   <build>
