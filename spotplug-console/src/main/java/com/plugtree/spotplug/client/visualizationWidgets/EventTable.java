@@ -26,11 +26,11 @@ public class EventTable extends FlexTable {
 
             //Event Variable attributes
             for(col=2;col<numberOfAttributes;col++){
-                for(String attributeName : visualevent.getKeys()){
-                 setText(row, col,visualevent.getAttribute(attributeName));
+                for(String key : visualevent.getKeys()){
+                 setText(row, col,visualevent.getAttribute(key));
                 }       
             }
-
+            col = 0;
             row++;
         }
 
