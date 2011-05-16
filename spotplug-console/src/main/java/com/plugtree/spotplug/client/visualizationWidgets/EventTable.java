@@ -1,16 +1,11 @@
 package com.plugtree.spotplug.client.visualizationWidgets;
 
-import com.google.gwt.dom.client.TableCellElement;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Window;
+
 import com.google.gwt.user.client.ui.FlexTable;
 import com.plugtree.spotplug.shared.VisualEvent;
-import com.plugtree.spotplug.shared.VisualRule;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 
 public class EventTable extends FlexTable {
