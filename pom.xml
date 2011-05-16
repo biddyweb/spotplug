@@ -11,9 +11,8 @@
   <name>spotplug</name>
  
   <modules>
-    <module>spotplug-core</module>    
-    <module>spotplug-console</module>    
-    <module>spotplug-bus</module>
+    <module>spotplug-core</module>
+    <module>spotplug-console</module>
   </modules>
 
   <build>

@@ -1,4 +1,4 @@
-package com.plugtree.spotplug;
+package com.plugtree.spotplug.bus;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -8,8 +8,3 @@ spotplug-core/.project
 spotplug-core/.settings/
 .settings/
 .project
-spotplug-bus/.classpath
-spotplug-bus/.project
-spotplug-bus/.settings/
-spotplug-bus/target/
-spotplug-bus/bin/
