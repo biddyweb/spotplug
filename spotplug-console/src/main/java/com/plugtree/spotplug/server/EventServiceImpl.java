@@ -62,10 +62,15 @@ public class EventServiceImpl extends RemoteServiceServlet implements EventServi
 		List<VisualEvent> events = new LinkedList<VisualEvent>();
 		VisualEvent event1 = new VisualEvent();
 		event1.setEventName("Event1");
-		
+        event1.addAttribute("type","Alert");
+		event1.addAttribute("priority","10");
+
 		VisualEvent event2 = new VisualEvent();
-		event2.setEventName("Event2");
-		
+	    event2.setEventName("Event2");
+        event2.addAttribute("type","Warn");
+        event2.addAttribute("priority","5");
+
+
 		events.add(event1);
 		events.add(event2);
 		
