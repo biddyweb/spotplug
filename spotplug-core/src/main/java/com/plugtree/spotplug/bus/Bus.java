@@ -2,11 +2,11 @@ package com.plugtree.spotplug.bus;
 
 import java.util.List;
 
-import com.plugtree.spotplug.Event;
+import com.plugtree.spotplug.model.GenericEvent;
 
 public interface Bus {
 
-	public void addEvent(Event event);
+	public void addEvent(GenericEvent event);
 	
-	public List<Event> getEvents();
+	public List<GenericEvent> getEvents();
 }

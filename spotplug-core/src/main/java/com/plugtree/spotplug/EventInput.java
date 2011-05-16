@@ -15,13 +15,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 package com.plugtree.spotplug;
 
 public interface EventInput extends Runnable {
-	
-	 /**
-	  * Set the engine that will process the events received by eventInput.
-	  * @param engine
-	  */
-	void setEngine(Engine engine);
-		
+
 	/**
 	 * Start receiving events. 
 	 */ 

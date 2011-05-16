@@ -3,27 +3,22 @@ package com.plugtree.spotplug.jms;
 import java.util.Date;
 import java.util.StringTokenizer;
 
-import com.plugtree.spotplug.model.GenericEvent;
 import org.hornetq.api.core.client.ClientMessage;
 import org.hornetq.core.client.impl.ClientConsumerImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.plugtree.spotplug.Engine;
 import com.plugtree.spotplug.EventInput;
+import com.plugtree.spotplug.bus.Bus;
+import com.plugtree.spotplug.model.GenericEvent;
 
 public class JmsEventInput implements EventInput {
 
-	private Engine engine;
+	private Bus bus;
 	private	ClientConsumerImpl consumer;
 	final String propName = "data";
 	
 	final static Logger logger = LoggerFactory.getLogger(JmsEventInput.class);
-	
-	@Override
-	public void setEngine(Engine engine) {
-		this.engine = engine;
-	}
 
 	@Override
 	public void run() {
@@ -36,7 +31,7 @@ public class JmsEventInput implements EventInput {
 				while(messageReceived != null){
 					System.out.println("Received Message:" + messageReceived.getStringProperty(propName));
 					GenericEvent event = createEvent(messageReceived.getStringProperty(propName));
-					engine.processEvent(event);
+					bus.addEvent(event);
 					messageReceived = consumer.receive(1000);
 				}
 			}
@@ -88,5 +83,7 @@ public class JmsEventInput implements EventInput {
 		return event;
 	}
 
-
+	public void setBus(Bus bus) {
+		this.bus = bus;
+	}
 }

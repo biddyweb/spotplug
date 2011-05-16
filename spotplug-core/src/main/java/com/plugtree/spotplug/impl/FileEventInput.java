@@ -20,28 +20,22 @@ import java.io.FileReader;
 import java.util.Date;
 import java.util.StringTokenizer;
 
-import com.plugtree.spotplug.model.GenericEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.plugtree.spotplug.Engine;
 import com.plugtree.spotplug.EventInput;
+import com.plugtree.spotplug.bus.Bus;
+import com.plugtree.spotplug.model.GenericEvent;
 
 public class FileEventInput implements EventInput {
 
-	private Engine engine;
+	private Bus bus;
 	final static Logger logger = LoggerFactory.getLogger(FileEventInput.class);
 	
 	//TODO: Se debe pasar desde la configuracion
 	private final String path = "src/main/resources/events.txt";
 	
 	public FileEventInput(){		
-	}
-	
-	@Override
-    public void setEngine(Engine engine) {
-
-		this.engine = engine;		 
 	}
 
 	@Override
@@ -59,7 +53,7 @@ public class FileEventInput implements EventInput {
 			while ((line = fileReader.readLine()) != null){
 
 				GenericEvent event = createEvent(line);
-				engine.processEvent(event);
+				bus.addEvent(event);
 			}
 
 		} catch (Exception exception) {
@@ -112,4 +106,7 @@ public class FileEventInput implements EventInput {
 		return event;
 	}
 
+	public void setBus(Bus bus) {
+		this.bus = bus;
+	}
 }

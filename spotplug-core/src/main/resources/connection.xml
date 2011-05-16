@@ -42,8 +42,8 @@
         destroy-method="close">
         <constructor-arg value="eventQueue" />
       </bean>
-      </property>
-      <property name="engine" ref="Engine"/>
+    </property>
+    <property name="bus" ref="Bus"/>
    </bean>
    
    <bean id="JmsActuator" class="com.plugtree.spotplug.jms.JmsActuator">
