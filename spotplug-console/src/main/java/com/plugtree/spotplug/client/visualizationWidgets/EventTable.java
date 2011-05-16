@@ -14,8 +14,6 @@ public class EventTable extends FlexTable {
 
         setHeader(eventList.iterator().next());
 
-        int numberOfAttributes = eventList.iterator().next().getKeys().size(); //Excluding Name and TimeStamp
-
         int row = 1;
         int col = 0;
 
@@ -25,22 +23,23 @@ public class EventTable extends FlexTable {
             setText(row, col, new Date(visualevent.getTimestamp()).toString());
 
             //Event Variable attributes
-            for(col=2;col<numberOfAttributes+2;col++){
                 for(String key : visualevent.getKeys()){
-                 setText(row, col,visualevent.getAttribute(key));
+                    col++;
+                    setText(row, col,visualevent.getAttribute(key));
                 }       
-            }
+
             col = 0;
             row++;
         }
-
-        addStyle();
+        addStyle();    
     }
+
+
 
       private void addStyle() {
         getRowFormatter().addStyleName(0, "listHeader");
         addStyleName("list");
-    }
+        }
 
      private void setHeader(VisualEvent event){
          int i = 0;
