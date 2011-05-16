@@ -25,7 +25,7 @@ public class EventTable extends FlexTable {
             setText(row, col, new Date(visualevent.getTimestamp()).toString());
 
             //Event Variable attributes
-            for(col=2;col<numberOfAttributes;col++){
+            for(col=2;col<numberOfAttributes+2;col++){
                 for(String key : visualevent.getKeys()){
                  setText(row, col,visualevent.getAttribute(key));
                 }       
