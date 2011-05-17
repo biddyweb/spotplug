@@ -4,14 +4,30 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.plugtree.spotplug.Configuration;
 import com.plugtree.spotplug.client.EventService;
+import com.plugtree.spotplug.impl.EventInputManager;
 import com.plugtree.spotplug.shared.VisualEvent;
 import com.plugtree.spotplug.shared.VisualRule;
 
 @SuppressWarnings("serial")
 public class EventServiceImpl extends RemoteServiceServlet implements EventService {
 
+	public EventServiceImpl() {
+		
+		//TODO: Mover de aca.
+		ApplicationContext context = new ClassPathXmlApplicationContext(new String[] {"/core.xml"});
+		
+		Configuration configuration = (Configuration) context.getBean("Configuration");
+		EventInputManager eventInputManager = configuration.getEventInputManager();
+		configuration.configure();
+		eventInputManager.start();
+	}
+	
 	@Override
 	public List<VisualRule> getRules() {
 		
