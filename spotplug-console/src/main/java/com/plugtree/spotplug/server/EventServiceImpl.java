@@ -43,7 +43,8 @@ public class EventServiceImpl extends RemoteServiceServlet implements EventServi
 		
 		//TODO: Filter by type event, right now we only have one type.
 		for(GenericEvent event : eventList) {
-			int index = event.getCallDateTime().getHours();
+			@SuppressWarnings("deprecation")
+			int index = event.getCallDateTime().getHours();//TODO: remove warning.
 			historyList.set(index, historyList.get(index) + 1);
 		}
 		

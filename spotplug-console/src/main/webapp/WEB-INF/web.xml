@@ -15,6 +15,16 @@
 		<servlet-name>eventServlet</servlet-name>
 		<url-pattern>/SpotplugConsole/EventService</url-pattern>
 	</servlet-mapping>
+	
+		<servlet>
+		<servlet-name>ruleServlet</servlet-name>
+		<servlet-class>com.plugtree.spotplug.server.RuleServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>ruleServlet</servlet-name>
+		<url-pattern>/SpotplugConsole/RuleService</url-pattern>
+	</servlet-mapping>
 
   <!-- Default page -->
   <welcome-file-list>
