@@ -1,14 +1,13 @@
 package com.plugtree.spotplug.client.visualizationWidgets;
 
+import java.util.List;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.plugtree.spotplug.shared.VisualEvent;
-import com.plugtree.spotplug.shared.VisualRule;
-
-import java.util.List;
 
 
 public class EventTablePopup extends DialogBox {

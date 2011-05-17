@@ -19,13 +19,13 @@ import com.plugtree.spotplug.shared.VisualRule;
 
 public class RuleTable extends FlexTable {
 
-    private EventServiceAsync service = null;
+//    private EventServiceAsync service = null;
 
 	public RuleTable(List<VisualRule> ruleList) {
         
         
-        service = GWT.create(EventService.class);
-		((ServiceDefTarget)service).setServiceEntryPoint(GWT.getModuleBaseURL() + "EventService");
+//        service = GWT.create(EventService.class);
+//		((ServiceDefTarget)service).setServiceEntryPoint(GWT.getModuleBaseURL() + "EventService");
 
         setText(0, 0, "Name");
         setText(0, 1, "Date");
@@ -60,14 +60,14 @@ public class RuleTable extends FlexTable {
            case Event.ONCLICK:
                TableCellElement cell =  event.getEventTarget().cast();
                //Window.alert(cell.getInnerText());
-               service.getRuleEvents(new VisualRule(),new GenericAsyncCallback<List<VisualEvent>>(){
-
-                   @Override
-                   public void onSuccess(List<VisualEvent> visualEvents) {
-                        EventTablePopup popup = new EventTablePopup("Event list", visualEvents);
-						popup.show();
-                   }
-               });
+//               service.getRuleEvents(new VisualRule(),new GenericAsyncCallback<List<VisualEvent>>(){
+//
+//                   @Override
+//                   public void onSuccess(List<VisualEvent> visualEvents) {
+//                        EventTablePopup popup = new EventTablePopup("Event list", visualEvents);
+//						popup.show();
+//                   }
+//               });
                break;
            default:
                break;

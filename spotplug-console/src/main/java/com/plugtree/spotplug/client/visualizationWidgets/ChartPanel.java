@@ -14,7 +14,7 @@ import com.google.gwt.visualization.client.visualizations.ScatterChart;
 import com.plugtree.spotplug.client.EventService;
 import com.plugtree.spotplug.client.EventServiceAsync;
 import com.plugtree.spotplug.client.util.GenericAsyncCallback;
-import com.plugtree.spotplug.shared.VisualRule;
+import com.plugtree.spotplug.shared.VisualEvent;
 
 public class ChartPanel extends RefreshablePanel {
 
@@ -54,7 +54,7 @@ public class ChartPanel extends RefreshablePanel {
 
 		if (listBox.getItemCount() != 0) {
 
-			service.getRuleActivations(listBox.getItemText(listBox.getSelectedIndex()), new GenericAsyncCallback<List<Long>>() {
+			service.getEventHistory(listBox.getItemText(listBox.getSelectedIndex()), new GenericAsyncCallback<List<Long>>() {
 
 				@Override
 				public void onSuccess(List<Long> activations) {
@@ -87,12 +87,13 @@ public class ChartPanel extends RefreshablePanel {
 				//TODO: Improve! Hour and rule name needed.
 				int hour = chart.getSelections().get(0).getRow();
 				
-				service.getRules(new Date(), new GenericAsyncCallback<List<VisualRule>>() {
+				service.getEvents(new Date(), new GenericAsyncCallback<List<VisualEvent>>() {
 
 					@Override
-					public void onSuccess(List<VisualRule> ruleList) {
-						TablePopup popup = new TablePopup("Rule list", ruleList);
-						popup.show();
+					public void onSuccess(List<VisualEvent> ruleList) {
+						//TablePopup popup = new TablePopup("Rule list", ruleList);
+						//TODO: FIX
+						///popup.show();
 					}
 				});
 			}
@@ -106,13 +107,13 @@ public class ChartPanel extends RefreshablePanel {
 
 	private void setRuleNames() {
 
-		service.getRules(new GenericAsyncCallback<List<VisualRule>>() {
+		service.getEventNames(new GenericAsyncCallback<List<String>>() {
 
 			@Override
-			public void onSuccess(List<VisualRule> ruleList) {
-				for(VisualRule rule : ruleList){
-
-					listBox.addItem(rule.getRuleName());
+			public void onSuccess(List<String> eventNameList) {
+				
+				for(String eventName : eventNameList){
+					listBox.addItem(eventName);
 				}
 
 				draw();
