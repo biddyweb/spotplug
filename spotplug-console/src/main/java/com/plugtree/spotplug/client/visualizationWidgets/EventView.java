@@ -6,10 +6,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class EventView extends VerticalPanel {
 
-    private ChartPanel chartPanel1 = new ChartPanel();
-    private ChartPanel chartPanel2 = new ChartPanel();
-    private ChartPanel chartPanel3 = new ChartPanel();
-    private ChartPanel chartPanel4 = new ChartPanel();
+    private ChartPanel chartPanel1 = new EventChartPanel();
+    private ChartPanel chartPanel2 = new EventChartPanel();
+    private ChartPanel chartPanel3 = new EventChartPanel();
+    private ChartPanel chartPanel4 = new EventChartPanel();
     
     private Label ruleLabel = new Label("Rules viewer:");
     private Label eventLabel = new Label("Events viewer:");

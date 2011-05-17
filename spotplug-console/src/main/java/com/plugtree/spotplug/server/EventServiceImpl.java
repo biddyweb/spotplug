@@ -52,11 +52,12 @@ public class EventServiceImpl extends RemoteServiceServlet implements EventServi
 	}
 
 	@Override
-	public List<VisualEvent> getEvents(Date date) {
+	public List<VisualEvent> getEvents(String eventName, Date date) {
 		
 		List<GenericEvent> eventList = bus.getEvents();
 		List<VisualEvent> visualEventList = new LinkedList<VisualEvent>();
 		
+		//TODO: Filter by type event, right now we only have one type.		
 		for(GenericEvent event : eventList) {
 			
 			VisualEvent visualEvent = new VisualEvent();

@@ -16,9 +16,9 @@ public interface EventService extends RemoteService {
 
 	/**
 	 * @param date
-	 * @return the events given an specific date.
+	 * @return the events given an specific date and event name.
 	 */
-	public List<VisualEvent> getEvents(Date date);
+	public List<VisualEvent> getEvents(String eventName, Date date);
 	
 	/**
 	 * @return the visual events name.
