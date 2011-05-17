@@ -21,7 +21,7 @@ public class RuleServiceImpl extends RemoteServiceServlet implements RuleService
 	}
 
 	@Override
-	public List<VisualRule> getRules(Date date) {
+	public List<VisualRule> getRules(String name, Date date) {
 		// TODO Auto-generated method stub
 		return null;
 	}

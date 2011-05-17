@@ -17,9 +17,9 @@ public interface RuleService extends RemoteService {
 
 	/**
 	 * @param date
-	 * @return the rules activated given an specific date.
+	 * @return the rules activated given an specific date and rule name.
 	 */
-	public List<VisualRule> getRules(Date date);
+	public List<VisualRule> getRules(String name, Date date);
 	
 	/**
 	 * @return the ruleEvents name.
