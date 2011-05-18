@@ -7,6 +7,7 @@ import com.plugtree.spotplug.Actuator;
 import java.lang.Number;
 import java.util.concurrent.ConcurrentHashMap;
 import org.drools.runtime.rule.RuleContext;
+import java.util.*;
 
 global ConcurrentHashMap hashMap;
 global Actuator actuator;
@@ -17,6 +18,33 @@ declare GenericEvent
     @timestamp(callDateTime.getTime())
     @duration(callDuration)    
 end
+
+declare LocalEvent
+    eventType : String
+    amount : int
+	callDateTime : Date
+	callDuration : long
+    @role(event)
+    @timestamp(callDateTime.getTime())
+    @duration(callDuration)
+end
+
+# Converting Generic Events in Local Events
+rule "Convert GenericEvent into LocalEvent"
+dialect "mvel"
+no-loop
+salience 10000
+
+when
+	$ge : GenericEvent() from entry-point GenericEventEntryPoint
+then
+    LocalEvent le = new LocalEvent();
+    le.setEventType($ge.getEventType());
+    le.setAmount(Integer.parseInt($ge.getAttributes().get("Amount")));
+	retract($ge);
+	insert(le)
+end
+
 
 /*# 1st Fraud Pattern
 rule "Strange volume in transaction"
@@ -34,7 +62,7 @@ end*/
 
 
 # 2nd Fraud Pattern
-rule "Transaction at unusual hours"
+/*rule "Transaction at unusual hours"
 dialect "mvel"
 
 when
@@ -46,6 +74,21 @@ then
 	hashMap.get($userId).increaseFraudProbability(30);
 	actuator.writeOutput(kcontext, hashMap.get($userId));
 end
+*/
+
+# 2nd Fraud Pattern
+rule "Transaction at unusual hours"
+dialect "mvel"
+
+when
+	LocalEvent(	 callDateTime.hours >= 2,
+				 callDateTime.hours <= 6,
+				 amount > 4000) from entry-point GenericEventEntryPoint
+then
+    #TODO:Correct output.	
+end
+
+
 
 # 3th Fraud Pattern
 rule "Same transaction, same time, everyday"
