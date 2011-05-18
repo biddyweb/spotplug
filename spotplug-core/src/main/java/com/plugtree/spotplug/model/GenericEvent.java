@@ -29,9 +29,17 @@ public class GenericEvent implements Event {
 	private long sequentialID;
 	private long transactionID;
 	private long opCode;
+	private String eventType;
 
     private Map<String,String> attributes = new HashMap<String,String>();
 
+    public GenericEvent(String eventType, Date callDateTime, long callDuration) {
+
+    	this.eventType = eventType;
+    	this.callDateTime = callDateTime;
+    	this.callDuration = callDuration;
+    }
+    	
 	public GenericEvent(String userId, int amount,Date callDateTime,long callDuration,long sequentialID,long transactionID,long opCode){
 	
 		this.userId = userId;
@@ -119,5 +127,13 @@ public class GenericEvent implements Event {
     public Set<String> getKeys(){
       return attributes.keySet();
     }
+
+	public void setEventType(String eventType) {
+		this.eventType = eventType;
+	}
+
+	public String getEventType() {
+		return eventType;
+	}
 
 }

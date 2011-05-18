@@ -17,6 +17,9 @@ package com.plugtree.spotplug.impl;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.StringTokenizer;
 
@@ -31,8 +34,6 @@ public class FileEventInput implements EventInput {
 
 	private Bus bus;
 	final static Logger logger = LoggerFactory.getLogger(FileEventInput.class);
-	
-	//TODO: Se debe pasar desde la configuracion
 	private final String path = "src/main/resources/events.txt";
 	
 	public FileEventInput(){		
@@ -73,39 +74,35 @@ public class FileEventInput implements EventInput {
 		} 
 	}
 	
-	public GenericEvent createEvent(String line){
-		// Deprecated: line format : UserID,Amount,Duration,TransactionID,SequentialID,OperationCode
-		// 
-
+	public GenericEvent createEvent(String line) throws ParseException {
+		/**
+		 * Format: eventType,dateTime,duration,attribute:value,attribute:value,..
+		 * i.e.    bankEvent,18/05/2011 22:14:02,user:peter,amount:10000
+		 */
 
 		StringTokenizer stringTokenizer = new StringTokenizer(line, ",");
 				
-		//Name
-		String name = stringTokenizer.nextToken();
-		//Amount
-		int amount = Integer.parseInt(stringTokenizer.nextToken());
+		String eventType = stringTokenizer.nextToken();
+
+		String stringDate = stringTokenizer.nextToken();
+		DateFormat formatter = new SimpleDateFormat("dd/MM/yy hh:mm:ss");
+		Date date = formatter.parse(stringDate);
 		
-		//Event Start Time Stamp
-		Date startTimeStamp = new Date(); 
-				
-		//Duration
 		long duration = Long.parseLong(stringTokenizer.nextToken());
 		
-		//Current Event Sequential ID - If there is an event sequence
-		long sequentialID = Long.parseLong(stringTokenizer.nextToken());
-		
-		//TransactionID of the Current Event
-		long transactionID = Long.parseLong(stringTokenizer.nextToken());
-		
-		//Operation Code of the Current Event
-		long opCode = Long.parseLong(stringTokenizer.nextToken());
-		
-		//Date and Time that comes with the Current Event
-		//Date innerDate = new Date(stringTokenizer.nextToken());
-		
-		GenericEvent event = new GenericEvent(name, amount,startTimeStamp,duration,sequentialID,transactionID,opCode);
+		GenericEvent genericEvent = new GenericEvent(eventType, date, duration);
 
-		return event;
+		String attributeLine;
+		
+		while ((attributeLine = stringTokenizer.nextToken()) != null) {
+			StringTokenizer tokenizer = new StringTokenizer(attributeLine, ":");
+			String key = tokenizer.nextToken();
+			String value = tokenizer.nextToken();
+			
+			genericEvent.addAttribute(key, value);
+		}
+		
+		return genericEvent;
 	}
 
 	public void setBus(Bus bus) {
