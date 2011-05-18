@@ -74,8 +74,10 @@ public class FileEventInput implements EventInput {
 	}
 	
 	public GenericEvent createEvent(String line){
-		//line format : UserID,Amount,Duration,TransactionID,SequentialID,OperationCode
-		
+		// Deprecated: line format : UserID,Amount,Duration,TransactionID,SequentialID,OperationCode
+		// 
+
+
 		StringTokenizer stringTokenizer = new StringTokenizer(line, ",");
 				
 		//Name

@@ -15,7 +15,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 package com.plugtree.spotplug.model;
 
 
-import java.util.Date;
+import java.util.*;
 
 import com.plugtree.spotplug.Event;
 
@@ -29,6 +29,8 @@ public class GenericEvent implements Event {
 	private long sequentialID;
 	private long transactionID;
 	private long opCode;
+
+    private Map<String,String> attributes = new HashMap<String,String>();
 
 	public GenericEvent(String userId, int amount,Date callDateTime,long callDuration,long sequentialID,long transactionID,long opCode){
 	
@@ -97,4 +99,25 @@ public class GenericEvent implements Event {
 	public Date getInnerDate() {
 		return innerDate;
 	}
+
+    public Map<String, String> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(Map<String, String> attributes) {
+        this.attributes = attributes;
+    }
+
+    public String addAttribute(String key, String value ){
+      return attributes.put(key,value);
+    }
+
+    public String getAttribute(String key){
+      return attributes.get(key);         
+    }
+
+    public Set<String> getKeys(){
+      return attributes.keySet();
+    }
+
 }
