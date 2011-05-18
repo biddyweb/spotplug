@@ -63,7 +63,7 @@ public class EventServiceImpl extends RemoteServiceServlet implements EventServi
 			VisualEvent visualEvent = new VisualEvent();
 			visualEvent.setTimestamp(event.getCallDateTime().getTime());
 			visualEvent.setEventName("Generic Event");
-			
+            visualEvent.setAttributesMap(event.getAttributes());			
 			visualEventList.add(visualEvent);
 		}
 		

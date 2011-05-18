@@ -29,15 +29,23 @@ public class VisualEvent implements IsSerializable {
     }
 
     public void addAttribute(String key,String value){
-         attributesMap.put(key,value);
+         getAttributesMap().put(key,value);
 
     }
 
     public String getAttribute(String key){
-        return attributesMap.get(key);
+        return getAttributesMap().get(key);
     }
 
     public Set<String> getKeys() {
-    	return attributesMap.keySet();
+    	return getAttributesMap().keySet();
+    }
+
+    public Map<String, String> getAttributesMap() {
+        return attributesMap;
+    }
+
+    public void setAttributesMap(Map<String, String> attributesMap) {
+        this.attributesMap = attributesMap;
     }
 }
