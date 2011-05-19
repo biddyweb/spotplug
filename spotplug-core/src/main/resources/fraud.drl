@@ -112,7 +112,8 @@ when
 	                      callDateTime.hours <= 6,
 	                      amount > 4000)
 then
-    #TODO:Correct output.	
+    #TODO:Correct output.
+    	
 end
 
 # 2nd Fraud Pattern
