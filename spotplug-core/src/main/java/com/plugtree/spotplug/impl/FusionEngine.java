@@ -59,7 +59,7 @@ public class FusionEngine implements Engine {
 	
 	private void createUser(GenericEvent event) {
 		
-		String userId = event.getUserId();
+		String userId = event.getAttribute("userId");
 		
 		if (!hashMap.containsKey(userId)) {
 			
