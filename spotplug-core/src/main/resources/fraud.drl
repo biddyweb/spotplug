@@ -63,7 +63,7 @@ then
     ct.setTransactionID(Long.parseLong($ge.getAttributes().get("transactionID")));
     ct.setOpCode(Long.parseLong($ge.getAttributes().get("opCode")));
 
-    ct.CallDateTime($ge.getCallDateTime());
+    ct.setCallDateTime($ge.getCallDateTime());
 
 	ct.setUserId($ge.getAttributes().get("userId"));
 	retract($ge);
@@ -85,7 +85,7 @@ then
     dt.setTransactionID(Long.parseLong($ge.getAttributes().get("transactionID")));
     dt.setOpCode(Long.parseLong($ge.getAttributes().get("opCode")));
 
-    dt.CallDateTime($ge.getCallDateTime());
+    dt.setCallDateTime($ge.getCallDateTime());
 
     dt.setUserId($ge.getAttributes().get("userId"));
     retract($ge);
