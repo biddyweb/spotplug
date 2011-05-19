@@ -421,7 +421,7 @@ public class RulesTest{
 		Assert.assertEquals(eventLogList.size(),1);
 		Assert.assertEquals(eventLogList.getLast().getUserId(), "Hera");
 		
-		Assert.assertEquals(eventLogList.getLast().getFraudPattern(), "Transaction at unusual hours");
+		Assert.assertEquals(eventLogList.getLast().getFraudPattern(), "DebitTransaction at unusual hours");
 		
 		engine.processEvent(event2);
 		Assert.assertEquals(eventLogList.size(), 1);
@@ -429,7 +429,7 @@ public class RulesTest{
 		engine.processEvent(event3);
 		Assert.assertEquals(eventLogList.size(), 2);
 		Assert.assertEquals(eventLogList.getLast().getUserId(), "Hera");
-		Assert.assertEquals(eventLogList.getLast().getFraudPattern(), "Transaction at unusual hours");
+		Assert.assertEquals(eventLogList.getLast().getFraudPattern(), "DebitTransaction at unusual hours");
 		
 		engine.processEvent(event4);
 		Assert.assertEquals(eventLogList.size(), 2);

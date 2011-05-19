@@ -112,12 +112,12 @@ rule "DebitTransaction at unusual hours"
 dialect "mvel"
 
 when
-	    DebitTransaction( callDateTime.hours >= 2,
+	    $event : DebitTransaction( callDateTime.hours >= 2,
 	                      callDateTime.hours <= 6,
 	                      amount > 4000)
 then
-    #TODO:Correct output.
-    	
+
+    	 actuator.writeOutput(kcontext, hashMap.get($event.userId));
 end
 
 # 2nd Fraud Pattern
@@ -125,11 +125,11 @@ rule "CreditTransaction at unusual hours"
 dialect "mvel"
 
 when
-	    CreditTransaction( callDateTime.hours >= 2,
+	    $event : CreditTransaction( callDateTime.hours >= 2,
 	                      callDateTime.hours <= 6,
 	                      amount > 4000)
 then
-        #TODO:Correct output
+        actuator.writeOutput(kcontext, hashMap.get($event.userId));
 end
 
 
