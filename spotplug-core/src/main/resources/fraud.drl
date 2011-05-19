@@ -5,6 +5,9 @@ import com.plugtree.spotplug.impl.UsersList;
 import com.plugtree.spotplug.Actuator;
 
 import java.lang.Number;
+import java.lang.String;
+import java.lang.Long;
+import java.lang.Integer;
 import java.util.concurrent.ConcurrentHashMap;
 import org.drools.runtime.rule.RuleContext;
 import java.util.*;
@@ -19,8 +22,11 @@ declare GenericEvent
     @duration(callDuration)    
 end
 
-declare LocalEvent
-    eventType : String
+declare CreditTransaction
+    userId : String
+    sequentialID : long
+	transactionID : long
+	opCode : long
     amount : int
 	callDateTime : Date
 	callDuration : long
@@ -29,20 +35,57 @@ declare LocalEvent
     @duration(callDuration)
 end
 
-# Converting Generic Events in Local Events
-rule "Convert GenericEvent into LocalEvent"
+declare DebitTransaction
+    userId : String
+    sequentialID : long
+    transactionID : long
+    opCode : long
+    amount : int
+	callDateTime : Date
+	callDuration : long
+    @role(event)
+    @timestamp(callDateTime.getTime())
+    @duration(callDuration)      
+end
+
+# Converting Generic Events into a CreditTransaction
+rule "Convert GenericEvent into a CreditTransaction"
 dialect "mvel"
 no-loop
 salience 10000
 
 when
-	$ge : GenericEvent() from entry-point GenericEventEntryPoint
+	$ge : GenericEvent(eventType == "credit-transaction") from entry-point GenericEventEntryPoint
 then
-    LocalEvent le = new LocalEvent();
-    le.setEventType($ge.getEventType());
-    le.setAmount(Integer.parseInt($ge.getAttributes().get("Amount")));
+    CreditTransaction ct = new CreditTransaction();
+    ct.setAmount(Integer.parseInt($ge.getAttributes().get("amount")));
+    ct.setAmount(Long.parseLong($ge.getAttributes().get("sequentialID")));
+    ct.setAmount(Long.parseLong($ge.getAttributes().get("transactionID")));
+    ct.setAmount(Long.parseLong($ge.getAttributes().get("opCode")));
+
+	ct.setUserId($ge.getAttributes().get("userId"));
 	retract($ge);
-	insert(le)
+	insert(ct)
+end
+
+# Converting Generic Events into a DebitTransaction
+rule "Convert GenericEvent into a DebitTransaction"
+dialect "mvel"
+no-loop
+salience 10000
+
+when
+	$ge : GenericEvent(eventType == "debit-transaction") from entry-point GenericEventEntryPoint
+then
+    DebitTransaction dt = new DebitTransaction();
+    dt.setAmount(Integer.parseInt($ge.getAttributes().get("amount")));
+    dt.setAmount(Long.parseLong($ge.getAttributes().get("sequentialID")));
+    dt.setAmount(Long.parseLong($ge.getAttributes().get("transactionID")));
+    dt.setAmount(Long.parseLong($ge.getAttributes().get("opCode")));
+
+    dt.setUserId($ge.getAttributes().get("userId"));
+    retract($ge);
+	insert(dt)
 end
 
 
@@ -60,43 +103,37 @@ then
 	actuator.writeOutput(kcontext, hashMap.get($user.id));	
 end*/
 
-
 # 2nd Fraud Pattern
-/*rule "Transaction at unusual hours"
+rule "DebitTransaction at unusual hours"
 dialect "mvel"
 
 when
-	GenericEvent($userId : userId,
-				 callDateTime.hours >= 2,
-				 callDateTime.hours <= 6,
-				 amount > 4000) from entry-point GenericEventEntryPoint
-then
-	hashMap.get($userId).increaseFraudProbability(30);
-	actuator.writeOutput(kcontext, hashMap.get($userId));
-end
-*/
-
-# 2nd Fraud Pattern
-rule "Transaction at unusual hours"
-dialect "mvel"
-
-when
-	LocalEvent(	 callDateTime.hours >= 2,
-				 callDateTime.hours <= 6,
-				 amount > 4000) from entry-point GenericEventEntryPoint
+	    DebitTransaction( callDateTime.hours >= 2,
+	                      callDateTime.hours <= 6,
+	                      amount > 4000)
 then
     #TODO:Correct output.	
 end
 
+# 2nd Fraud Pattern
+rule "CreditTransaction at unusual hours"
+dialect "mvel"
+
+when
+	    CreditTransaction( callDateTime.hours >= 2,
+	                      callDateTime.hours <= 6,
+	                      amount > 4000)
+then
+        #TODO:Correct output
+end
 
 
 # 3th Fraud Pattern
-rule "Same transaction, same time, everyday"
+rule "Same DebitTransaction, same time, everyday"
 dialect "mvel" 
 
 when
-	$event : GenericEvent() from entry-point GenericEventEntryPoint
-	
+	$event : DebitTransaction()
 	GenericEvent(callDateTime.day > $event.callDateTime.day,
 				 callDateTime.seconds == $event.callDateTime.seconds,
 				 callDateTime.minutes == $event.callDateTime.minutes,
