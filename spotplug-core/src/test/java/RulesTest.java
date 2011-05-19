@@ -14,7 +14,7 @@ import com.plugtree.spotplug.impl.EventLog;
 import com.plugtree.spotplug.impl.FusionEngine;
 import com.plugtree.spotplug.model.GenericEvent;
 
-public class RulesTest{
+public class RulesTest {
 
 	private static FusionEngine engine;
 	private static LinkedList<EventLog> eventLogList;

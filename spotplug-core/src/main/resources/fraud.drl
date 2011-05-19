@@ -157,19 +157,19 @@ then
 	actuator.writeOutput(kcontext, hashMap.get($user.id));
 	$user.increaseFraudProbability(10);	
 end
-
+*/
 # 7th Fraud Pattern
 rule "Too many events in a short period of time"
 dialect "mvel" 
 
 when
 	$user : User()
-	Number($count : intValue, intValue > 3) from accumulate($event : GenericEvent(userId == $user.id) over window:time(1m) from entry-point GenericEventEntryPoint, count($event)) 
+	Number($count : intValue, intValue > 3) from accumulate($event : BankEvent(userId == $user.id) over window:time(1m), count($event)) 
 then
 	$user.increaseFraudProbability(20);
 	actuator.writeOutput(kcontext, $user);	 
 end
-
+/*
 
 #Support Rule for 8th Fraud Pattern
 rule "At Least 3 Events From an User"
@@ -216,15 +216,14 @@ then
 	hashMap.get($userId).increaseFraudProbability(30);
 	actuator.writeOutput(kcontext, hashMap.get($userId));
 end
-/*
+
 rule "High fraud probability"
 salience 1000
 
 when
 	$user : User(fraudProbability > 90)
-	$event : GenericEvent(userId == $user.id) from entry-point GenericEventEntryPoint
+	$event : BankEvent(userId == $user.id)
 then
 	mailActuator.writeOutput(kcontext, $user);
 	retract($event);
 end
-*/
