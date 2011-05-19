@@ -1,7 +1,6 @@
 import java.util.Calendar;
 import java.util.LinkedList;
 
-import com.plugtree.spotplug.model.GenericEvent;
 import junit.framework.Assert;
 
 import org.junit.After;
@@ -10,9 +9,10 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.plugtree.spotplug.actuator.LogActuator;
 import com.plugtree.spotplug.impl.EventLog;
 import com.plugtree.spotplug.impl.FusionEngine;
-import com.plugtree.spotplug.actuator.LogActuator;
+import com.plugtree.spotplug.model.GenericEvent;
 
 public class RulesTest{
 
@@ -42,7 +42,7 @@ public class RulesTest{
 		Calendar calendar = Calendar.getInstance();
 		
 		calendar.set(2010, 9, 22, 10, 30, 00);
-		GenericEvent event1 = new GenericEvent("debit-transaction", calendar.getTime(), DURATION);
+		GenericEvent event1 = new GenericEvent("bank-event", calendar.getTime(), DURATION);
 		event1.addAttribute("amount", "5000");
 		event1.addAttribute("userId", "Hera");
 		event1.addAttribute("sequentialID", "0");
@@ -50,7 +50,7 @@ public class RulesTest{
 		event1.addAttribute("opCode", "105");
 		
 		calendar.set(2010, 9, 22, 11, 30, 00);
-		GenericEvent event2 = new GenericEvent("debit-transaction", calendar.getTime(), DURATION);
+		GenericEvent event2 = new GenericEvent("bank-event", calendar.getTime(), DURATION);
 		event2.addAttribute("amount", "6000");
 		event2.addAttribute("userId", "Hera");
 		event2.addAttribute("sequentialID", "1");
@@ -58,7 +58,7 @@ public class RulesTest{
 		event2.addAttribute("opCode", "105");
 		
 		calendar.set(2010, 9, 23, 12, 30, 00);
-		GenericEvent event3 = new GenericEvent("debit-transaction", calendar.getTime(), DURATION);
+		GenericEvent event3 = new GenericEvent("bank-event", calendar.getTime(), DURATION);
 		event3.addAttribute("amount", "6000");
 		event3.addAttribute("userId", "Hera");
 		event3.addAttribute("sequentialID", "2");
@@ -66,7 +66,7 @@ public class RulesTest{
 		event3.addAttribute("opCode", "105");
 		
 		calendar.set(2010, 9, 23, 15, 30, 00);
-		GenericEvent event4 = new GenericEvent("debit-transaction", calendar.getTime(), DURATION);
+		GenericEvent event4 = new GenericEvent("bank-event", calendar.getTime(), DURATION);
 		event4.addAttribute("amount", "7000");
 		event4.addAttribute("userId", "Hera");
 		event4.addAttribute("sequentialID", "3");
@@ -95,14 +95,14 @@ public class RulesTest{
 		Calendar calendar = Calendar.getInstance();
 		
 		calendar.set(2010, 9, 22, 10, 30, 00);
-		GenericEvent event1 = new GenericEvent("debit-transaction", calendar.getTime(), DURATION);
+		GenericEvent event1 = new GenericEvent("bank-event", calendar.getTime(), DURATION);
 		event1.addAttribute("amount", "5000");
 		event1.addAttribute("userId", "Hera");
 		event1.addAttribute("sequentialID", "0");
 		event1.addAttribute("transactionID", "1");
 		event1.addAttribute("opCode", "105");
 		
-		GenericEvent event3 = new GenericEvent("debit-transaction", calendar.getTime(), DURATION);
+		GenericEvent event3 = new GenericEvent("bank-event", calendar.getTime(), DURATION);
 		event3.addAttribute("amount", "7000");
 		event3.addAttribute("userId", "Hera");
 		event3.addAttribute("sequentialID", "0");
@@ -110,7 +110,7 @@ public class RulesTest{
 		event3.addAttribute("opCode", "105");
 		
 		calendar.set(2010, 9, 22, 11, 30, 00);
-		GenericEvent event2 = new GenericEvent("debit-transaction", calendar.getTime(), DURATION);
+		GenericEvent event2 = new GenericEvent("bank-event", calendar.getTime(), DURATION);
 		event2.addAttribute("amount", "6000");
 		event2.addAttribute("userId", "Hera");
 		event2.addAttribute("sequentialID", "1");
@@ -136,7 +136,7 @@ public class RulesTest{
 		Calendar calendar = Calendar.getInstance();
 		
 		calendar.set(2010, 9, 23, 10, 30, 00);
-		GenericEvent event1 = new GenericEvent("debit-transaction", calendar.getTime(), DURATION);
+		GenericEvent event1 = new GenericEvent("bank-event", calendar.getTime(), DURATION);
 		event1.addAttribute("amount", "6000");
 		event1.addAttribute("userId", "Hera");
 		event1.addAttribute("sequentialID", "0");
@@ -144,7 +144,7 @@ public class RulesTest{
 		event1.addAttribute("opCode", "105");
 		
 		calendar.set(2010, 9, 22, 11, 30, 00);
-		GenericEvent event2 = new GenericEvent("debit-transaction", calendar.getTime(), DURATION);
+		GenericEvent event2 = new GenericEvent("bank-event", calendar.getTime(), DURATION);
 		event1.addAttribute("amount", "7000");
 		event1.addAttribute("userId", "Zeus");
 		event1.addAttribute("sequentialID", "1");
@@ -152,7 +152,7 @@ public class RulesTest{
 		event1.addAttribute("opCode", "105");
 		
 		calendar.set(2010, 9, 22, 10, 30, 00);
-		GenericEvent event3 = new GenericEvent("debit-transaction", calendar.getTime(), DURATION);
+		GenericEvent event3 = new GenericEvent("bank-event", calendar.getTime(), DURATION);
 		event1.addAttribute("amount", "6000");
 		event1.addAttribute("userId", "Hera");
 		event1.addAttribute("sequentialID", "0");
@@ -178,7 +178,7 @@ public class RulesTest{
 		Calendar calendar = Calendar.getInstance();
 		
 		calendar.set(2010, 9, 22, 11, 30, 01);
-		GenericEvent event1 = new GenericEvent("debit-transaction", calendar.getTime(), DURATION);
+		GenericEvent event1 = new GenericEvent("bank-event", calendar.getTime(), DURATION);
 		event1.addAttribute("amount", "6000");
 		event1.addAttribute("userId", "Hera");
 		event1.addAttribute("sequentialID", "0");
@@ -186,7 +186,7 @@ public class RulesTest{
 		event1.addAttribute("opCode", "105");
 		
 		calendar.set(2010, 9, 22, 11, 30, 02);
-		GenericEvent event2 = new GenericEvent("debit-transaction", calendar.getTime(), DURATION);
+		GenericEvent event2 = new GenericEvent("bank-event", calendar.getTime(), DURATION);
 		event2.addAttribute("amount", "7000");
 		event2.addAttribute("userId", "Hera");
 		event2.addAttribute("sequentialID", "2");
@@ -194,7 +194,7 @@ public class RulesTest{
 		event2.addAttribute("opCode", "105");
 		
 		calendar.set(2010, 9, 22, 11, 30, 03);
-		GenericEvent event3 = new GenericEvent("debit-transaction", calendar.getTime(), DURATION);
+		GenericEvent event3 = new GenericEvent("bank-event", calendar.getTime(), DURATION);
 		event2.addAttribute("amount", "5000");
 		event2.addAttribute("userId", "Hera");
 		event2.addAttribute("sequentialID", "1");
@@ -226,21 +226,21 @@ public class RulesTest{
 		cal3.set(2010,9,24,14,30,01);
 		
 		
-		GenericEvent event1 = new GenericEvent("debit-transaction", cal1.getTime(), DURATION);
+		GenericEvent event1 = new GenericEvent("bank-event", cal1.getTime(), DURATION);
 		event1.addAttribute("amount", "6000");
 		event1.addAttribute("userId", "Zeus");
 		event1.addAttribute("sequentialID", "0");
 		event1.addAttribute("transactionID", "1");
 		event1.addAttribute("opCode", "105");
 		
-		GenericEvent event2 = new GenericEvent("debit-transaction", cal2.getTime(), DURATION);
+		GenericEvent event2 = new GenericEvent("bank-event", cal2.getTime(), DURATION);
 		event2.addAttribute("amount", "5000");
 		event2.addAttribute("userId", "Zeus");
 		event2.addAttribute("sequentialID", "0");
 		event2.addAttribute("transactionID", "2");
 		event2.addAttribute("opCode", "105");
 		
-		GenericEvent event3 = new GenericEvent("debit-transaction", cal3.getTime(), DURATION);
+		GenericEvent event3 = new GenericEvent("bank-event", cal3.getTime(), DURATION);
 		event3.addAttribute("amount", "10001");
 		event3.addAttribute("userId", "Zeus");
 		event3.addAttribute("sequentialID", "0");
@@ -273,28 +273,28 @@ public class RulesTest{
 		Calendar cal4 = Calendar.getInstance();
 		cal4.set(2010,9,23,10,30,20);
 		
-		GenericEvent event1 = new GenericEvent("debit-transaction", cal1.getTime(), DURATION);
+		GenericEvent event1 = new GenericEvent("bank-event", cal1.getTime(), DURATION);
 		event1.addAttribute("amount", "5000");
 		event1.addAttribute("userId", "Thor");
 		event1.addAttribute("sequentialID", "0");
 		event1.addAttribute("transactionID", "1");
 		event1.addAttribute("opCode", "105");
 		
-		GenericEvent event2 = new GenericEvent("debit-transaction", cal2.getTime(), DURATION);
+		GenericEvent event2 = new GenericEvent("bank-event", cal2.getTime(), DURATION);
 		event2.addAttribute("amount", "6000");
 		event2.addAttribute("userId", "Thor");
 		event2.addAttribute("sequentialID", "1");
 		event2.addAttribute("transactionID", "1");
 		event2.addAttribute("opCode", "105");
 		
-		GenericEvent event3 = new GenericEvent("debit-transaction", cal3.getTime(), DURATION);
+		GenericEvent event3 = new GenericEvent("bank-event", cal3.getTime(), DURATION);
 		event3.addAttribute("amount", "7000");
 		event3.addAttribute("userId", "Thor");
 		event3.addAttribute("sequentialID", "2");
 		event3.addAttribute("transactionID", "1");
 		event3.addAttribute("opCode", "105");
 		
-		GenericEvent event4 = new GenericEvent("debit-transaction", cal4.getTime(), DURATION);
+		GenericEvent event4 = new GenericEvent("bank-event", cal4.getTime(), DURATION);
 		event3.addAttribute("amount", "8000");
 		event3.addAttribute("userId", "Thor");
 		event3.addAttribute("sequentialID", "3");
@@ -331,28 +331,28 @@ public class RulesTest{
 		Calendar cal4 = Calendar.getInstance();
 		cal4.set(2010, 10, 8, 16, 0, 30);
 		
-		GenericEvent event1 = new GenericEvent("debit-transaction", cal1.getTime(), DURATION);
+		GenericEvent event1 = new GenericEvent("bank-event", cal1.getTime(), DURATION);
 		event1.addAttribute("amount", "6000");
 		event1.addAttribute("userId", "Mike");
 		event1.addAttribute("sequentialID", "1");
 		event1.addAttribute("transactionID", "1");
 		event1.addAttribute("opCode", "105");
 		
-		GenericEvent event2 = new GenericEvent("debit-transaction", cal2.getTime(), DURATION);
+		GenericEvent event2 = new GenericEvent("bank-event", cal2.getTime(), DURATION);
 		event2.addAttribute("amount", "6000");
 		event2.addAttribute("userId", "John");
 		event2.addAttribute("sequentialID", "1");
 		event2.addAttribute("transactionID", "7");
 		event2.addAttribute("opCode", "105");
 		
-		GenericEvent event3 = new GenericEvent("debit-transaction", cal3.getTime(), DURATION);
+		GenericEvent event3 = new GenericEvent("bank-event", cal3.getTime(), DURATION);
 		event3.addAttribute("amount", "7000");
 		event3.addAttribute("userId", "Mike");
 		event3.addAttribute("sequentialID", "2");
 		event3.addAttribute("transactionID", "5");
 		event3.addAttribute("opCode", "105");
 
-		GenericEvent event4 = new GenericEvent("debit-transaction", cal4.getTime(), DURATION);
+		GenericEvent event4 = new GenericEvent("bank-event", cal4.getTime(), DURATION);
 		event4.addAttribute("amount", "6000");
 		event4.addAttribute("userId", "Mike");
 		event4.addAttribute("sequentialID", "3");
@@ -389,28 +389,28 @@ public class RulesTest{
 		cal4.setTimeInMillis(System.currentTimeMillis());
 		
 		
-		GenericEvent event1 = new GenericEvent("debit-transaction", cal1.getTime(), DURATION);
+		GenericEvent event1 = new GenericEvent("bank-event", cal1.getTime(), DURATION);
 		event1.addAttribute("amount", "6000");
 		event1.addAttribute("userId", "Hera");
 		event1.addAttribute("sequentialID", "0");
 		event1.addAttribute("transactionID", "1");
 		event1.addAttribute("opCode", "105");
 		
-		GenericEvent event2 = new GenericEvent("debit-transaction", cal2.getTime(), DURATION);
+		GenericEvent event2 = new GenericEvent("bank-event", cal2.getTime(), DURATION);
 		event2.addAttribute("amount", "6000");
 		event2.addAttribute("userId", "Hulk");
 		event2.addAttribute("sequentialID", "1");
 		event2.addAttribute("transactionID", "2");
 		event2.addAttribute("opCode", "105");
 		
-		GenericEvent event3 = new GenericEvent("debit-transaction", cal3.getTime(), DURATION);
+		GenericEvent event3 = new GenericEvent("bank-event", cal3.getTime(), DURATION);
 		event3.addAttribute("amount", "7000");
 		event3.addAttribute("userId", "Hera");
 		event3.addAttribute("sequentialID", "1");
 		event3.addAttribute("transactionID", "2");
 		event3.addAttribute("opCode", "105");
 		
-		GenericEvent event4 = new GenericEvent("debit-transaction", cal4.getTime(), DURATION);
+		GenericEvent event4 = new GenericEvent("bank-event", cal4.getTime(), DURATION);
 		event4.addAttribute("amount", "5000");
 		event4.addAttribute("userId", "Hera");
 		event4.addAttribute("sequentialID", "1");
@@ -421,7 +421,7 @@ public class RulesTest{
 		Assert.assertEquals(eventLogList.size(),1);
 		Assert.assertEquals(eventLogList.getLast().getUserId(), "Hera");
 		
-		Assert.assertEquals(eventLogList.getLast().getFraudPattern(), "DebitTransaction at unusual hours");
+		Assert.assertEquals(eventLogList.getLast().getFraudPattern(), "Transaction at unusual hours");
 		
 		engine.processEvent(event2);
 		Assert.assertEquals(eventLogList.size(), 1);
@@ -429,7 +429,7 @@ public class RulesTest{
 		engine.processEvent(event3);
 		Assert.assertEquals(eventLogList.size(), 2);
 		Assert.assertEquals(eventLogList.getLast().getUserId(), "Hera");
-		Assert.assertEquals(eventLogList.getLast().getFraudPattern(), "DebitTransaction at unusual hours");
+		Assert.assertEquals(eventLogList.getLast().getFraudPattern(), "Transaction at unusual hours");
 		
 		engine.processEvent(event4);
 		Assert.assertEquals(eventLogList.size(), 2);
@@ -449,28 +449,28 @@ public class RulesTest{
 		Calendar cal4 = Calendar.getInstance();
 		cal4.set(2010,10,12,11,32,00);
 
-		GenericEvent event1 = new GenericEvent("debit-transaction", cal1.getTime(), DURATION);
+		GenericEvent event1 = new GenericEvent("bank-event", cal1.getTime(), DURATION);
 		event1.addAttribute("amount", "6000");
 		event1.addAttribute("userId", "Hera");
 		event1.addAttribute("sequentialID", "1");
 		event1.addAttribute("transactionID", "1");
 		event1.addAttribute("opCode", "105");
 		
-		GenericEvent event2 = new GenericEvent("debit-transaction", cal2.getTime(), DURATION);
+		GenericEvent event2 = new GenericEvent("bank-event", cal2.getTime(), DURATION);
 		event2.addAttribute("amount", "6000");
 		event2.addAttribute("userId", "Hulk");
 		event2.addAttribute("sequentialID", "1");
 		event2.addAttribute("transactionID", "2");
 		event2.addAttribute("opCode", "105");
 		
-		GenericEvent event3 = new GenericEvent("debit-transaction", cal3.getTime(), DURATION);
+		GenericEvent event3 = new GenericEvent("bank-event", cal3.getTime(), DURATION);
 		event3.addAttribute("amount", "7000");
 		event3.addAttribute("userId", "Hera");
 		event3.addAttribute("sequentialID", "2");
 		event3.addAttribute("transactionID", "1");
 		event3.addAttribute("opCode", "105");
 		
-		GenericEvent event4 = new GenericEvent("debit-transaction", cal4.getTime(), DURATION);
+		GenericEvent event4 = new GenericEvent("bank-event", cal4.getTime(), DURATION);
 		event4.addAttribute("amount", "5000");
 		event4.addAttribute("userId", "Hera");
 		event4.addAttribute("sequentialID", "3");

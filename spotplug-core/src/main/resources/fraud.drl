@@ -22,20 +22,7 @@ declare GenericEvent
     @duration(callDuration)    
 end
 
-declare CreditTransaction
-    userId : String
-    sequentialID : long
-	transactionID : long
-	opCode : long
-    amount : int
-	callDateTime : Date
-	callDuration : long
-    @role(event)
-    @timestamp(callDateTime.getTime())
-    @duration(callDuration)
-end
-
-declare DebitTransaction
+declare BankEvent
     userId : String
     sequentialID : long
     transactionID : long
@@ -48,48 +35,26 @@ declare DebitTransaction
     @duration(callDuration)      
 end
 
-# Converting Generic Events into a CreditTransaction
-rule "Convert GenericEvent into a CreditTransaction"
+# Converting Generic Events into a BankEvent
+rule "Convert GenericEvent into a bank-event"
 dialect "mvel"
 no-loop
 salience 10000
 
 when
-	$ge : GenericEvent(eventType == "credit-transaction") from entry-point GenericEventEntryPoint
+	$ge : GenericEvent(eventType == "bank-event") from entry-point GenericEventEntryPoint
 then
-    CreditTransaction ct = new CreditTransaction();
-    ct.setAmount(Integer.parseInt($ge.getAttributes().get("amount")));
-    ct.setSequentialID(Long.parseLong($ge.getAttributes().get("sequentialID")));
-    ct.setTransactionID(Long.parseLong($ge.getAttributes().get("transactionID")));
-    ct.setOpCode(Long.parseLong($ge.getAttributes().get("opCode")));
+    BankEvent bankEvent = new BankEvent();
+    bankEvent.setAmount(Integer.parseInt($ge.getAttributes().get("amount")));
+    bankEvent.setSequentialID(Long.parseLong($ge.getAttributes().get("sequentialID")));
+    bankEvent.setTransactionID(Long.parseLong($ge.getAttributes().get("transactionID")));
+    bankEvent.setOpCode(Long.parseLong($ge.getAttributes().get("opCode")));
 
-    ct.setCallDateTime($ge.getCallDateTime());
+    bankEvent.setCallDateTime($ge.getCallDateTime());
 
-	ct.setUserId($ge.getAttributes().get("userId"));
+	bankEvent.setUserId($ge.getAttributes().get("userId"));
 	retract($ge);
-	insert(ct)
-end
-
-# Converting Generic Events into a DebitTransaction
-rule "Convert GenericEvent into a DebitTransaction"
-dialect "mvel"
-no-loop
-salience 10000
-
-when
-	$ge : GenericEvent(eventType == "debit-transaction") from entry-point GenericEventEntryPoint
-then
-    DebitTransaction dt = new DebitTransaction();
-    dt.setAmount(Integer.parseInt($ge.getAttributes().get("amount")));
-    dt.setSequentialID(Long.parseLong($ge.getAttributes().get("sequentialID")));
-    dt.setTransactionID(Long.parseLong($ge.getAttributes().get("transactionID")));
-    dt.setOpCode(Long.parseLong($ge.getAttributes().get("opCode")));
-
-    dt.setCallDateTime($ge.getCallDateTime());
-
-    dt.setUserId($ge.getAttributes().get("userId"));
-    retract($ge);
-	insert(dt)
+	insert(bankEvent)
 end
 
 
@@ -108,37 +73,24 @@ then
 end*/
 
 # 2nd Fraud Pattern
-rule "DebitTransaction at unusual hours"
+rule "Transaction at unusual hours"
 dialect "mvel"
 
 when
-	    $event : DebitTransaction( callDateTime.hours >= 2,
-	                      callDateTime.hours <= 6,
-	                      amount > 4000)
+	    $event : BankEvent( callDateTime.hours >= 2,
+	                        callDateTime.hours <= 6,
+	                        amount > 4000)
 then
 
     	 actuator.writeOutput(kcontext, hashMap.get($event.userId));
 end
-
-# 2nd Fraud Pattern
-rule "CreditTransaction at unusual hours"
-dialect "mvel"
-
-when
-	    $event : CreditTransaction( callDateTime.hours >= 2,
-	                      callDateTime.hours <= 6,
-	                      amount > 4000)
-then
-        actuator.writeOutput(kcontext, hashMap.get($event.userId));
-end
-
-
+/*
 # 3th Fraud Pattern
-rule "Same DebitTransaction, same time, everyday"
+rule "Same BankEvent, same time, everyday"
 dialect "mvel" 
 
 when
-	$event : DebitTransaction()
+	$event : BankEvent()
 	GenericEvent(callDateTime.day > $event.callDateTime.day,
 				 callDateTime.seconds == $event.callDateTime.seconds,
 				 callDateTime.minutes == $event.callDateTime.minutes,
@@ -272,4 +224,4 @@ then
 	mailActuator.writeOutput(kcontext, $user);
 	retract($event);
 end
-
+*/
