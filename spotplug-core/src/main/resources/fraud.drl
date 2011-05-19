@@ -23,6 +23,9 @@ declare GenericEvent
 end
 
 declare BankEvent
+    @role(event)
+    @timestamp(callDateTime.getTime())
+    @duration(callDuration)      
     userId : String
     sequentialID : long
     transactionID : long
@@ -30,9 +33,6 @@ declare BankEvent
     amount : int
 	callDateTime : Date
 	callDuration : long
-    @role(event)
-    @timestamp(callDateTime.getTime())
-    @duration(callDuration)      
 end
 
 # Converting Generic Events into a BankEvent
@@ -57,20 +57,21 @@ then
 	insert(bankEvent)
 end
 
-
-/*# 1st Fraud Pattern
+/*
+# 1st Fraud Pattern
 rule "Strange volume in transaction"
 dialect "mvel" 
 
 when
-	$user : User()
-	$n : Number($totalAmount : intValue) from accumulate($event : GenericEvent(userId == $user.id) over window:time(1d) from entry-point GenericEventEntryPoint, sum($event.amount))
-	
+	 $user : User()
+	 $n : Number($totalAmount : intValue) from accumulate($event : BankEvent(userId == $user.id) over window:time(1d), sum($event.amount))
 then
 	System.out.println("Activada!" + $totalAmount);
-	hashMap.get($user.id).increaseFraudProbability(30);
-	actuator.writeOutput(kcontext, hashMap.get($user.id));	
-end*/
+	//hashMap.get($user.id).increaseFraudProbability(30);
+	actuator.writeOutput(kcontext, hashMap.get($user.id));
+	System.out.println("HOla");	
+end
+*/
 
 # 2nd Fraud Pattern
 rule "Transaction at unusual hours"
@@ -84,6 +85,7 @@ then
 
     	 actuator.writeOutput(kcontext, hashMap.get($event.userId));
 end
+
 /*
 # 3th Fraud Pattern
 rule "Same BankEvent, same time, everyday"
@@ -203,17 +205,18 @@ then
 	System.out.println(" Users :" + $users.size);
 end
 
+*/
 
 # 9th Fraud Pattern
 rule "Excesive amount"
 dialect "mvel" 
 when
-	GenericEvent($userId : userId, amount > 10000) from entry-point GenericEventEntryPoint
+	BankEvent($userId : userId, amount > 10000)
 then
 	hashMap.get($userId).increaseFraudProbability(30);
 	actuator.writeOutput(kcontext, hashMap.get($userId));
 end
-
+/*
 rule "High fraud probability"
 salience 1000
 
