@@ -51,6 +51,7 @@ then
     bankEvent.setOpCode(Long.parseLong($ge.getAttributes().get("opCode")));
 
     bankEvent.setCallDateTime($ge.getCallDateTime());
+    bankEvent.setCallDuration($ge.getCallDuration());
 
 	bankEvent.setUserId($ge.getAttributes().get("userId"));
 	retract($ge);
