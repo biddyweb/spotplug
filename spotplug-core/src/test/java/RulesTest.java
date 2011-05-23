@@ -145,19 +145,19 @@ public class RulesTest {
 		
 		calendar.set(2010, 9, 22, 11, 30, 00);
 		GenericEvent event2 = new GenericEvent("bank-event", calendar.getTime(), DURATION);
-		event1.addAttribute("amount", "7000");
-		event1.addAttribute("userId", "Zeus");
-		event1.addAttribute("sequentialID", "1");
-		event1.addAttribute("transactionID", "1");
-		event1.addAttribute("opCode", "105");
+		event2.addAttribute("amount", "7000");
+		event2.addAttribute("userId", "Zeus");
+		event2.addAttribute("sequentialID", "1");
+		event2.addAttribute("transactionID", "1");
+		event2.addAttribute("opCode", "105");
 		
 		calendar.set(2010, 9, 22, 10, 30, 00);
 		GenericEvent event3 = new GenericEvent("bank-event", calendar.getTime(), DURATION);
-		event1.addAttribute("amount", "6000");
-		event1.addAttribute("userId", "Hera");
-		event1.addAttribute("sequentialID", "0");
-		event1.addAttribute("transactionID", "1");
-		event1.addAttribute("opCode", "105");
+		event3.addAttribute("amount", "6000");
+		event3.addAttribute("userId", "Hera");
+		event3.addAttribute("sequentialID", "0");
+		event3.addAttribute("transactionID", "1");
+		event3.addAttribute("opCode", "105");
 
 		engine.processEvent(event1);
 		Assert.assertTrue(eventLogList.isEmpty());
@@ -195,11 +195,11 @@ public class RulesTest {
 		
 		calendar.set(2010, 9, 22, 11, 30, 03);
 		GenericEvent event3 = new GenericEvent("bank-event", calendar.getTime(), DURATION);
-		event2.addAttribute("amount", "5000");
-		event2.addAttribute("userId", "Hera");
-		event2.addAttribute("sequentialID", "1");
-		event2.addAttribute("transactionID", "1");
-		event2.addAttribute("opCode", "105");
+		event3.addAttribute("amount", "5000");
+		event3.addAttribute("userId", "Hera");
+		event3.addAttribute("sequentialID", "1");
+		event3.addAttribute("transactionID", "1");
+		event3.addAttribute("opCode", "105");
 		
 		engine.processEvent(event1);
 		Assert.assertTrue(eventLogList.isEmpty());
@@ -295,11 +295,11 @@ public class RulesTest {
 		event3.addAttribute("opCode", "105");
 		
 		GenericEvent event4 = new GenericEvent("bank-event", cal4.getTime(), DURATION);
-		event3.addAttribute("amount", "8000");
-		event3.addAttribute("userId", "Thor");
-		event3.addAttribute("sequentialID", "3");
-		event3.addAttribute("transactionID", "1");
-		event3.addAttribute("opCode", "105");
+		event4.addAttribute("amount", "8000");
+		event4.addAttribute("userId", "Thor");
+		event4.addAttribute("sequentialID", "3");
+		event4.addAttribute("transactionID", "1");
+		event4.addAttribute("opCode", "105");
 				
 		engine.processEvent(event1);
 		Assert.assertTrue(eventLogList.isEmpty());

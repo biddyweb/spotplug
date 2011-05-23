@@ -54,7 +54,7 @@ then
 
 	bankEvent.setUserId($ge.getAttributes().get("userId"));
 	retract($ge);
-	insert(bankEvent)
+	entryPoints["BankEvent"].insert(bankEvent);
 end
 
 /*
@@ -80,7 +80,7 @@ dialect "mvel"
 when
 	    $event : BankEvent( callDateTime.hours >= 2,
 	                        callDateTime.hours <= 6,
-	                        amount > 4000)
+	                        amount > 4000) from entry-point BankEvent
 then
 
     	 actuator.writeOutput(kcontext, hashMap.get($event.userId));
@@ -164,7 +164,7 @@ dialect "mvel"
 
 when
 	$user : User()
-	Number($count : intValue, intValue > 3) from accumulate($event : BankEvent(userId == $user.id) over window:time(1m), count($event)) 
+	Number($count : intValue, intValue > 3) from accumulate($event : BankEvent(userId == $user.id) over window:time(1m) from entry-point BankEvent , count($event)) 
 then
 	$user.increaseFraudProbability(20);
 	actuator.writeOutput(kcontext, $user);	 
@@ -211,7 +211,7 @@ end
 rule "Excesive amount"
 dialect "mvel" 
 when
-	BankEvent($userId : userId, amount > 10000)
+	BankEvent($userId : userId, amount > 10000) from entry-point BankEvent 
 then
 	hashMap.get($userId).increaseFraudProbability(30);
 	actuator.writeOutput(kcontext, hashMap.get($userId));
@@ -222,7 +222,7 @@ salience 1000
 
 when
 	$user : User(fraudProbability > 90)
-	$event : BankEvent(userId == $user.id)
+	$event : BankEvent(userId == $user.id) from entry-point BankEvent 
 then
 	mailActuator.writeOutput(kcontext, $user);
 	retract($event);
