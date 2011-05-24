@@ -144,25 +144,24 @@ then
 	actuator.writeOutput(kcontext, hashMap.get($firstEvent.userId));
 end
 
-/*
 # 6th Fraud Pattern
 rule "Exact coincidence of 2 events at Start Time Stamp , same User"
 dialect "mvel" 
 when
 	$user : User()
-	exists ( $e : GenericEvent(userId == $user.id , $ecdt : callDateTime) from entry-point GenericEventEntryPoint and
-	  		GenericEvent(userId == $user.id, this != $e, 
+	exists ( $e : BankEvent(userId == $user.id , $ecdt : callDateTime) from entry-point BankEvent and
+	  		BankEvent(userId == $user.id, this != $e,
 				    callDateTime.day == $ecdt.day,
 				    callDateTime.month == $ecdt.month,
 				    callDateTime.year == $ecdt.year,
 				    callDateTime.hours == $ecdt.hours,
 				    callDateTime.minutes == $ecdt.minutes,
-				    callDateTime.seconds == $ecdt.seconds) from entry-point GenericEventEntryPoint)
+				    callDateTime.seconds == $ecdt.seconds) from entry-point BankEvent)
 then
 	actuator.writeOutput(kcontext, hashMap.get($user.id));
 	$user.increaseFraudProbability(10);	
 end
-*/
+
 # 7th Fraud Pattern
 rule "Too many events in a short period of time"
 dialect "mvel" 
