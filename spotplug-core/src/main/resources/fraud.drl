@@ -87,23 +87,25 @@ then
     	 actuator.writeOutput(kcontext, hashMap.get($event.userId));
 end
 
-/*
+
 # 3th Fraud Pattern
 rule "Same BankEvent, same time, everyday"
 dialect "mvel" 
 
 when
-	$event : BankEvent()
-	GenericEvent(callDateTime.day > $event.callDateTime.day,
+	$event : BankEvent() from entry-point BankEvent
+	BankEvent(callDateTime.day > $event.callDateTime.day,
 				 callDateTime.seconds == $event.callDateTime.seconds,
 				 callDateTime.minutes == $event.callDateTime.minutes,
 				 callDateTime.hours == $event.callDateTime.hours,
 				 userId == $event.userId,
-				 amount == $event.amount) from entry-point GenericEventEntryPoint 
+				 amount == $event.amount) from entry-point BankEvent 
 then
 	hashMap.get($event.userId).increaseFraudProbability(60);
 	actuator.writeOutput(kcontext, hashMap.get($event.userId));
 end
+
+
 
 # 4th Fraud Pattern
 rule "Incorrect Message Order"
@@ -111,8 +113,8 @@ dialect "mvel"
 
 when
 	$user : User()
-	$e : GenericEvent($userId : userId ,userId == $user.id, $tid : transactionID , $sid : sequentialID, $ecdt : callDateTime) from entry-point GenericEventEntryPoint
-	GenericEvent(userId == $userId,
+	$e : BankEvent($userId : userId ,userId == $user.id, $tid : transactionID , $sid : sequentialID, $ecdt : callDateTime) from entry-point BankEvent
+	BankEvent(userId == $userId,
 				 this != $e,transactionID == $tid,
 				 sequentialID < $sid,
 				 callDateTime.year  == $ecdt.year,			     
@@ -121,26 +123,28 @@ when
 			     callDateTime.hours  == $ecdt.hours,
 			     callDateTime.minutes  == $ecdt.minutes,
 			     callDateTime.seconds > $ecdt.seconds
-			     ) from entry-point GenericEventEntryPoint
+			     ) from entry-point BankEvent
 then
 	#Rechazar transaccion.
 	actuator.writeOutput(kcontext, hashMap.get($userId));
 end
 
+
 # 5th Fraud Pattern
 rule "Identical transactions"
 dialect "mvel" 
 when
-	$firstEvent : GenericEvent() from entry-point GenericEventEntryPoint
+	$firstEvent : BankEvent() from entry-point BankEvent
 	
-	GenericEvent(this after[0, 30s] $firstEvent,
+	BankEvent(this after[0, 30s] $firstEvent,
 				 userId == $firstEvent.userId,
-				 amount == $firstEvent.amount) from entry-point GenericEventEntryPoint
+				 amount == $firstEvent.amount) from entry-point BankEvent
 then
 	#Rechazar transaccion.
 	actuator.writeOutput(kcontext, hashMap.get($firstEvent.userId));
 end
 
+/*
 # 6th Fraud Pattern
 rule "Exact coincidence of 2 events at Start Time Stamp , same User"
 dialect "mvel" 
@@ -171,7 +175,6 @@ then
 	actuator.writeOutput(kcontext, $user);	 
 end
 /*
-
 #Support Rule for 8th Fraud Pattern
 rule "At Least 3 Events From an User"
 dialect "mvel"
@@ -188,6 +191,7 @@ then
 	}
 	System.out.println("Number of Users:" + $users.size());
 end
+
 
 # 8th Fraud Pattern
 rule "Wide Distance Between Events"

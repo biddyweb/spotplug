@@ -109,7 +109,7 @@ public class RulesTest {
 		event3.addAttribute("transactionID", "1");
 		event3.addAttribute("opCode", "105");
 		
-		calendar.set(2010, 9, 22, 11, 30, 00);
+		calendar.set(2010, 9, 22, 10, 30, 00);
 		GenericEvent event2 = new GenericEvent("bank-event", calendar.getTime(), DURATION);
 		event2.addAttribute("amount", "6000");
 		event2.addAttribute("userId", "Hera");
@@ -168,7 +168,7 @@ public class RulesTest {
 		engine.processEvent(event3);
 		Assert.assertEquals(eventLogList.size(), 1);
 		Assert.assertEquals(eventLogList.getLast().getUserId(), "Hera");
-		Assert.assertEquals(eventLogList.getLast().getFraudPattern(), "Same transaction, same time, everyday");
+		Assert.assertEquals(eventLogList.getLast().getFraudPattern(), "Same BankEvent, same time, everyday");
 	}
 	
 	@Test
