@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.drools.runtime.StatefulKnowledgeSession;
+import org.drools.runtime.rule.FactHandle;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -19,11 +21,12 @@ import com.plugtree.spotplug.shared.VisualEvent;
 public class EventServiceImpl extends RemoteServiceServlet implements EventService {
 
 	private Bus bus;
+    private ApplicationContext context;
 	
 	public EventServiceImpl() {
 		
 		//TODO: Mover de aca.
-		ApplicationContext context = new ClassPathXmlApplicationContext(new String[] {"/core.xml"});
+		context = new ClassPathXmlApplicationContext(new String[] {"/core.xml"});
 		
 		Configuration configuration = (Configuration) context.getBean("Configuration");
 		bus = (Bus) context.getBean("Bus");
@@ -66,16 +69,16 @@ public class EventServiceImpl extends RemoteServiceServlet implements EventServi
             visualEvent.setAttributesMap(event.getAttributes());			
 			visualEventList.add(visualEvent);
 		}
-		
+
 		return visualEventList;
 	}
 
 	@Override
 	public List<String> getEventNames() {
-		
-		List<String> eventNames = new LinkedList<String>();
+
+       	List<String> eventNames = new LinkedList<String>();
 		eventNames.add("Generic Event");
-		
+	    
 		return eventNames;
 	}
 }
