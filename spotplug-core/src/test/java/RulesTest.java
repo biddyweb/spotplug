@@ -265,13 +265,13 @@ public class RulesTest {
 		int DURATION = 20000;
 		
 		Calendar cal1 = Calendar.getInstance();
-		cal1.set(2010,9,23,10,30,00);
+		cal1.set(2010,9,23,10,30,0);
 		Calendar cal2 = Calendar.getInstance();
-		cal2.set(2010,9,23,10,30,05);
+		cal2.set(2010,9,23,10,30,5);
 		Calendar cal3 = Calendar.getInstance();
 		cal3.set(2010,9,23,10,30,10);
 		Calendar cal4 = Calendar.getInstance();
-		cal4.set(2010,9,23,10,30,20);
+		cal4.set(2010,9,23,10,30,15);
 		
 		GenericEvent event1 = new GenericEvent("bank-event", cal1.getTime(), DURATION);
 		event1.addAttribute("amount", "5000");
