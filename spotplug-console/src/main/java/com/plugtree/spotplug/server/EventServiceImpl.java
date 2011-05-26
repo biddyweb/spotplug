@@ -4,8 +4,6 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.drools.runtime.StatefulKnowledgeSession;
-import org.drools.runtime.rule.FactHandle;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -76,9 +74,10 @@ public class EventServiceImpl extends RemoteServiceServlet implements EventServi
 	@Override
 	public List<String> getEventNames() {
 
-       	List<String> eventNames = new LinkedList<String>();
+        List<String> eventNames = new LinkedList<String>();
 		eventNames.add("Generic Event");
-	    
+
+
 		return eventNames;
 	}
 }
