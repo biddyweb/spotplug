@@ -34,7 +34,7 @@ public class FileEventInput implements EventInput {
 
 	private Bus bus;
 	final static Logger logger = LoggerFactory.getLogger(FileEventInput.class);
-	private final String path = "src/main/resources/events.txt";
+	private final String path = this.getClass().getClassLoader().getResource("events.txt").getPath();
 	
 	public FileEventInput(){		
 	}
@@ -93,9 +93,10 @@ public class FileEventInput implements EventInput {
 		GenericEvent genericEvent = new GenericEvent(eventType, date, duration);
 
 		String attributeLine;
-		
-		while ((attributeLine = stringTokenizer.nextToken()) != null) {
-			StringTokenizer tokenizer = new StringTokenizer(attributeLine, ":");
+
+		while (stringTokenizer.hasMoreTokens()) {
+			attributeLine = stringTokenizer.nextToken();
+            StringTokenizer tokenizer = new StringTokenizer(attributeLine, ":");
 			String key = tokenizer.nextToken();
 			String value = tokenizer.nextToken();
 			
