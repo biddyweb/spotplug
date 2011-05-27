@@ -59,16 +59,25 @@ public class EventServiceImpl extends RemoteServiceServlet implements EventServi
 		
 		List<GenericEvent> eventList = bus.getEvents();
 		List<VisualEvent> visualEventList = new LinkedList<VisualEvent>();
-		
-		//TODO: Filter by type event, right now we only have one type.		
-		for(GenericEvent event : eventList) {
+
+        if(eventName.equals("GenericEvent")){
+
+		    for(GenericEvent event : eventList) {
 			
-			VisualEvent visualEvent = new VisualEvent();
-			visualEvent.setTimestamp(event.getCallDateTime().getTime());
-			visualEvent.setEventName("Generic Event");
-            visualEvent.setAttributesMap(event.getAttributes());			
-			visualEventList.add(visualEvent);
-		}
+			    VisualEvent visualEvent = new VisualEvent();
+			    visualEvent.setTimestamp(event.getCallDateTime().getTime());
+			    visualEvent.setEventName("Generic Event");
+                visualEvent.setAttributesMap(event.getAttributes());
+			    visualEventList.add(visualEvent);
+		    }
+
+        }
+
+        if(eventName.equals("BankEvent")){
+            StatefulKnowledgeSession ksession = (StatefulKnowledgeSession) context.getBean("ksession1");
+            ksession.getWorkingMemoryEntryPoint("BankEvent");
+            //TODO: Build the VisualEvent based on the BankEvent
+        }
 
 		return visualEventList;
 	}
