@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.drools.runtime.StatefulKnowledgeSession;
+import org.drools.runtime.rule.WorkingMemoryEntryPoint;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -75,9 +77,17 @@ public class EventServiceImpl extends RemoteServiceServlet implements EventServi
 	public List<String> getEventNames() {
 
         List<String> eventNames = new LinkedList<String>();
-		eventNames.add("Generic Event");
+		       	    
+        StatefulKnowledgeSession ksession = (StatefulKnowledgeSession) context.getBean("ksession1");
+        for(WorkingMemoryEntryPoint entryPoint  :  ksession.getWorkingMemoryEntryPoints()){
+            /*Acording to the EntryPoint add the asociated EventName*/
+            if(entryPoint.getEntryPointId().equals("BankEvent"))eventNames.add("BankEvent");
+            if(entryPoint.getEntryPointId().equals("GenericEventEntryPoint"))eventNames.add("GenericEvent");
 
 
-		return eventNames;
-	}
+        }
+
+        return eventNames;
+
+    }
 }
