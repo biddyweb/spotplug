@@ -44,12 +44,14 @@ public class EventServiceImpl extends RemoteServiceServlet implements EventServi
 		
 		for(int i = 0; i < 24; i++) historyList.add(new Long(0));
 		
-		//TODO: Filter by type event, right now we only have one type.
 		for(GenericEvent event : eventList) {
-			@SuppressWarnings("deprecation")
-			int index = event.getCallDateTime().getHours();//TODO: remove warning.
-			historyList.set(index, historyList.get(index) + 1);
-		}
+
+             if(event.getEventType().equals(eventName)){
+			    @SuppressWarnings("deprecation")
+                int index = event.getCallDateTime().getHours();//TODO: remove warning.
+			    historyList.set(index, historyList.get(index) + 1);
+             }
+         }
 		
 		return historyList;
 	}
@@ -60,24 +62,16 @@ public class EventServiceImpl extends RemoteServiceServlet implements EventServi
 		List<GenericEvent> eventList = bus.getEvents();
 		List<VisualEvent> visualEventList = new LinkedList<VisualEvent>();
 
-        if(eventName.equals("GenericEvent")){
 
 		    for(GenericEvent event : eventList) {
-			
-			    VisualEvent visualEvent = new VisualEvent();
-			    visualEvent.setTimestamp(event.getCallDateTime().getTime());
-			    visualEvent.setEventName("Generic Event");
-                visualEvent.setAttributesMap(event.getAttributes());
-			    visualEventList.add(visualEvent);
+                if(event.getEventType().equals(eventName)){
+			        VisualEvent visualEvent = new VisualEvent();
+			        visualEvent.setTimestamp(event.getCallDateTime().getTime());
+			        visualEvent.setEventName(event.getEventType());
+                    visualEvent.setAttributesMap(event.getAttributes());
+			        visualEventList.add(visualEvent);
+                }
 		    }
-
-        }
-
-        if(eventName.equals("BankEvent")){
-            StatefulKnowledgeSession ksession = (StatefulKnowledgeSession) context.getBean("ksession1");
-            ksession.getWorkingMemoryEntryPoint("BankEvent");
-            //TODO: Build the VisualEvent based on the BankEvent
-        }
 
 		return visualEventList;
 	}

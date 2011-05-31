@@ -42,10 +42,9 @@ public class EventChartPanel extends ChartPanel {
 		service.getEvents(name, new Date(), new GenericAsyncCallback<List<VisualEvent>>() {
 
 			@Override
-			public void onSuccess(List<VisualEvent> ruleList) {
-				//TablePopup popup = new TablePopup("Rule list", ruleList);
-				//TODO: FIX
-				///popup.show();
+			public void onSuccess(List<VisualEvent> eventList) {
+				EventTablePopup popup = new EventTablePopup("Event list", eventList);
+				popup.show();
 			}
 		});
 	}

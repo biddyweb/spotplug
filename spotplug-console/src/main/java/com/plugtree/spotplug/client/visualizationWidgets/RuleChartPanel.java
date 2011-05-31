@@ -43,7 +43,7 @@ public class RuleChartPanel extends ChartPanel {
 
 			@Override
 			public void onSuccess(List<VisualRule> ruleList) {
-				TablePopup popup = new TablePopup("Rule list", ruleList);
+				RuleTablePopup popup = new RuleTablePopup("Rule list", ruleList);
 				popup.show();
 			}
 		});

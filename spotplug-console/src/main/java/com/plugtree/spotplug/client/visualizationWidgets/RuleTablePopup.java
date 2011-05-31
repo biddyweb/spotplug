@@ -9,12 +9,12 @@ import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.plugtree.spotplug.shared.VisualRule;
 
-public class TablePopup extends DialogBox {
+public class RuleTablePopup extends DialogBox {
 
     private Button okButton = new Button("OK");
     private VerticalPanel vPanel = new VerticalPanel(); 
     
-    public TablePopup(String tableName, List<VisualRule> ruleList) {
+    public RuleTablePopup(String tableName, List<VisualRule> ruleList) {
         
         setText(tableName);
         RuleTable ruleTable = new RuleTable(ruleList);
