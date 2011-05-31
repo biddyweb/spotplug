@@ -38,8 +38,9 @@ public class EventChartPanel extends ChartPanel {
 
 	@Override
 	public void showSelection(String name, int hour) {
-		
-		service.getEvents(name, new Date(), new GenericAsyncCallback<List<VisualEvent>>() {
+		Date date = new Date();
+        date.setHours(hour);
+		service.getEvents(name, date , new GenericAsyncCallback<List<VisualEvent>>() {
 
 			@Override
 			public void onSuccess(List<VisualEvent> eventList) {

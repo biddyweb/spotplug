@@ -64,7 +64,7 @@ public class EventServiceImpl extends RemoteServiceServlet implements EventServi
 
 
 		    for(GenericEvent event : eventList) {
-                if(event.getEventType().equals(eventName)){
+                if(event.getEventType().equals(eventName) && event.getCallDateTime().getHours() == date.getHours()){
 			        VisualEvent visualEvent = new VisualEvent();
 			        visualEvent.setTimestamp(event.getCallDateTime().getTime());
 			        visualEvent.setEventName(event.getEventType());
