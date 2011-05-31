@@ -1,4 +1,4 @@
-package com.plugtree.spotplug.client.visualizationWidgets;
+package com.plugtree.spotplug.client.mainviews;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.DockLayoutPanel;

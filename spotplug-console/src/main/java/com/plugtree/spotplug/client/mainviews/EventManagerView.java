@@ -1,6 +1,7 @@
-package com.plugtree.spotplug.client.visualizationWidgets;
+package com.plugtree.spotplug.client.mainviews;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.plugtree.spotplug.client.visualizationWidgets.AddEditEventTable;
 
 public class EventManagerView extends HorizontalPanel {
 
