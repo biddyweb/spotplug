@@ -82,15 +82,18 @@ public class EventServiceImpl extends RemoteServiceServlet implements EventServi
         List<String> eventNames = new LinkedList<String>();
 		       	    
         StatefulKnowledgeSession ksession = (StatefulKnowledgeSession) context.getBean("ksession1");
+
         for(WorkingMemoryEntryPoint entryPoint  :  ksession.getWorkingMemoryEntryPoints()){
-            /*Acording to the EntryPoint add the asociated EventName*/
-            if(entryPoint.getEntryPointId().equals("BankEvent"))eventNames.add("BankEvent");
-            if(entryPoint.getEntryPointId().equals("GenericEventEntryPoint"))eventNames.add("GenericEvent");
-
-
+            
+        	String entryPointName = entryPoint.getEntryPointId();
+        	
+        	if (entryPointName.equals("GenericEventEntryPoint") || entryPointName.equals("DEFAULT")) {
+        		continue;
+        	}
+        	
+        	eventNames.add(entryPointName);
         }
 
         return eventNames;
-
     }
 }
