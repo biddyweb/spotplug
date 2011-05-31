@@ -44,7 +44,7 @@ no-loop
 salience 10000
 
 when
-	$ge : GenericEvent(eventType == "bank-event") from entry-point GenericEventEntryPoint
+	$ge : GenericEvent(eventType == "BankEvent" ) from entry-point GenericEventEntryPoint
 then
     BankEvent bankEvent = new BankEvent();
     bankEvent.setAmount(Integer.parseInt($ge.getAttributes().get("amount")));
@@ -58,6 +58,11 @@ then
 	bankEvent.setUserId($ge.getAttributes().get("userId"));
 	retract($ge);
 	entryPoints["BankEvent"].insert(bankEvent);
+
+	/*Testing Event Actuator*/
+	GenericEvent genEvent = new GenericEvent("GenericEvent",new Date(),1000);
+	eventActuator.insertEventInBus(genEvent);
+
 end
 
 /*
