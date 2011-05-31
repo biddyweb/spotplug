@@ -1,6 +1,6 @@
-bankEvent,18/05/2011 22:14:02,3000,userId:peter,amount:10000
-bankEvent,18/05/2011 22:14:02,3000,userId:peter,amount:10000
-bankEvent,18/05/2011 22:14:02,3000,userId:peter,amount:10000
-bankEvent,18/05/2011 22:14:02,3000,userId:peter,amount:10000
-bankEvent,18/05/2011 22:14:02,3000,userId:peter,amount:10000
-bankEvent,18/05/2011 22:14:02,3000,userId:peter,amount:10000
+BankEvent,18/05/2011 22:14:02,3000,userId:peter,amount:10000
+BankEvent,18/05/2011 22:14:02,3000,userId:peter,amount:10000
+BankEvent,18/05/2011 22:14:02,3000,userId:peter,amount:10000
+BankEvent,18/05/2011 22:14:02,3000,userId:peter,amount:10000
+BankEvent,18/05/2011 22:14:02,3000,userId:peter,amount:10000
+BankEvent,18/05/2011 22:14:02,3000,userId:peter,amount:10000
