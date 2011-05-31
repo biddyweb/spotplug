@@ -5,11 +5,12 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.plugtree.spotplug.client.visualizationWidgets.ChartPanel;
 import com.plugtree.spotplug.client.visualizationWidgets.EventChartPanel;
+import com.plugtree.spotplug.client.visualizationWidgets.RuleChartPanel;
 
 public class EventView extends VerticalPanel {
 
-    private ChartPanel chartPanel1 = new EventChartPanel();
-    private ChartPanel chartPanel2 = new EventChartPanel();
+    private ChartPanel chartPanel1 = new RuleChartPanel();
+    private ChartPanel chartPanel2 = new RuleChartPanel();
     private ChartPanel chartPanel3 = new EventChartPanel();
     private ChartPanel chartPanel4 = new EventChartPanel();
     
