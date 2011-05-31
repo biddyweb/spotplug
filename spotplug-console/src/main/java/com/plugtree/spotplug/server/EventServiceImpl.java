@@ -4,9 +4,6 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.plugtree.spotplug.actuator.LogActuator;
-import com.plugtree.spotplug.impl.EventLog;
-import com.plugtree.spotplug.impl.FusionEngine;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.drools.runtime.rule.WorkingMemoryEntryPoint;
 import org.springframework.context.ApplicationContext;
@@ -25,9 +22,6 @@ public class EventServiceImpl extends RemoteServiceServlet implements EventServi
 
 	private Bus bus;
     private ApplicationContext context;
-
-    private static FusionEngine engine;
-
 	
 	public EventServiceImpl() {
 		
@@ -40,8 +34,6 @@ public class EventServiceImpl extends RemoteServiceServlet implements EventServi
         EventInputManager eventInputManager = configuration.getEventInputManager();
 		configuration.configure();
 		eventInputManager.start();
-
-
 	}
 
 	@Override
