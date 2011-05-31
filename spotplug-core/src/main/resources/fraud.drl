@@ -60,8 +60,8 @@ then
 	entryPoints["BankEvent"].insert(bankEvent);
 
 	/*Testing Event Actuator*/
-	GenericEvent genEvent = new GenericEvent("GenericEvent",new Date(),1000);
-	eventActuator.insertEventInBus(genEvent);
+	#GenericEvent genEvent = new GenericEvent("GenericEvent",new Date(),1000);
+	#eventActuator.insertEventInBus(genEvent);
 
 end
 

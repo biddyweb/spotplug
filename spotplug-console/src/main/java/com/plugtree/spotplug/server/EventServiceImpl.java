@@ -36,18 +36,11 @@ public class EventServiceImpl extends RemoteServiceServlet implements EventServi
 		
 		Configuration configuration = (Configuration) context.getBean("Configuration");
 		bus = (Bus) context.getBean("Bus");
-		
-		EventInputManager eventInputManager = configuration.getEventInputManager();
+
+        EventInputManager eventInputManager = configuration.getEventInputManager();
 		configuration.configure();
 		eventInputManager.start();
 
-        /*Drools Fusion Session :: processing de Events in the Bus */
-        engine = (FusionEngine)context.getBean("Engine");
-		engine.configure();
-        for(GenericEvent event : bus.getEvents()){
-            engine.processEvent(event);
-            System.out.println("proceso Evento");
-        }
 
 	}
 
