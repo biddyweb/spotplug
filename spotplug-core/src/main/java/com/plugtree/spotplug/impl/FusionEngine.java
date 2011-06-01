@@ -17,6 +17,8 @@ package com.plugtree.spotplug.impl;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.plugtree.spotplug.model.GenericEvent;
+import org.drools.event.DefaultAgendaEventListener;
+import org.drools.event.rule.AgendaEventListener;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.drools.runtime.rule.WorkingMemoryEntryPoint;
 
@@ -40,7 +42,8 @@ public class FusionEngine implements Engine {
 		entryPoint = getSession().getWorkingMemoryEntryPoint("GenericEventEntryPoint");
 		
 		session.insert(new UsersList()); 
-		
+        session.addEventListener((AgendaEventListener) new ActivatedRuleListener());
+
 //		TODO:
 //		new Thread(new Runnable() {
 //			public void run() {
