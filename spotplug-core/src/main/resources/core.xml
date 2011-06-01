@@ -47,9 +47,7 @@
   
   <bean id="MailActuator" name="MailActuator" class="com.plugtree.spotplug.actuator.MailActuator"> </bean>
 
-  <bean id="EventActuator" name="EventActuator" class="com.plugtree.spotplug.actuator.EventActuator">
-  	<property name="bus" ref="Bus"/>
-  </bean>
+  <bean id="EventActuator" name="EventActuator" class="com.plugtree.spotplug.actuator.EventActuator"></bean>
 
   <bean id="EventLog" name="EventLog" class="com.plugtree.spotplug.impl.EventLog"> </bean>
         	

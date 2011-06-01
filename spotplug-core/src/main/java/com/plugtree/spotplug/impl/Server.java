@@ -19,6 +19,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.plugtree.spotplug.Configuration;
+import com.plugtree.spotplug.actuator.EventActuator;
+import com.plugtree.spotplug.bus.Bus;
 
 public class Server {
 
@@ -27,6 +29,11 @@ public class Server {
 		ApplicationContext context = new ClassPathXmlApplicationContext(new String[] {"/core.xml"});//, "/connection.xml"
 		
 		Configuration configuration = (Configuration) context.getBean("Configuration");
+		
+		EventActuator eventActuator = (EventActuator) context.getBean("EventActuator");
+		Bus bus = (Bus) context.getBean("Bus");
+		eventActuator.setBus(bus);
+		
 		EventInputManager eventInputManager = configuration.getEventInputManager();
 		configuration.configure();
 		eventInputManager.start();
