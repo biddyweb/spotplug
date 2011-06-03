@@ -1,5 +1,6 @@
 package com.plugtree.spotplug.impl;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.drools.definition.rule.Rule;
@@ -10,8 +11,11 @@ import org.drools.runtime.rule.FactHandle;
 
 public class ActivatedRuleListener extends DefaultAgendaEventListener {
 
+	private List<String> ruleNameList = new LinkedList<String>();
+	
 	@Override
 	public void afterActivationFired(AfterActivationFiredEvent event) {
+		
 		super.afterActivationFired(event);
 		
 		Activation activation = event.getActivation();
@@ -21,7 +25,22 @@ public class ActivatedRuleListener extends DefaultAgendaEventListener {
 		
 		List<? extends FactHandle> factHandleList = activation.getFactHandles();
 		
-		//TODO : Do something with the ruleName and factHandleList
+		if (ruleName.equals("Convert GenericEvent into a bank-event")) {
+			return;
+		}																																												
+		
+		ruleNameList.add(ruleName);
+		System.out.println("Rule name: " + ruleName);
+		
+		// TODO : No meter varios con el mismo nombre
+		// "Convert GenericEvent into a bank-event" filtrar
+		System.out.println("Fact size: " + factHandleList.size());
+		
+		for(FactHandle factHander : factHandleList) {
+			System.out.println(factHander.toString());
+			User user = (User)event.getKnowledgeRuntime().getObject(factHander);
+			System.out.println(user.getId());
+		}
 	}
 }
 

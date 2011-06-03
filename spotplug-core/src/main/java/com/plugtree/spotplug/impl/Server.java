@@ -19,7 +19,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.plugtree.spotplug.Configuration;
-import com.plugtree.spotplug.bus.Bus;
 
 public class Server {
 

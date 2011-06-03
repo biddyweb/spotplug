@@ -20,9 +20,7 @@ import com.plugtree.spotplug.model.GenericEvent;
 public interface Engine {
 	
 	public void processEvent(GenericEvent event);
-	
-	public void setRuleReader(RuleReader ruleReader);
-	
+
 	public void configure();
 	
 	public void stop();

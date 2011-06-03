@@ -20,12 +20,10 @@ import org.drools.runtime.StatefulKnowledgeSession;
 import org.drools.runtime.rule.WorkingMemoryEntryPoint;
 
 import com.plugtree.spotplug.Engine;
-import com.plugtree.spotplug.RuleReader;
 import com.plugtree.spotplug.model.GenericEvent;
 
 public class FusionEngine implements Engine {
 
-	private RuleReader reader;
 	private StatefulKnowledgeSession session;
 	private WorkingMemoryEntryPoint entryPoint;
 	
@@ -78,12 +76,6 @@ public class FusionEngine implements Engine {
 		getSession().halt();
 		getSession().dispose();
 	}
-	
-	@Override
-    public void setRuleReader(RuleReader ruleReader) {
-		this.reader = ruleReader;
-	}
-
 	
 	public void setSession(StatefulKnowledgeSession session) {
 		this.session = session;
