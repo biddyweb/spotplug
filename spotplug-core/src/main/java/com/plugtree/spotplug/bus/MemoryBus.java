@@ -5,16 +5,23 @@ import java.util.List;
 
 import com.plugtree.spotplug.Engine;
 import com.plugtree.spotplug.model.GenericEvent;
+import com.plugtree.spotplug.model.RuleEvent;
 
 public class MemoryBus implements Bus {
 
 	private List<GenericEvent> eventList = new LinkedList<GenericEvent>();
+	private List<RuleEvent> ruleEventList = new LinkedList<RuleEvent>();
 	private Engine engine;
 	
 	@Override
 	public void addEvent(GenericEvent event) {
 		eventList.add(event);
 		engine.processEvent(event);
+	}
+	
+	@Override
+	public void addEvent(RuleEvent ruleEvent) {
+		ruleEventList.add(ruleEvent);
 	}
 
 	@Override
@@ -24,5 +31,9 @@ public class MemoryBus implements Bus {
 	
 	public void setEngine(Engine engine) {
 		this.engine = engine;
+	}
+
+	public List<RuleEvent> getRuleEventList() {
+		return ruleEventList;
 	}
 }

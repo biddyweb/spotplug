@@ -52,16 +52,21 @@
   <bean id="Bus" name="bus" class="com.plugtree.spotplug.bus.MemoryBus">
   	<property name="engine" ref="Engine"/>
   </bean>  	
+  
+  <bean id="RuleListener" name="RuleListener" class="com.plugtree.spotplug.impl.ActivatedRuleListener" />
    	
   <bean id="Engine" name="engine" class="com.plugtree.spotplug.impl.FusionEngine">
-  	<property name="session" ref="ksession1"/>    
+  	<property name="session" ref="ksession1"/>
+  	<property name="ruleListener" ref="RuleListener"></property>
   </bean>
 
   <bean id="Configuration" name="configuration" class="com.plugtree.spotplug.impl.StaticConfiguration">
   	 <property name="engine" ref="Engine"/>
      <property name="fileEventInput" ref="FileEventInput"/>
      <!--<property name="jmsEventInput" ref="JmsEventInput"/> -->     
-     <property name="eventInputManager" ref="EventInputManager"/>     
+     <property name="eventInputManager" ref="EventInputManager"/>
+     <property name="bus" ref="Bus"/>   
+     <property name="ruleListener" ref="RuleListener"/>        
   </bean>
 
 </beans>

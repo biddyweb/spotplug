@@ -18,12 +18,15 @@ package com.plugtree.spotplug.impl;
 import com.plugtree.spotplug.Configuration;
 import com.plugtree.spotplug.Engine;
 import com.plugtree.spotplug.EventInput;
+import com.plugtree.spotplug.bus.Bus;
 
 public class StaticConfiguration implements Configuration {
 
 	private Engine engine;
 	private EventInputManager eventInputManager;
 	private EventInput fileEventInput;
+	private Bus bus;
+	private ActivatedRuleListener ruleListener;
 	//private EventInput jmsEventInput;
 	
 	public StaticConfiguration(){
@@ -49,6 +52,7 @@ public class StaticConfiguration implements Configuration {
 	@Override
 	public void configure() {
 		//eventInputManager.addEventInput(jmsEventInput);
+		ruleListener.setBus(bus);
 		eventInputManager.addEventInput(fileEventInput);
 		engine.configure();
 	}
@@ -59,6 +63,14 @@ public class StaticConfiguration implements Configuration {
 
 	public EventInput getFileEventInput() {
 		return fileEventInput;
+	}
+
+	public void setBus(Bus bus) {
+		this.bus = bus;
+	}
+
+	public void setRuleListener(ActivatedRuleListener ruleListener) {
+		this.ruleListener = ruleListener;
 	}
 
 //	public void setJmsEventInput(EventInput jmsEventInput) {

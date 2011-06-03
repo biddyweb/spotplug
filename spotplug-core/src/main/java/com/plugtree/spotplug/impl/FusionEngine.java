@@ -26,6 +26,7 @@ public class FusionEngine implements Engine {
 
 	private StatefulKnowledgeSession session;
 	private WorkingMemoryEntryPoint entryPoint;
+	private ActivatedRuleListener ruleListener;
 	
 	private ConcurrentHashMap<String, User> hashMap = new ConcurrentHashMap<String, User>();
 	
@@ -38,7 +39,7 @@ public class FusionEngine implements Engine {
 		entryPoint = getSession().getWorkingMemoryEntryPoint("GenericEventEntryPoint");
 		
 		session.insert(new UsersList()); 
-        session.addEventListener(new ActivatedRuleListener());
+        session.addEventListener(ruleListener);
 
 //		TODO:
 //		new Thread(new Runnable() {
@@ -53,7 +54,7 @@ public class FusionEngine implements Engine {
 		
 		createUser(event);
 		entryPoint.insert(event);
-		getSession().fireAllRules();
+		session.fireAllRules();
 	}
 	
 	private void createUser(GenericEvent event) {
@@ -83,5 +84,9 @@ public class FusionEngine implements Engine {
 
 	public StatefulKnowledgeSession getSession() {
 		return session;
-	}	
+	}
+
+	public void setRuleListener(ActivatedRuleListener ruleListener) {
+		this.ruleListener = ruleListener;
+	}
 }

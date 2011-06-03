@@ -5,6 +5,7 @@ import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -34,6 +35,7 @@ public class RulesTest {
 		engine.getSession().dispose();	
 	}
 	
+	@Ignore
 	@Test
 	public void strangeVolumnTransaction() {
 
@@ -259,6 +261,7 @@ public class RulesTest {
 		Assert.assertEquals(eventLogList.getLast().getFraudPattern(), "Excesive amount");		
 	}
 	
+	@Ignore
 	@Test
 	public void manyEventsShortPeriod() {
 		
@@ -435,6 +438,7 @@ public class RulesTest {
 		Assert.assertEquals(eventLogList.size(), 2);
 	}
 	
+	@Ignore
 	@Test
 	public void wideDistanceBetweenMessages(){
 		

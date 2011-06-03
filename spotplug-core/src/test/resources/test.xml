@@ -35,13 +35,17 @@
 	
  	<bean id="Actuator" name="Actuator" class="com.plugtree.spotplug.actuator.LogActuator"> </bean>
 
-	<bean id="RuleReader" name="ruleReader"
-		class="com.plugtree.spotplug.impl.FileRuleReader">
-	</bean>
+	<bean id="RuleListener" name="RuleListener" class="com.plugtree.spotplug.impl.ActivatedRuleListener">
+		<property name="bus" ref="Bus"/>
+  	</bean>
+  	
+  	<bean id="Bus" name="bus" class="com.plugtree.spotplug.bus.MemoryBus">
+  		<property name="engine" ref="Engine"/>
+  	</bean>  	
 
 	<bean id="Engine" name="engine" class="com.plugtree.spotplug.impl.FusionEngine">
-		<property name="ruleReader" ref="RuleReader" />
 		<property name="session" ref="ksession1" />
+		<property name="ruleListener" ref="RuleListener"></property>
 	</bean>
 	 
 </beans>
