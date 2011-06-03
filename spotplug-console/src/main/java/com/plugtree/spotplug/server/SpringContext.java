@@ -5,7 +5,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.plugtree.spotplug.Configuration;
-import com.plugtree.spotplug.actuator.EventActuator;
 import com.plugtree.spotplug.bus.Bus;
 import com.plugtree.spotplug.impl.EventInputManager;
 
@@ -31,10 +30,6 @@ public class SpringContext {
 
         EventInputManager eventInputManager = configuration.getEventInputManager();
 		configuration.configure();
-		
-		EventActuator eventActuator = (EventActuator) context.getBean("EventActuator");
-		Bus bus = (Bus) context.getBean("Bus");
-		eventActuator.setBus(bus);
 		
 		eventInputManager.start();
 	}

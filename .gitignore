@@ -8,3 +8,7 @@ spotplug-core/.project
 spotplug-core/.settings/
 .settings/
 .project
+.idea/
+spotplug-console/spotplug-console.iml
+spotplug-core/spotplug-core.iml
+spotplug.iml
