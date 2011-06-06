@@ -12,4 +12,6 @@ public interface Bus {
 	public void addEvent(RuleEvent event);
 	
 	public List<GenericEvent> getEvents();
+
+    public List<RuleEvent> getRuleEventList();
 }

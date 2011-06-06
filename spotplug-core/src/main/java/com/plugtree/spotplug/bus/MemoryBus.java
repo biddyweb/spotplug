@@ -21,7 +21,7 @@ public class MemoryBus implements Bus {
 	
 	@Override
 	public void addEvent(RuleEvent ruleEvent) {
-		ruleEventList.add(ruleEvent);
+		getRuleEventList().add(ruleEvent);
 	}
 
 	@Override

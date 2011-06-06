@@ -1,3 +1,5 @@
+package com.plugtree.spotplug;
+
 import com.plugtree.spotplug.model.GenericEvent;
 import com.plugtree.spotplug.impl.User;
 import com.plugtree.spotplug.actuator.MailActuator;
