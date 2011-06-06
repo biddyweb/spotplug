@@ -43,12 +43,9 @@
 	
  	<bean id="Actuator" name="Actuator" class="com.plugtree.spotplug.actuator.LogActuator"> </bean>
 
-	<bean id="RuleReader" name="ruleReader"
-		class="com.plugtree.spotplug.impl.FileRuleReader">
-	</bean>
+
 
 	<bean id="Engine" name="engine" class="com.plugtree.spotplug.impl.FusionEngine">
-		<property name="ruleReader" ref="RuleReader" />
 		<property name="session" ref="ksession1" />
 	</bean>
 	 
