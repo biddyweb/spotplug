@@ -13,7 +13,7 @@ public class SpringContext {
 	private static SpringContext instance = null;
     private ApplicationContext context;
     
-	public static SpringContext getInstance() {
+	public static synchronized SpringContext getInstance() {
 		
 		if (instance == null) {
 			instance = new SpringContext();

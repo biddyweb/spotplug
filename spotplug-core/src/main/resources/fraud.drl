@@ -2,7 +2,6 @@ package com.plugtree.spotplug;
 
 import com.plugtree.spotplug.model.GenericEvent;
 import com.plugtree.spotplug.impl.User;
-import com.plugtree.spotplug.actuator.MailActuator;
 import com.plugtree.spotplug.impl.UsersList;
 import com.plugtree.spotplug.Actuator;
 
@@ -16,7 +15,6 @@ import java.util.*;
 
 global ConcurrentHashMap hashMap;
 global Actuator actuator;
-global MailActuator mailActuator;
 
 declare GenericEvent
     @role(event)
@@ -235,6 +233,5 @@ when
 	$user : User(fraudProbability > 90)
 	$event : BankEvent(userId == $user.id) from entry-point BankEvent 
 then
-	mailActuator.writeOutput(kcontext, $user);
 	retract($event);
 end

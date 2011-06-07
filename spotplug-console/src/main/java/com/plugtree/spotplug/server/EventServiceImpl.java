@@ -15,12 +15,7 @@ import com.plugtree.spotplug.shared.VisualEvent;
 @SuppressWarnings("serial")
 public class EventServiceImpl extends RemoteServiceServlet implements EventService {
 
-	SpringContext springContext;
-	
-	public EventServiceImpl() {
-		
-		springContext = SpringContext.getInstance();
-	}
+    private SpringContext springContext = SpringContext.getInstance();
 
 	@Override
 	public List<Long> getEventHistory(String eventName) {

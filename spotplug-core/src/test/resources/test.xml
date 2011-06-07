@@ -27,11 +27,8 @@
 	<drools:ksession id="ksession1" type="stateful" kbase="kbase1">
 		<drools:script>
 			<drools:set-global identifier="actuator" ref="Actuator" />
-			<drools:set-global identifier="mailActuator" ref="MailActuator" /> 
 		</drools:script>
-	</drools:ksession> 
-	
-	<bean id="MailActuator" name="MailActuator" class="com.plugtree.spotplug.actuator.MailActuator"> </bean>
+	</drools:ksession>
 	
  	<bean id="Actuator" name="Actuator" class="com.plugtree.spotplug.actuator.LogActuator"> </bean>
 
