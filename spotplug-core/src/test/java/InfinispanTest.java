@@ -1,4 +1,4 @@
-/*import java.io.IOException;
+import java.io.IOException;
 
 import junit.framework.Assert;
 
@@ -36,4 +36,3 @@ public class InfinispanTest {
         Assert.assertEquals(returnValue, "!!");
     }
 }
-*/
