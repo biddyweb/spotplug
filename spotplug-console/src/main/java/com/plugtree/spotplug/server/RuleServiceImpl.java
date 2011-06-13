@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.plugtree.spotplug.client.RuleService;
+import com.plugtree.spotplug.model.GenericEvent;
 import com.plugtree.spotplug.model.RuleEvent;
 import com.plugtree.spotplug.shared.VisualEvent;
 import com.plugtree.spotplug.shared.VisualRule;
@@ -18,7 +19,21 @@ public class RuleServiceImpl extends RemoteServiceServlet implements RuleService
 	@Override
 	public List<Long> getRuleHistory(String ruleName) {
 		
+		List<RuleEvent> ruleEventList = springContext.getBus().getRuleEventList();
 		List<Long> ruleHistory = new LinkedList<Long>();
+		
+		for(int i = 0; i < 24; i++) { 
+			ruleHistory.add(new Long(0));
+		}
+		
+		for(RuleEvent event : ruleEventList) {
+
+             if(event.getRuleName().equals(ruleName)){
+			    @SuppressWarnings("deprecation")
+                int index = event.getCallDateTime().getHours();//TODO: remove warning.
+			    ruleHistory.set(index, ruleHistory.get(index) + 1);
+             }
+         }
 		
 		return ruleHistory;
 	}
