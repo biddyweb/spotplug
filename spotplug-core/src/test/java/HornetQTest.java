@@ -14,7 +14,7 @@ import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class HornetQTest {
-
+    /*
 	public static AbstractApplicationContext context;
 	
 	@BeforeClass
@@ -43,5 +43,5 @@ public class HornetQTest {
 		} catch (HornetQException e) {
 			e.printStackTrace();
 		}
-	}
+	} */
 }

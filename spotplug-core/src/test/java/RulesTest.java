@@ -16,7 +16,7 @@ import com.plugtree.spotplug.impl.FusionEngine;
 import com.plugtree.spotplug.model.GenericEvent;
 
 public class RulesTest {
-
+    /*
 	private static FusionEngine engine;
 	private static LinkedList<EventLog> eventLogList;
 
@@ -493,5 +493,5 @@ public class RulesTest {
 		engine.processEvent(event4);
 		Assert.assertEquals(eventLogList.size(),1);
 		
-	}
+	}          */
 }

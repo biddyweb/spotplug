@@ -18,13 +18,13 @@ global Actuator actuator;
 
 declare GenericEvent
     @role(event)
-    @timestamp(callDateTime.getTime())
+    @timestamp(callDateTime)
     @duration(callDuration)    
 end
 
 declare BankEvent
     @role(event)
-    @timestamp(callDateTime.getTime())
+    @timestamp(callDateTime)
     @duration(callDuration)      
     userId : String
     sequentialID : long

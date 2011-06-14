@@ -51,7 +51,7 @@
   	
  	<dependency>
   		<groupId>org.drools</groupId> 
-  		<artifactId>drools-api</artifactId> 
+  		<artifactId>knowledge-api</artifactId> 
   		<version>${drools.version}</version> 
   		<type>jar</type> 
   	</dependency>
@@ -59,8 +59,8 @@
   	<dependency>
   		<groupId>org.drools</groupId> 
   		<artifactId>drools-compiler</artifactId> 
-  		<version>${drools.version}</version> 
-  		<type>jar</type> 
+  		<version>${drools.version}</version>
+        <type>jar</type> 
   	</dependency>
   	
   	 <dependency>
@@ -94,7 +94,7 @@
     	<artifactId>spring-beans</artifactId>
     	<version>${spring.version}</version>
     </dependency>
-  	  	
+          	  	
   	 <!-- SLF4J Dependencies  -->
   	<dependency>
 		<groupId>org.slf4j</groupId>
@@ -194,7 +194,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   	<hornetq.version>2.0.0.GA</hornetq.version>
 	<spring.version>3.0.0.RELEASE</spring.version>
-	<drools.version>5.1.1</drools.version>
+	<drools.version>5.2.0.CR1</drools.version>
 	<slf4j.version>1.6.1</slf4j.version>
 	<logback.version>0.9.24</logback.version>
 	<junit.version>4.7</junit.version>
