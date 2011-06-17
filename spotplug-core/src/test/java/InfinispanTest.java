@@ -9,8 +9,8 @@ import org.junit.Test;
 
 
 public class InfinispanTest {
-     /*
-    private static final String INFINISPAN_CONFIGURATION = "infinitispan-config.xml";
+
+	private static final String INFINISPAN_CONFIGURATION = "infinitispan-config.xml";
     static DefaultCacheManager cacheManager;
 
     @BeforeClass
@@ -35,5 +35,4 @@ public class InfinispanTest {
         Assert.assertEquals(oldValue, null);
         Assert.assertEquals(returnValue, "!!");
     }
-    */
 }

@@ -108,14 +108,6 @@ public class GenericEvent implements Event {
 		return innerDate;
 	}
 
-    public Map<String, String> getAttributes() {
-        return attributes;
-    }
-
-    public void setAttributes(Map<String, String> attributes) {
-        this.attributes = attributes;
-    }
-
     public String addAttribute(String key, String value ){
       return attributes.put(key,value);
     }

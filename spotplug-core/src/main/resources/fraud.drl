@@ -19,13 +19,13 @@ global Actuator actuator;
 declare GenericEvent
     @role(event)
     @timestamp(callDateTime)
-    @duration(callDuration)    
+    @duration(callDuration)
 end
 
 declare BankEvent
     @role(event)
     @timestamp(callDateTime)
-    @duration(callDuration)      
+    @duration(callDuration)
     userId : String
     sequentialID : long
     transactionID : long
@@ -45,22 +45,17 @@ when
 	$ge : GenericEvent(eventType == "BankEvent" ) from entry-point GenericEventEntryPoint
 then
     BankEvent bankEvent = new BankEvent();
-    bankEvent.setAmount(Integer.parseInt($ge.getAttributes().get("amount")));
-    bankEvent.setSequentialID(Long.parseLong($ge.getAttributes().get("sequentialID")));
-    bankEvent.setTransactionID(Long.parseLong($ge.getAttributes().get("transactionID")));
-    bankEvent.setOpCode(Long.parseLong($ge.getAttributes().get("opCode")));
+    bankEvent.setAmount(Integer.parseInt($ge.getAttribute("amount")));
+    bankEvent.setSequentialID(Long.parseLong($ge.getAttribute("sequentialID")));
+    bankEvent.setTransactionID(Long.parseLong($ge.getAttribute("transactionID")));
+    bankEvent.setOpCode(Long.parseLong($ge.getAttribute("opCode")));
 
     bankEvent.setCallDateTime($ge.getCallDateTime());
     bankEvent.setCallDuration($ge.getCallDuration());
 
-	bankEvent.setUserId($ge.getAttributes().get("userId"));
+	bankEvent.setUserId($ge.getAttribute("userId"));
 	retract($ge);
 	entryPoints["BankEvent"].insert(bankEvent);
-
-	/*Testing Event Actuator*/
-	#GenericEvent genEvent = new GenericEvent("GenericEvent",new Date(),1000);
-	#eventActuator.insertEventInBus(genEvent);
-
 end
 
 /*
@@ -75,7 +70,6 @@ then
 	System.out.println("Activada!" + $totalAmount);
 	//hashMap.get($user.id).increaseFraudProbability(30);
 	actuator.writeOutput(kcontext, hashMap.get($user.id));
-	System.out.println("HOla");	
 end
 */
 
@@ -84,12 +78,11 @@ rule "Transaction at unusual hours"
 dialect "mvel"
 
 when
-	    $event : BankEvent( callDateTime.hours >= 2,
-	                        callDateTime.hours <= 6,
-	                        amount > 4000) from entry-point BankEvent
+	 $event : BankEvent( callDateTime.hours >= 2,
+	                     callDateTime.hours <= 6,
+	                     amount > 4000) from entry-point BankEvent
 then
-
-    	 actuator.writeOutput(kcontext, hashMap.get($event.userId));
+   	actuator.writeOutput(kcontext, (User)hashMap.get($event.userId));
 end
 
 
@@ -99,18 +92,16 @@ dialect "mvel"
 
 when
 	$event : BankEvent() from entry-point BankEvent
-	BankEvent(callDateTime.day > $event.callDateTime.day,
-				 callDateTime.seconds == $event.callDateTime.seconds,
-				 callDateTime.minutes == $event.callDateTime.minutes,
-				 callDateTime.hours == $event.callDateTime.hours,
-				 userId == $event.userId,
-				 amount == $event.amount) from entry-point BankEvent 
+	BankEvent(userId == $event.userId,
+			  callDateTime.day > $event.callDateTime.day,
+			  callDateTime.seconds == $event.callDateTime.seconds,
+			  callDateTime.minutes == $event.callDateTime.minutes,
+			  callDateTime.hours == $event.callDateTime.hours,
+			  amount == $event.amount) from entry-point BankEvent 
 then
-	hashMap.get($event.userId).increaseFraudProbability(60);
-	actuator.writeOutput(kcontext, hashMap.get($event.userId));
+	((User)hashMap.get($event.userId)).increaseFraudProbability(60);
+	actuator.writeOutput(kcontext, (User)hashMap.get($event.userId));
 end
-
-
 
 # 4th Fraud Pattern
 rule "Incorrect Message Order"
@@ -118,22 +109,16 @@ dialect "mvel"
 
 when
 	$user : User()
-	$e : BankEvent($userId : userId ,userId == $user.id, $tid : transactionID , $sid : sequentialID, $ecdt : callDateTime) from entry-point BankEvent
-	BankEvent(userId == $userId,
-				 this != $e,transactionID == $tid,
-				 sequentialID < $sid,
-				 callDateTime.year  == $ecdt.year,			     
-				 callDateTime.month  == $ecdt.month,
-			     callDateTime.day  == $ecdt.day,
-			     callDateTime.hours  == $ecdt.hours,
-			     callDateTime.minutes  == $ecdt.minutes,
-			     callDateTime.seconds > $ecdt.seconds
-			     ) from entry-point BankEvent
+	$e : BankEvent(userId == $user.id, $tid : transactionID , $sid : sequentialID, $ecdt : callDateTime) from entry-point BankEvent
+	BankEvent(userId == $user.id,
+			  this != $e,
+			  transactionID == $tid,
+			  sequentialID < $sid,
+			  callDateTime after[0s, 60s] $ecdt) from entry-point BankEvent
 then
 	#Rechazar transaccion.
-	actuator.writeOutput(kcontext, hashMap.get($userId));
+	actuator.writeOutput(kcontext, $user);
 end
-
 
 # 5th Fraud Pattern
 rule "Identical transactions"
@@ -141,12 +126,12 @@ dialect "mvel"
 when
 	$firstEvent : BankEvent() from entry-point BankEvent
 	
-	BankEvent(this after[0, 30s] $firstEvent,
-				 userId == $firstEvent.userId,
-				 amount == $firstEvent.amount) from entry-point BankEvent
+	BankEvent(userId == $firstEvent.userId,
+			  this after[0, 30s] $firstEvent,
+			  amount == $firstEvent.amount) from entry-point BankEvent
 then
 	#Rechazar transaccion.
-	actuator.writeOutput(kcontext, hashMap.get($firstEvent.userId));
+	actuator.writeOutput(kcontext, (User)hashMap.get($firstEvent.userId));
 end
 
 # 6th Fraud Pattern
@@ -155,30 +140,28 @@ dialect "mvel"
 when
 	$user : User()
 	exists ( $e : BankEvent(userId == $user.id , $ecdt : callDateTime) from entry-point BankEvent and
-	  		BankEvent(userId == $user.id, this != $e,
-				    callDateTime.day == $ecdt.day,
-				    callDateTime.month == $ecdt.month,
-				    callDateTime.year == $ecdt.year,
-				    callDateTime.hours == $ecdt.hours,
-				    callDateTime.minutes == $ecdt.minutes,
-				    callDateTime.seconds == $ecdt.seconds) from entry-point BankEvent)
+	  		BankEvent(userId == $user.id,
+	  				  this != $e,
+				      callDateTime == $ecdt) from entry-point BankEvent)
 then
-	actuator.writeOutput(kcontext, hashMap.get($user.id));
+	actuator.writeOutput(kcontext, (User)hashMap.get($user.id));
 	$user.increaseFraudProbability(10);	
 end
 
+/*
 # 7th Fraud Pattern
 rule "Too many events in a short period of time"
 dialect "mvel" 
 
 when
 	$user : User()
-	Number($count : intValue, intValue > 3) from accumulate($event : BankEvent(userId == $user.id) over window:time(1m) from entry-point BankEvent , count($event)) 
+	Number(intValue > 3) from accumulate($event : BankEvent(userId == $user.id) over window:time(30s) from entry-point BankEvent , count($event)) 
 then
 	$user.increaseFraudProbability(20);
 	actuator.writeOutput(kcontext, $user);	 
 end
-/*
+*/
+
 #Support Rule for 8th Fraud Pattern
 rule "At Least 3 Events From an User"
 dialect "mvel"
@@ -193,10 +176,8 @@ then
 	modify($users){
 		add($user);			
 	}
-	System.out.println("Number of Users:" + $users.size());
 end
-
-
+/*
 # 8th Fraud Pattern
 rule "Wide Distance Between Events"
 dialect "mvel"
@@ -209,11 +190,10 @@ when
 	  $e2 : GenericEvent( this after [1h] $e1 ,userId == $user.id, transactionID == $tid)  from entry-point GenericEventEntryPoint and
 	  GenericEvent( this after [1h] $e2 ,userId == $user.id, transactionID == $tid)  from entry-point GenericEventEntryPoint
 then
-	actuator.writeOutput(kcontext, hashMap.get($user.id));
+	actuator.writeOutput(kcontext, $user);
 	$user.increaseFraudProbability(10);
 	System.out.println(" Users :" + $users.size);
 end
-
 */
 
 # 9th Fraud Pattern
@@ -222,8 +202,8 @@ dialect "mvel"
 when
 	BankEvent($userId : userId, amount > 10000) from entry-point BankEvent 
 then
-	hashMap.get($userId).increaseFraudProbability(30);
-	actuator.writeOutput(kcontext, hashMap.get($userId));
+	((User)hashMap.get($userId)).increaseFraudProbability(30);
+	actuator.writeOutput(kcontext, (User)hashMap.get($userId));
 end
 
 rule "High fraud probability"

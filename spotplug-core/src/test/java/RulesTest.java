@@ -1,4 +1,5 @@
 import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedList;
 
 import junit.framework.Assert;
@@ -16,7 +17,7 @@ import com.plugtree.spotplug.impl.FusionEngine;
 import com.plugtree.spotplug.model.GenericEvent;
 
 public class RulesTest {
-    /*
+
 	private static FusionEngine engine;
 	private static LinkedList<EventLog> eventLogList;
 
@@ -92,6 +93,8 @@ public class RulesTest {
 	
 	@Test
 	public void exactSameTimeSameUser() {
+		
+		Date date = new Date();
 		
 		int DURATION = 20000;
 		Calendar calendar = Calendar.getInstance();
@@ -266,6 +269,7 @@ public class RulesTest {
 	public void manyEventsShortPeriod() {
 		
 		int DURATION = 20000;
+		String userId = "Thor";
 		
 		Calendar cal1 = Calendar.getInstance();
 		cal1.set(2010,9,23,10,30,0);
@@ -278,28 +282,28 @@ public class RulesTest {
 		
 		GenericEvent event1 = new GenericEvent("BankEvent", cal1.getTime(), DURATION);
 		event1.addAttribute("amount", "5000");
-		event1.addAttribute("userId", "Thor");
+		event1.addAttribute("userId", userId);
 		event1.addAttribute("sequentialID", "0");
 		event1.addAttribute("transactionID", "1");
 		event1.addAttribute("opCode", "105");
 		
 		GenericEvent event2 = new GenericEvent("BankEvent", cal2.getTime(), DURATION);
 		event2.addAttribute("amount", "6000");
-		event2.addAttribute("userId", "Thor");
+		event2.addAttribute("userId", userId);
 		event2.addAttribute("sequentialID", "1");
 		event2.addAttribute("transactionID", "1");
 		event2.addAttribute("opCode", "105");
 		
 		GenericEvent event3 = new GenericEvent("BankEvent", cal3.getTime(), DURATION);
 		event3.addAttribute("amount", "7000");
-		event3.addAttribute("userId", "Thor");
+		event3.addAttribute("userId", userId);
 		event3.addAttribute("sequentialID", "2");
 		event3.addAttribute("transactionID", "1");
 		event3.addAttribute("opCode", "105");
 		
 		GenericEvent event4 = new GenericEvent("BankEvent", cal4.getTime(), DURATION);
 		event4.addAttribute("amount", "8000");
-		event4.addAttribute("userId", "Thor");
+		event4.addAttribute("userId", userId);
 		event4.addAttribute("sequentialID", "3");
 		event4.addAttribute("transactionID", "1");
 		event4.addAttribute("opCode", "105");
@@ -493,5 +497,5 @@ public class RulesTest {
 		engine.processEvent(event4);
 		Assert.assertEquals(eventLogList.size(),1);
 		
-	}          */
+	}
 }
