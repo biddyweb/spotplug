@@ -1,5 +1,4 @@
 import java.util.Calendar;
-import java.util.Date;
 import java.util.LinkedList;
 
 import junit.framework.Assert;
@@ -93,9 +92,7 @@ public class RulesTest {
 	
 	@Test
 	public void exactSameTimeSameUser() {
-		
-		Date date = new Date();
-		
+
 		int DURATION = 20000;
 		Calendar calendar = Calendar.getInstance();
 		

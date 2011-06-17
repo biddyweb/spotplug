@@ -128,4 +128,7 @@ public class GenericEvent implements Event {
 		return eventType;
 	}
 
+	public Map<String, String> getAttributes() {
+		return attributes;
+	}
 }

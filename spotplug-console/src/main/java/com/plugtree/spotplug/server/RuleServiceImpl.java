@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.plugtree.spotplug.client.RuleService;
-import com.plugtree.spotplug.model.GenericEvent;
 import com.plugtree.spotplug.model.RuleEvent;
 import com.plugtree.spotplug.shared.VisualEvent;
 import com.plugtree.spotplug.shared.VisualRule;
